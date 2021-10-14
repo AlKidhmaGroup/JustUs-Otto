@@ -20,28 +20,12 @@
 #
 ##############################################################################
 
-{
-    'name': "Partner Customization",
-    'version': '15.0.0.1',
-    'category': 'Contacts',
-    'summary': 'Appointment Customization',
-    'live_test_url': 'Add youtube video Link',
-    'author': 'Al Khidma Systems',
-    'license': 'OPL-1',
-    'price': '',
-    'currency': 'USD',
-    'maintainer': 'Al Khidma Systems',
-    'support': 'tech@alkhidmasystems.com',
-    'website': "http://alkhidmasystems.com",
-    'depends': [
-        'base'
-    ],
-    'data': [
-        'views/res_partner_views.xml',
-        'views/res_partner_bank_views.xml',
-    ],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
-    'application': False,
-}
+from odoo import api, fields, models, _
+
+
+class ResPartnerBank(models.Model):
+    _inherit = "res.partner.bank"
+
+    branch = fields.Char(string='Branch')
+    iban = fields.Char(string='IBAN')
+    swift = fields.Char(string='SWIFT')
