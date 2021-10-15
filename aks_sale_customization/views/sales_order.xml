@@ -1,0 +1,42 @@
+<odoo>
+    <data>
+        <record id="sale_order_inherit_additional_fields" model="ir.ui.view">
+            <field name="name">sale.order.inherit.additional.fields</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="replace">
+                    <field name="name" readonly="1"/>
+                    <br/>
+                    <field name="job_number" readonly="1"/>
+
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="quotation_validity"/>
+                    <field name="project_manager_id"/>
+                    <field name="project_ref_ids"/>
+                </xpath>
+                <xpath expr="//notebook" position="before">
+                    <label for="subject"/>
+                    <field name="subject"/><br/>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Dynamic Content">
+                        <group>
+                            <field name="general" widget="html"/>
+                            <field name="termination_policy" widget="html"/>
+                            <field name="rights_and_duties" widget="html"/>
+                            <field name="travel_expenses" widget="html"/>
+                            <field name="subcontracts" widget="html"/>
+                            <field name="condition_of_payments" widget="html"/>
+                            <field name="applicable_law_and_jurisdiction" widget="html"/>
+                            <field name="serverability_clause" widget="html"/>
+                            <field name="integration" widget="html"/>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>
