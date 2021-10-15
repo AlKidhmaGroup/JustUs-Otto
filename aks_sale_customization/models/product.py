@@ -2,7 +2,7 @@
 
 ##############################################################################
 #
-#    Author: ALKIDHMA
+#    Author: Al Kidhma
 #    you can modify it under the terms of the GNU LESSER
 #    GENERAL PUBLIC LICENSE (LGPL v3), Version 3.
 #
@@ -19,14 +19,11 @@
 #    If not, see <https://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from odoo import api, fields, models, _
+from odoo.exceptions import AccessError, UserError
 
 
-class ResPartner(models.Model):
-    _inherit = "res.partner"
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
 
-
-    is_inter_company = fields.Boolean(string='Inter Company')
-    is_employee = fields.Boolean(string='Employee')
-    is_freelancer = fields.Boolean(string='Free Lancer')
+    is_optional = fields.Boolean(string='Optional')

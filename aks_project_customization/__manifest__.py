@@ -22,7 +22,7 @@
 
 {
     'name': "Project Customization",
-    'version': '15.0.0.1',
+    'version': '15.0.0.2',
     'category': 'Project',
     'summary': 'Project Customization',
     'live_test_url': 'Add youtube video Link',
@@ -36,6 +36,7 @@
     'depends': ['project'],
     'data': [
         'views/project_inherited_view.xml',
+        'views/project_stage_view.xml',
     ],
     'demo': [],
     'installable': True,

@@ -154,19 +154,19 @@
                         </t>
                         <t t-if="line.display_type == 'line_section'">
 
-                            <strong class="row">
+                            <div class="row bg-200" style="height:25px;">
                                 <p style="width: 100%;font-weight:bold;" t-field="line.name"/>
-                            </strong>
+                            </div>
 
                             <t t-set="current_section" t-value="line"/>
                             <t t-set="current_subtotal" t-value="0"/>
                         </t>
                         <t t-if="current_section and (line_last or doc.order_line[line_index+1].display_type == 'line_section')">
-                            <div width="100%" style="border:1px solid black;" class="row">
+                            <div width="100%" class="row">
                                 <div style="width:50%;font-weight:bold;">Total
                                     <t style="font-weight:bold;text-align:right;" t-esc="current_section.name"/>
                                 </div>
-                                <div class="text-right" style="width:50%;">
+                                <div class="text-right" style="width:50%;font-weight:bold;">
                                     <t style="text-align:right;" t-esc="current_subtotal" digits="[42, 2]"
                                   t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                                 </div>

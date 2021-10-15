@@ -7,7 +7,6 @@
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
             <field name="vat" position="after">
-                <field name="is_optional"/>
                 <field name="is_inter_company"/>
                 <field name="is_employee"/>
                 <field name="is_freelancer"/>
@@ -21,7 +20,6 @@
         <field name="inherit_id" ref="base.view_res_partner_filter"/>
         <field name="arch" type="xml">
             <xpath expr="//filter[@name='inactive']" position="before">
-                <filter string="Optional" name="is_optional" domain="[('is_optional', '=', 'True')]"/>
                 <filter string="Inter Company" name="supplier" domain="[('is_inter_company', '=', 'True')]"/>
                 <filter string="Employee" name="is_employee" domain="[('is_employee', '=', 'True')]"/>
                 <filter string="Free Lancer" name="is_freelancer" domain="[('is_freelancer', '=', 'True')]"/>

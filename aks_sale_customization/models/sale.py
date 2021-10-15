@@ -99,21 +99,58 @@ class SaleOrder(models.Model):
     integration = fields.Text(string="Integration")
     general = fields.Text(string="General")
     termination_policy = fields.Text(string="Termination Policy")
+    project_ref_ids = fields.Many2many('project.project', string='Projects')
 
     @api.model
     def create(self, vals):
-        # if vals.get('number', '/') == '/':
         job_num = self._prepare_job_number(vals)
         vals["job_number"] = job_num
         vals["subject"] = job_num + " -"
         res = super(SaleOrder, self).create(vals)
+        project_values = {
+            'name': res.job_number,
+            'partner_id': res.partner_id.id,
+            'sale_order_ref_id': res.id,
+            'active': True,
+            'subject': res.subject,
+            'company_id': res.company_id.id,
+        }
 
+        project = self.env['project.project'].create(project_values)
+        res.project_ids = [(4, project.id)]
+        res.project_ref_ids = [(4, project.id)]
+        # res.update({
+        #     'project_ids': [(6, 0, [project.id])]
+        # })
         return res
 
     def _prepare_job_number(self, values):
         seq = self.env["ir.sequence"]
-        if "company_id" in values:
-            seq = seq.with_context(force_company=values["company_id"])
+        company = values.get('company_id')
+        # if values.get('company_id'):
+        #     seq = seq.with_context(force_company=company)
         return seq.next_by_code("job.number.sequence") or "/"
 
+    def action_cancel(self):
+        for rec in self:
+            result = super(SaleOrder, self).action_cancel()
+            if rec.project_ids:
+                project_cancel_stage = rec.env['project.project.stage'].search([('is_cancel_stage', '=', True)])
+                if project_cancel_stage:
+                    for project in rec.project_ids:
+                        project.stage_id = project_cancel_stage.id
+            return result
 
+    def action_draft(self):
+        sequence_list = []
+        res = super(SaleOrder, self).action_draft()
+        if self.project_ids:
+            stages = self.env['project.project.stage'].search([])
+            for stage in stages:
+                sequence_list.append(stage.sequence)
+            min_seq = min(sequence_list)
+            project_draft_stage = self.env['project.project.stage'].search([('sequence', '=', min_seq)])
+            if project_draft_stage:
+                for project in self.project_ids:
+                    project.stage_id = project_draft_stage.id
+        return res
