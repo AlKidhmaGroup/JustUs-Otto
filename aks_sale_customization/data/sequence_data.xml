@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--  Sequence  -->
+    <data noupdate="0">
+        <record id="job_number_sequence" model="ir.sequence">
+            <field name="name">Job Number</field>
+            <field name="code">job.number.sequence</field>
+            <field name="prefix">JOB-%(year)s-</field>
+            <field eval="1" name="number_increment"/>
+            <field name="padding">5</field>
+            <field name="company_id"/>
+        </record>
+    </data>
+
+
+</odoo>
