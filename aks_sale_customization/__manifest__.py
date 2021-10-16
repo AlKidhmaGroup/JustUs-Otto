@@ -39,6 +39,7 @@
     'data': [
         'data/sequence_data.xml',
         'views/product_views.xml',
+        'views/res_company.xml',
         'views/sales_order.xml',
         'report/sale_report_templates.xml',
     ],
