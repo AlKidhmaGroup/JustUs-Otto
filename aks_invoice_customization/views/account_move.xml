@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <data>
+    <!-- account.move inherit form view -->
+    <record id="aks_invoice_customization_account_move_inherit_view_form" model="ir.ui.view">
+      <field name="name">account.move.inherit.view.form</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="account.view_move_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='invoice_vendor_bill_id']" position="after">
+          <field name="lpo_num"/>
+          <field name="job_num"/>
+          <field name="brand"/>
+          <field name="assembled_by"/>
+          <field name="invoice_you_for"/>
+        </xpath>
+        <xpath expr="//field[@name='invoice_payment_term_id']" position="replace">          
+        </xpath>
+        <xpath expr="//div[@name='journal_div']" position="after">
+          <field name="invoice_payment_term_id"/>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>
