@@ -195,7 +195,9 @@
                                     <b>Total Inc. VAT</b>
                                 </td>
                                 <td class='text-center' colspan='2'>
-                                    <b><t t-esc="doc.amount_total"/></b>
+                                    <b>
+                                        <t t-esc="doc.amount_total"/>
+                                    </b>
                                     <t t-esc="doc.currency_id.symbol"/>
                                 </td>
                             </tr>
@@ -204,7 +206,9 @@
                                     <b>To be paid</b>
                                 </td>
                                 <td class='text-center' colspan='2'>
-                                    <b><t t-esc="doc.amount_residual"/></b>
+                                    <b>
+                                        <t t-esc="doc.amount_residual"/>
+                                    </b>
                                     <t t-esc="doc.currency_id.symbol"/>
                                 </td>
                             </tr>
@@ -216,7 +220,9 @@
                                     <b>To be paid</b>
                                 </td>
                                 <td class='text-center' colspan='1'>
-                                    <b><t t-esc="doc.amount_residual"/></b>
+                                    <b>
+                                        <t t-esc="doc.amount_residual"/>
+                                    </b>
                                     <t t-esc="doc.currency_id.symbol"/>
                                 </td>
                             </tr>
@@ -259,6 +265,24 @@
                     <br></br>
                     <div>Thank you for payment in due date.</div>
                     <br></br>
+
+                </div>
+                <div class="footer">
+                    <div class="text-center">
+
+                        <ul class="list-inline">
+                            Page &#160;&#160;
+                            <li class="list-inline-item">
+                                <span class="page"/>
+                            </li>
+                            <li class="list-inline-item">/</li>
+                            <li class="list-inline-item">
+                                <span class="topage"/>
+                            </li>
+                        </ul>
+                    </div>
+                    <img style="width:100%" t-if="doc.company_id.quotation_footer" t-att-src="image_data_uri(doc.company_id.quotation_footer)" alt="Logo"/>
+
 
                 </div>
 
