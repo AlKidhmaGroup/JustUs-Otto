@@ -14,7 +14,7 @@
                 <xpath expr="//field[@name='payment_term_id']" position="after">
                     <field name="quotation_validity"/>
                     <field name="project_manager_id"/>
-                    <field name="project_ref_ids"/>
+                    <!-- <field name="project_ref_ids"/> -->
                 </xpath>
                 <xpath expr="//notebook" position="before">
                     <label for="subject"/>

@@ -33,10 +33,10 @@
     'maintainer': 'Al Khidma Systems',
     'support': 'tech@alkhidmasystems.com',
     'website': "http://alkhidmasystems.com",
-    'depends': ['contacts', 'project', 'purchase', ],
+    'depends': ['contacts', 'project', 'purchase'],
     'data': [
-        'report/purchase_report.xml',
         'report/purchase_order_template_inherit.xml',
+        'report/purchase_report.xml',
         'views/purchase_inherited_view.xml',
     ],
     'demo': [],

@@ -2,23 +2,6 @@
 <odoo>
     <template id="purchase.report_purchaseorder_document">
         <t t-call="web.basic_layout">
-            <!--<t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
-            <t t-set="address">
-                <div t-field="o.partner_id"
-                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
-                <p t-if="o.partner_id.vat"><t t-esc="o.company_id.account_fiscal_country_id.vat_label or 'Tax ID'"/>: <span t-field="o.partner_id.vat"/></p>
-            </t>
-            <t t-if="o.dest_address_id">
-                <t t-set="information_block">
-                    <strong>Shipping address:</strong>
-                    <div t-if="o.dest_address_id">
-                        <div t-field="o.dest_address_id"
-                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' name="purchase_shipping_address"/>
-                    </div>
-
-                </t>
-            </t>-->
-
             <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)" style="display:none !important;"/>
             <div class="header">
                 <table width="100%">
@@ -93,100 +76,6 @@
                         </td>
                     </tr>
                 </table>
-
-                <!--<div class="container">
-                    <div class="row"
-                         style="background : #bfbfbf;color:#000;vertical-align: middle;height:30px;">
-                        <div class="text-left col-auto col-6">
-                            <b>Item</b>
-                        </div>
-                        <div class="text-right col-auto col-2">
-                            <b>Qty.</b>
-                        </div>
-                        <div class="text-right col-auto col-2">
-                            <b>Unit</b>
-                        </div>
-                        <div class="text-right col-auto col-2">
-                            <b>Price</b>
-                        </div>
-                        <div class="text-right col-auto col-2">
-                            <b>Total</b>
-                        </div>
-                    </div>
-                    <t t-set="current_subtotal" t-value="0"/>
-                    <t t-foreach="o.order_line" t-as="line">
-                        <div class="row"
-                             style="font-size:13.5px;">
-                            <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal"
-                               groups="account.group_show_line_subtotals_tax_excluded"/>
-                            <t t-set="current_subtotal" t-value="current_subtotal + line.price_total"
-                               groups="account.group_show_line_subtotals_tax_included"/>
-                            <t t-if="not line.display_type">
-                                &lt;!&ndash;<div>
-                                    <span style="padding-left:20px;" t-esc="sl_no"/>
-                                    <t t-set="sl_no" t-value="sl_no + 1"/>
-                                </div>&ndash;&gt;
-
-                                <div class="col-auto col-6 text-justify">
-                                    <p>
-                                        <span style="display: block;" t-field="line.name"/>
-                                    </p>
-                                </div>
-                                <div class="text-right col-auto col-2">
-                                    <span t-esc="line.product_uom_qty"/>
-                                </div>
-                                <div class="text-right col-auto col-2">
-                                    <span t-field="line.product_uom.name"/>&lt;!&ndash;groups="uom.group_uom"&ndash;&gt;
-                                </div>
-                                <div class="text-right col-auto col-2">
-                                    <span t-field="line.price_unit"/>
-                                </div>
-                                <div class="text-right col-auto col-2">
-                                    <span t-field="line.price_subtotal"
-                                          groups="account.group_show_line_subtotals_tax_excluded"/>
-                                    <span t-field="line.price_total"
-                                          groups="account.group_show_line_subtotals_tax_included"/>
-                                </div>
-                            </t>
-                        </div>
-
-                        <t t-if="line.display_type == 'line_note'">
-                            <div class="row text-left">
-                                <p style="width: 100%;font-weight:bold;" t-field="line.name"/>
-                            </div>
-
-                        </t>
-                        <t t-if="line.display_type == 'line_section'">
-
-                            <div class="row" style="background : #EA383E;color:#FFF;text-align: center;">
-                                <p style="width: 100%;font-weight:bold;" t-field="line.name"/>
-                            </div>
-
-                            <t t-set="current_section" t-value="line"/>
-                            <t t-set="current_subtotal" t-value="0"/>
-                        </t>
-                        <t t-if="current_section and (line_last or o.order_line[line_index+1].display_type == 'line_section')">
-                            <div class="row text-center" style="background : #EA383E;color:#FFF;">
-                                <p style="width: 100%;">
-                                    <i>
-                                        <u>
-                                            <strong>
-                                                <span class="mr16">Total price for this offer is</span>
-                                                <span t-esc="'{0:,.2f}'.format(current_subtotal)"/>
-                                                <span t-esc="o.currency_id.currency_unit_label"/>
-                                                Only
-                                                <br/>
-                                                <span style="text-align:center;"
-                                                      t-esc="o.currency_id.amount_to_text(current_subtotal).upper()"/>
-                                                ONLY
-                                            </strong>
-                                        </u>
-                                    </i>
-                                </p>
-                            </div>
-                        </t>
-                    </t>
-                </div>-->
 
                 <div class="container">
                     <div class="row"
@@ -264,10 +153,8 @@
                 </div>
                 <br/>
                 <div id="total" class="row justify-content-end">
-                    <!--<span style="font-weight:bold;" class="mr16">Total excl. VAT </span>-->
                     <div class="col-12">
                         <span style="font-weight:bold;" class="mr16">Total excl. VAT </span>
-                        <!--<span t-field="o.tax_totals_json"/>-->
                         <table class="table table-sm">
                             <t t-set="tax_totals" t-value="json.loads(o.tax_totals_json)"/>
                             <t t-call="account.document_tax_totals"/>

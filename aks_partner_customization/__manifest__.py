@@ -34,7 +34,7 @@
     'support': 'tech@alkhidmasystems.com',
     'website': "http://alkhidmasystems.com",
     'depends': [
-        'base'
+        'base','contacts'
     ],
     'data': [
         'views/res_partner_views.xml',
