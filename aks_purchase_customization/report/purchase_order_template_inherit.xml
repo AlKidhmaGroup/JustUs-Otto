@@ -266,7 +266,7 @@
                 <div id="total" class="row justify-content-end">
                     <!--<span style="font-weight:bold;" class="mr16">Total excl. VAT </span>-->
                     <div class="col-12">
-                        <span style="font-weight:bold;" class="mr16">Total excl. VAT </span>
+                        <!--<span style="font-weight:bold;" class="mr16">Total excl. VAT </span>-->
                         <!--<span t-field="o.tax_totals_json"/>-->
                         <table class="table table-sm">
                             <t t-set="tax_totals" t-value="json.loads(o.tax_totals_json)"/>
@@ -316,6 +316,9 @@
                 <div class="row text-left justify-content-end" style="margin-top:20px;margin-right:5px;margin-left:5px !important;">
                     <p t-field="o.dynamic_content"/>
                 </div>
+                <br/>
+                <span class="m-0" t-field="o.office_finance_manager.name"/><br/>
+                <span>Office &amp; Finance Manager:</span>
 
                 <div class="oe_structure"/>
             </div>
