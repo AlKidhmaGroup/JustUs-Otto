@@ -3,6 +3,7 @@
     <template id="purchase.report_purchaseorder_document">
         <t t-call="web.basic_layout">
             <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)" style="display:none !important;"/>
+            
             <div class="header">
                 <table width="100%">
                     <tr>
@@ -19,7 +20,16 @@
                     </tr>
                 </table>
             </div>
+            <t t-if="o.dest_address_id" style="display:none !important;">
+                <t t-set="information_block">
+                    <strong>Shipping address:</strong>
+                    <div t-if="o.dest_address_id">
+                        <div t-field="o.dest_address_id"
+                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' name="purchase_shipping_address"/>
+                    </div>
 
+                </t>
+            </t>
             <div class="page" style="margin-top:20px;margin-right:40px;margin-left:40px !important;">
                 <div class="oe_structure"/>
                 <table width="100%">
@@ -76,10 +86,23 @@
                         </td>
                     </tr>
                 </table>
-
+                <div id="informations" class="row mt32 mb32" style="display:none !important;">
+                    <div t-if="o.user_id" class="col-3 bm-2">
+                        <strong>Purchase Representative:</strong>
+                        <p t-field="o.user_id" class="m-0"/>
+                    </div>
+                    <div t-if="o.partner_ref" class="col-3 bm-2">
+                        <strong>Your Order Reference:</strong>
+                        <p t-field="o.partner_ref" class="m-0"/>
+                    </div>
+                    <div t-if="o.date_order" class="col-3 bm-2">
+                        <strong>Order Date:</strong>
+                        <p t-field="o.date_order" class="m-0"/>
+                    </div>
+                </div>
                 <div class="container">
                     <div class="row"
-                         style="background : #bfbfbf;color:#000;vertical-align: middle;height:30px;">
+                         style="border-top-right-radius: 5px;border-top-left-radius: 5px;background : #bfbfbf;color:#000;vertical-align: middle;height:30px;">
                         <div class="text-left col-auto col-6">
                             <b>Item</b>
                         </div>
@@ -152,17 +175,45 @@
                     </t>
                 </div>
                 <br/>
-                <div id="total" class="row justify-content-end">
-                    <div class="col-12">
-                        <span style="font-weight:bold;" class="mr16">Total excl. VAT </span>
-                        <table class="table table-sm">
-                            <t t-set="tax_totals" t-value="json.loads(o.tax_totals_json)"/>
-                            <t t-call="account.document_tax_totals"/>
-                        </table>
+                <t t-if="o.amount_tax > 0">
+                    <div id="total" class="row justify-content-end">
+                        <div class="col-6">
+                            <span style="font-weight:bold;" class="mr16">Total excl. VAT </span>
+                        </div>
+                        <div class="col-6 text-right">
+                        <strong><span t-field="o.amount_untaxed" digits="[42, 2]"
+                                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong> 
+                        </div>
+                    </div>
+                    <div id="total_vat" class="row justify-content-end">
+                        <div class="col-6">
+                            <span style="font-weight:bold;" class="mr16">VAT </span>
+                        </div>
+                        <div class="col-6 text-right">
+                        <strong><span t-field="o.amount_tax" digits="[42, 2]"
+                                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong> 
+                        </div>
+                    </div>
+                </t>
+                
+                <div id="total_including_vat" class="row justify-content-end">
+                    <t t-if="o.amount_tax > 0">
+                        <div class="col-6">
+                            <span style="font-weight:bold;" class="mr16">Total incl. VAT </span>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="col-6">
+                            <span style="font-weight:bold;" class="mr16">Total </span>
+                        </div>
+                    </t>
+                    <div class="col-6 text-right">
+                    <strong><span t-field="o.amount_total" digits="[42, 2]"
+                                    t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong> 
                     </div>
                 </div>
-
-                <div class="col-8 text-left" style="margin-top:20px;margin-right:0px;margin-left:0px !important;">
+                <br/>
+                <!-- <div class="col-8 text-left" style="margin-top:20px;margin-right:0px;margin-left:0px !important;"> -->
                     <table width="100%">
                         <colgroup>
                         <col width='34%'/>
@@ -171,40 +222,63 @@
                     </colgroup>
                         <tr>
                             <td>
-                                <span>Delivery Date:</span>
+                              <strong><span>Delivery Date</span></strong>
                             </td>
                             <td/>
-                            <td>
-                                <span t-field="o.delivery_date"/>
+                            <td>:
+                                <t t-if="o.delivery_date">
+                                 <span t-esc="o.delivery_date.strftime('%d/%m/%Y')"/>
+                                </t>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span>Delivery Place:</span>
+                                <strong> <span>Delivery Place</span></strong>
                             </td>
                             <td/>
                             <td>
-                                <span t-field="o.delivery_place"/>
+                                : <span t-field="o.delivery_place"/>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span>Payment conditions:</span>
+                                <strong><span>Payment Conditions</span></strong>
                             </td>
                             <td/>
                             <td>
-                                <span t-field="o.payment_term_id"/>
+                                : <span t-field="o.payment_term_id"/>
                             </td>
                         </tr>
                     </table>
-                </div>
+                <!-- </div> -->
                 <br/>
 
                 <div class="row text-left justify-content-end" style="margin-top:20px;margin-right:5px;margin-left:5px !important;">
                     <p t-field="o.dynamic_content"/>
                 </div>
+                <br/>
+                <span class="m-0" t-field="o.office_finance_manager.name"/><br/>
+                <span>Office &amp; Finance Manager:</span>
 
                 <div class="oe_structure"/>
+            </div>
+            <div class="footer">
+                <div class="text-center">
+
+                    <ul class="list-inline">
+                            Page &#160;&#160;
+                        <li class="list-inline-item">
+                            <span class="page"/>
+                        </li>
+                        <li class="list-inline-item">/</li>
+                        <li class="list-inline-item">
+                            <span class="topage"/>
+                        </li>
+                    </ul>
+                </div>
+                <img style="width:100%" t-if="o.company_id.quotation_footer" t-att-src="image_data_uri(o.company_id.quotation_footer)" alt="Logo"/>
+
+
             </div>
         </t>
     </template>

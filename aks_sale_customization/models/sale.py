@@ -87,9 +87,9 @@ class SaleOrder(models.Model):
             """
         return res
 
-    job_number = fields.Char(string='Job Number')
-    subject = fields.Char(string='Subject')
-    quotation_validity = fields.Char(string='Quotation Validity')
+    job_number = fields.Char(string='Job Number',track_visibility='always')
+    subject = fields.Char(string='Subject',track_visibility='always')
+    quotation_validity = fields.Char(string='Quotation Validity',track_visibility='always')
     project_manager_id = fields.Many2one('res.partner', string='Project Manager')
     rights_and_duties = fields.Text(string="Rights and Duties")
     travel_expenses = fields.Text(string="Travel Expenses")
@@ -100,7 +100,7 @@ class SaleOrder(models.Model):
     integration = fields.Text(string="Integration")
     general = fields.Text(string="General")
     termination_policy = fields.Text(string="Termination Policy")
-    project_ref_id = fields.Many2one('project.project', string='Projects')
+    project_ref_id = fields.Many2one('project.project', string='Projects',copy=False)
 
     @api.model
     def create(self, vals):
@@ -172,7 +172,6 @@ class SaleOrder(models.Model):
             section = ''
             for line in rec.order_line:
                 
-                # print("1"*88,line.display_type)
                 if line.product_types == 'common':
                     # if tax_id:
                     #     for tax in tax_ids:
@@ -180,26 +179,39 @@ class SaleOrder(models.Model):
             for line in rec.order_line:
                 if line.display_type == 'line_section':
                     section = line.name
-                    print("3"*88,section)
                 if line.product_types == 'optional':
                     if section not in order_line_dict:
-                        print("4"*88,order_line_dict)
                         total_amt = 0
                         total_amt = line.price_subtotal + total_amount
                         order_line_dict.update({section:{'total':total_amt}})
-                        print("5"*88,order_line_dict)
                     else: 
                         order_line_dict[section]['total'] += line.price_subtotal
-                        print("6"*88,order_line_dict)
-                    print("8"*88,order_line_dict)
             order_line_dict.update({'cmn':total_amount})
-            print("9"*88,order_line_dict)
             return order_line_dict
 
+    def _create_invoices(self, grouped=False, final=False, date=None):
+        moves = super(SaleOrder, self)._create_invoices(grouped, final, date)
+        for rec in self:
+            if moves:
+                moves.job_num= rec.project_ref_id and rec.project_ref_id.id or False
+        return moves
 
+            
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
 
     product_types = fields.Selection([('common', 'Common'), ('optional', 'Optional')],
-                                    required=True, default='common')
+                                    required=True, default='common',string="Type") 
+
+class SaleAdvancePaymentInv(models.TransientModel):
+    _inherit = "sale.advance.payment.inv"
+
+
+    def _create_invoice(self, order, so_line, amount):
+        invoice = super(SaleAdvancePaymentInv, self)._create_invoice(order, so_line, amount)
+        if invoice:
+            invoice.job_num = order.project_ref_id and order.project_ref_id.id or False
+        return invoice
+
+

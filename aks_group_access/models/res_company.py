@@ -23,7 +23,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import AccessError, UserError
 
 
-class ProductTemplate(models.Model):
-    _inherit = 'product.template'
+class ResCompany(models.Model):
+    _inherit = 'res.company'
 
-    is_optional = fields.Boolean(string='Optional')
+    quotation_footer = fields.Binary(string=" Quotation Footer")

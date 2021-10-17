@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+        <data>
+            <!-- res.company inherit form view -->
+            <record id="aks_invoice_customization_res_company_inherit_form_view" model="ir.ui.view">
+                <field name="name">res.company.inherit.view.form</field>
+                <field name="model">res.company</field>
+                <field name="inherit_id" ref="base.view_company_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//page[@name='general_info']" position="after">
+                        <page string="Bank Details" name="bank_details">
+                            <group>
+                                <field name="bank_id"/>
+                                <field name="bankaccount_id"/>
+                                <field name="swift"/>
+                                <field name="iban"/>
+                            </group>
+                        </page>
+                        
+                    </xpath>
+                </field>
+            </record>
+        </data>
+</odoo>

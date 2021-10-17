@@ -12,28 +12,28 @@
 
                 </xpath>
                 <xpath expr="//field[@name='payment_term_id']" position="after">
-                    <field name="quotation_validity"/>
-                    <field name="project_manager_id"/>
+                    <field name="quotation_validity" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                    <field name="project_manager_id" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
 
                     <field name="project_ref_id" invisible="1"/>
                 </xpath>
                 <xpath expr="//notebook" position="before">
                     <label for="subject"/>
-                    <field name="subject"/>
+                    <field name="subject" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
                     <br/>
                 </xpath>
                 <xpath expr="//notebook" position="inside">
                     <page string="Dynamic Content">
                         <group>
-                            <field name="general" widget="html"/>
-                            <field name="termination_policy" widget="html"/>
-                            <field name="rights_and_duties" widget="html"/>
-                            <field name="travel_expenses" widget="html"/>
-                            <field name="subcontracts" widget="html"/>
-                            <field name="condition_of_payments" widget="html"/>
-                            <field name="applicable_law_and_jurisdiction" widget="html"/>
-                            <field name="serverability_clause" widget="html"/>
-                            <field name="integration" widget="html"/>
+                            <field name="general" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                            <field name="termination_policy" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                            <field name="rights_and_duties" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                            <field name="travel_expenses" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                            <field name="subcontracts" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                            <field name="condition_of_payments" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                            <field name="applicable_law_and_jurisdiction" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                            <field name="serverability_clause" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                            <field name="integration" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
                         </group>
                     </page>
                 </xpath>
@@ -42,6 +42,43 @@
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree/field[@name='display_type']" position="after">
                      <field name="product_types"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']" position="attributes">
+					<attribute name="attrs">{'readonly':[('state', 'not in', ['draft','sent'])]}</attribute>
+				</xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="attributes">
+                    <attribute name="groups">aks_group_access.group_show_vat</attribute>
+                    <attribute name="string">VAT</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_order_tree_aks_sale_customization" model="ir.ui.view">
+            <field name="name">sale.order.tree.inherit.aks.sale.customization</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="job_number" options="{'no_create': True}"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_quotation_tree_aks_sale_customization" model="ir.ui.view">
+            <field name="name">sale.quotation.tree.inherit.aks.sale.customization</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="job_number" options="{'no_create': True}"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_sales_order_filter_inherit_aks_sale_customization" model="ir.ui.view">
+            <field name="name">view.inherit.sale.order.inherit.aks.sale.customization</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="job_number" filter_domain="[('job_number', 'ilike', self)]"/>
                 </xpath>
             </field>
         </record>

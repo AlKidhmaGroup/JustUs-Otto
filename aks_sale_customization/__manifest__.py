@@ -24,7 +24,7 @@
     'name': "Sale Customization",
     'version': '15.0.0.1',
     'category': 'Sale',
-    'summary': 'Appointment Customization',
+    'summary': 'Sale Customization',
     'live_test_url': 'Add youtube video Link',
     'author': 'Al Khidma Systems',
     'license': 'OPL-1',
@@ -34,14 +34,14 @@
     'support': 'tech@alkhidmasystems.com',
     'website': "http://alkhidmasystems.com",
     'depends': [
-        'sale_project', 'aks_project_customization'
+        'sale_project', 'aks_project_customization','aks_group_access'
     ],
     'data': [
         'data/sequence_data.xml',
-        # 'views/product_views.xml',
-        'views/res_company.xml',
-        'views/sales_order.xml',
         'report/sale_report_templates.xml',
+        # 'views/product_views.xml',
+        'views/sales_order.xml',
+        
     ],
     'demo': [],
     'installable': True,
