@@ -17,7 +17,7 @@
         <xpath expr="//field[@name='invoice_payment_term_id']" position="replace">          
         </xpath>
         <xpath expr="//div[@name='journal_div']" position="after">
-          <field name="invoice_payment_term_id"/>
+          <field name="payment_term_id"/>
         </xpath>
       </field>
     </record>

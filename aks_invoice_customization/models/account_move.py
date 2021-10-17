@@ -10,6 +10,7 @@ class Account_move(models.Model):
     brand = fields.Char(string='Brand')
     assembled_by = fields.Many2one('res.partner', string='Assembled By')
     invoice_you_for = fields.Char(string='We Invoice You For')
+    payment_term_id = fields.Many2one('account.payment.term', string='Payment Term')
     
     def incl_vat_amount(self,subtotal,tax):
         amount = 0

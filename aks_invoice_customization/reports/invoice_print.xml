@@ -99,7 +99,7 @@
                                 Payment Conditions
                             </td>
                             <td width='25%'>
-                                :                                <t t-esc="doc.invoice_payment_term_id.name"/>
+                                :                                <t t-esc="doc.payment_term_id.name"/>
                             </td>
                         </tr>
                         <tr>
