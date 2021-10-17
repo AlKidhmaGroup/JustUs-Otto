@@ -11,8 +11,9 @@
                                  height='108'
                                  width='320'/>
                         </td>
-                        <td class="text-right">
-                            <strong>Quotation -
+                        <td class="text-right" style="padding-right:40px;">
+                            <strong><span t-if="doc.state not in ['draft','sent']">Order - </span>
+                            <span t-if="doc.state in ['draft','sent']">Quotation - </span>
                                 <span t-field="doc.name"/>
                             </strong>
                         </td>
@@ -83,7 +84,7 @@
 
                 <div class="container">
                     <div class="row"
-                         style="background : #bfbfbf;color:#000;vertical-align: middle;height:30px;">
+                         style="border-top-right-radius: 5px;border-top-left-radius: 5px;background : #bfbfbf;color:#000;vertical-align: middle;height:30px;">
                         <!--<div style="padding-left:20px;">
                             <b>Sl</b>
                         </div>-->
@@ -172,18 +173,35 @@
                             </div>
                         </t>
                     </t>
-                    <!-- <br/> -->
-                <!-- </div width="100%" class="row">
-                    <t t-foreach="doc.get_total_values()" t-as="record">
-                        <div style="width:50%;font-weight:bold;">Common + 
-                            <t style="font-weight:bold;text-align:right;" t-esc="current_section.name"/>
+                </div>
+                <t t-set="total_values" t-value="doc.get_total_values()"/>
+                 <div style="padding-left:15px;padding-right:15px;" width="100%" class="row">
+                    <!-- <t t-foreach="total_values" t-as="record"> -->
+                        <div style="width:50%;font-weight:bold;">Common
                         </div>
                         <div class="text-right" style="width:50%;font-weight:bold;">
-                            <t style="text-align:right;" t-esc="current_subtotal" digits="[42, 2]"
-                            t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                            <t style="text-align:right;" t-esc="total_values['cmn']" digits="[42, 2]"
+                                  t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
+                            />
                         </div>
+                        <br/>
+                    <!-- </t> -->
+                
+                </div> 
+                <t t-foreach="total_values" t-as="record">
+                    <t t-if="record != 'cmn'">
+                        <div style="padding-left:15px;padding-right:15px;" width="100%" class="row">
+                                <div style="width:50%;font-weight:bold;">Common + <t t-esc="record"/>
+                                </div>
+                                <div class="text-right" style="width:50%;font-weight:bold;">
+                                    <t style="text-align:right;" t-esc="total_values[record]['total']" digits="[42, 2]"
+                                  t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
+                                    />
+                                </div>
+                                <!-- <br/> -->
+                        </div> 
                     </t>
-                </div> -->
+                </t>
                 <br></br>
                 <table style="border-top:2px solid #0086b3; border-bottom:2px solid #0086b3;" width="100%">
                     <tr>
@@ -314,6 +332,24 @@
                         <p t-field="doc.signed_by"/>
                     </div>
                 </div>
+            </div>
+            <div class="footer">
+                <div class="text-center">
+
+                    <ul class="list-inline">
+                            Page &#160;&#160;
+                        <li class="list-inline-item">
+                            <span class="page"/>
+                        </li>
+                        <li class="list-inline-item">/</li>
+                        <li class="list-inline-item">
+                            <span class="topage"/>
+                        </li>
+                    </ul>
+                </div>
+                <img style="width:100%" t-if="doc.company_id.quotation_footer" t-att-src="image_data_uri(doc.company_id.quotation_footer)" alt="Logo"/>
+
+
             </div>
 
 

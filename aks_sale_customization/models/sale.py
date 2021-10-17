@@ -21,6 +21,7 @@
 ##############################################################################
 
 from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 
 class SaleOrder(models.Model):
@@ -99,10 +100,12 @@ class SaleOrder(models.Model):
     integration = fields.Text(string="Integration")
     general = fields.Text(string="General")
     termination_policy = fields.Text(string="Termination Policy")
-    project_ref_ids = fields.Many2many('project.project', string='Projects')
+    project_ref_id = fields.Many2one('project.project', string='Projects')
 
     @api.model
     def create(self, vals):
+        if not vals.get('order_line'):
+            raise ValidationError(_("You can't create sales order without orderlines"))
         job_num = self._prepare_job_number(vals)
         vals["job_number"] = job_num
         vals["subject"] = job_num + " -"
@@ -118,10 +121,9 @@ class SaleOrder(models.Model):
 
         project = self.env['project.project'].create(project_values)
         res.project_ids = [(4, project.id)]
-        res.project_ref_ids = [(4, project.id)]
-        # res.update({
-        #     'project_ids': [(6, 0, [project.id])]
-        # })
+        for line in res.order_line:
+            line.project_id = project.id
+        res.project_ref_id = project.id
         return res
 
     def _prepare_job_number(self, values):
@@ -130,6 +132,14 @@ class SaleOrder(models.Model):
         # if values.get('company_id'):
         #     seq = seq.with_context(force_company=company)
         return seq.next_by_code("job.number.sequence") or "/"
+
+    def write(self, vals):
+        res = super(SaleOrder, self).write(vals)
+        if vals.get('subject'):
+            for rec in self:
+                if rec.project_ref_id:
+                    rec.project_ref_id.subject = vals.get('subject')
+        return res
 
     def action_cancel(self):
         for rec in self:
@@ -154,3 +164,42 @@ class SaleOrder(models.Model):
                 for project in self.project_ids:
                     project.stage_id = project_draft_stage.id
         return res
+
+    def get_total_values(self):
+        for rec in self:
+            order_line_dict = {}
+            total_amount = 0
+            section = ''
+            for line in rec.order_line:
+                
+                # print("1"*88,line.display_type)
+                if line.product_types == 'common':
+                    # if tax_id:
+                    #     for tax in tax_ids:
+                    total_amount += line.price_subtotal
+            for line in rec.order_line:
+                if line.display_type == 'line_section':
+                    section = line.name
+                    print("3"*88,section)
+                if line.product_types == 'optional':
+                    if section not in order_line_dict:
+                        print("4"*88,order_line_dict)
+                        total_amt = 0
+                        total_amt = line.price_subtotal + total_amount
+                        order_line_dict.update({section:{'total':total_amt}})
+                        print("5"*88,order_line_dict)
+                    else: 
+                        order_line_dict[section]['total'] += line.price_subtotal
+                        print("6"*88,order_line_dict)
+                    print("8"*88,order_line_dict)
+            order_line_dict.update({'cmn':total_amount})
+            print("9"*88,order_line_dict)
+            return order_line_dict
+
+
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+
+
+    product_types = fields.Selection([('common', 'Common'), ('optional', 'Optional')],
+                                    required=True, default='common')

@@ -2,7 +2,7 @@
 
 ##############################################################################
 #
-#    Author: ALKIDHMA
+#    Author: Al Kidhma
 #    you can modify it under the terms of the GNU LESSER
 #    GENERAL PUBLIC LICENSE (LGPL v3), Version 3.
 #
@@ -19,7 +19,11 @@
 #    If not, see <https://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from odoo import api, fields, models, _
+from odoo.exceptions import AccessError, UserError
 
-# from . import product
-from . import res_company
-from . import sale
+
+class ResCompany(models.Model):
+    _inherit = 'res.company'
+
+    quotation_footer = fields.Binary(string=" Quotation Footer")
