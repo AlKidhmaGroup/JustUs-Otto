@@ -12,6 +12,9 @@
                         </group>
                     </page>
                 </xpath>
+                <!-- <xpath expr="//field[@name='currency_id']" position="after">
+                    <field name="show_vat"/>
+                </xpath> -->
             </field>
         </record>
     </data>

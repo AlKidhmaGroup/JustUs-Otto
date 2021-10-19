@@ -87,10 +87,17 @@ class SaleOrder(models.Model):
             """
         return res
 
+    # @api.depends('company_id','company_id.show_vat')
+    # def _compute_vat_need(self):
+    #     for rec in self:
+    #         rec.is_vat_need = False
+    #         if rec.company_id:
+    #             rec.is_vat_need = rec.company_id.show_vat
+
     job_number = fields.Char(string='Job Number',track_visibility='always')
     subject = fields.Char(string='Subject',track_visibility='always')
     quotation_validity = fields.Char(string='Quotation Validity',track_visibility='always')
-    project_manager_id = fields.Many2one('res.partner', string='Project Manager')
+    project_manager_id = fields.Many2one('res.users', string='Project Manager')
     rights_and_duties = fields.Text(string="Rights and Duties")
     travel_expenses = fields.Text(string="Travel Expenses")
     subcontracts = fields.Text(string="Subcontractors ")
@@ -101,6 +108,7 @@ class SaleOrder(models.Model):
     general = fields.Text(string="General")
     termination_policy = fields.Text(string="Termination Policy")
     project_ref_id = fields.Many2one('project.project', string='Projects',copy=False)
+    # is_vat_need = fields.Boolean("Is Vat Need",compute='_compute_vat_need',store=True)
 
     @api.model
     def create(self, vals):
@@ -117,6 +125,7 @@ class SaleOrder(models.Model):
             'active': True,
             'subject': res.subject,
             'company_id': res.company_id.id,
+            'user_id': res.project_manager_id and res.project_manager_id.id or False
         }
 
         project = self.env['project.project'].create(project_values)
@@ -135,10 +144,11 @@ class SaleOrder(models.Model):
 
     def write(self, vals):
         res = super(SaleOrder, self).write(vals)
-        if vals.get('subject'):
-            for rec in self:
-                if rec.project_ref_id:
-                    rec.project_ref_id.subject = vals.get('subject')
+        for rec in self:
+            if 'subject' in vals and rec.project_ref_id:
+                rec.project_ref_id.subject = vals.get('subject')
+            if 'project_manager_id' in vals and rec.project_ref_id:
+                rec.project_ref_id.user_id =  vals.get('project_manager_id')
         return res
 
     def action_cancel(self):

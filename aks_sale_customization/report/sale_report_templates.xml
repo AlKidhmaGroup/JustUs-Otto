@@ -32,7 +32,7 @@
                                 <strong>Date:</strong>
                             </span>
                             <span class="m-0" t-field="doc.date_order"
-                                  t-options="{&quot;format&quot;: &quot;dd/mm/yyyy&quot;}"/>
+                                  t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                         </td>
                     </tr>
                     <tr>
@@ -210,7 +210,7 @@
                         </td>
                         <td t-if="doc.date_order" class="text-right">
                             <span>
-                                <strong>Quotation validity:</strong>
+                                <strong>Quotation Validity:</strong>
                             </span>
                             <span class="m-0" t-field="doc.quotation_validity"/>
                         </td>
