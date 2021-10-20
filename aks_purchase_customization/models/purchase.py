@@ -26,9 +26,9 @@ from odoo import models, fields, api
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    job_number = fields.Many2one('project.project', string="Job Number", copy=False,track_visibility='always')
+    job_number = fields.Many2one('project.project', string="Job Number", copy=False)
     date = fields.Datetime(string="Date", copy=False)
-    subject = fields.Char(string="Subject", copy=False,track_visibility='always')
+    subject = fields.Char(string="Subject", copy=False)
     dynamic_content = fields.Html(string="Dynamic Content", copy=False)
     office_finance_manager = fields.Many2one('res.partner', string="Office & Finance Manager", copy=False)
     delivery_date = fields.Datetime(string="Delivery Date", copy=False)
@@ -38,7 +38,6 @@ class PurchaseOrder(models.Model):
     def _onchange_job_number(self):
         if self.job_number:
             self.subject = self.job_number.name + ' - '
-
 
     @api.model
     def default_get(self, fields):
@@ -60,16 +59,3 @@ class PurchaseOrder(models.Model):
             result['dynamic_content'] = dynamic_test
         return result
 
-
-class PurchaseOrderLine(models.Model):
-    _inherit = 'purchase.order.line'
-    
-    
-    
-    def get_taxes(self):
-        for rec in self:
-            taxes = self.taxes_id and ', '.join(self.taxes_id.mapped('name'))
-            # if rec.taxes_id:
-            #     for tax in rec.taxes_id:
-            print("tax"*88,taxes)
-        return taxes
