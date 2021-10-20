@@ -27,4 +27,6 @@ class ProjectProject(models.Model):
     _inherit = 'project.project'
 
     subject = fields.Char(string="Subject", copy=False)
+    sale_order_ref_id = fields.Many2one('sale.order', string='Sale Order Ref')
+
 
