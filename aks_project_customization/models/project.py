@@ -26,6 +26,5 @@ from odoo import models, fields
 class ProjectProject(models.Model):
     _inherit = 'project.project'
 
-    subject = fields.Char(string="Subject", copy=False,track_visibility='always')
-    sale_order_ref_id = fields.Many2one('sale.order', string='Sale Order Ref')
+    subject = fields.Char(string="Subject", copy=False)
 
