@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <data>
+    <!-- account.move inherit form view -->
+    <record id="aks_invoice_customization_account_move_inherit_view_form" model="ir.ui.view">
+      <field name="name">account.move.inherit.view.form</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="account.view_move_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='invoice_vendor_bill_id']" position="after">
+          <field name="lpo_num" attrs="{'readonly': [('state', 'not in', ['draft','cancel'])]}"/>
+          <field name="job_num" attrs="{'readonly': [('state', 'not in', ['draft','cancel'])]}"/>
+          <field name="brand" attrs="{'readonly': [('state', 'not in', ['draft','cancel'])]}" invisible="1"/>
+          <field name="assembled_by" attrs="{'readonly': [('state', 'not in', ['draft','cancel'])]}"/>
+          <field name="invoice_you_for" attrs="{'readonly': [('state', 'not in', ['draft','cancel'])]}"/>
+        </xpath>
+        <xpath expr="//div[@class='o_td_label']/label[@for='invoice_date']" position="attributes">          
+          <attribute name="string">Issue Date</attribute>
+        </xpath>
+        <xpath expr="//div[@name='journal_div']" position="after">
+          <field name="payment_term_id"/>
+        </xpath>
+        <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='tax_ids']" position="attributes">
+          <attribute name="groups">aks_group_access.group_show_vat</attribute>
+          <attribute name="string">VAT</attribute>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

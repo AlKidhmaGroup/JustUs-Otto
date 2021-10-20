@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="group_show_vat" model="res.groups">
+            <field name="name">Access To Show VAT</field>
+        </record>
+    </data>
+</odoo>

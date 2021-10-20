@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Partner form -->
+    <record id="res_partner_form_inherit_additional_field" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.additional.field</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="vat" position="after">
+                <field name="is_inter_company"/>
+                <field name="is_employee"/>
+                <field name="is_freelancer"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="res_partner_view_search_additional_field" model="ir.ui.view">
+        <field name="name">res.partner.search.inherit.additional.field</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='inactive']" position="before">
+                <filter string="Inter Company" name="supplier" domain="[('is_inter_company', '=', 'True')]"/>
+                <filter string="Employee" name="is_employee" domain="[('is_employee', '=', 'True')]"/>
+                <filter string="Free Lancer" name="is_freelancer" domain="[('is_freelancer', '=', 'True')]"/>
+                <separator/>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>
