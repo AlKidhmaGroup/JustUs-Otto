@@ -212,7 +212,7 @@
                 </div>
                 <br/>
                 <span class="m-0" t-field="o.office_finance_manager.name"/><br/>
-                <span>Office &amp; Finance Manager:</span>
+                <span>Office &amp; Finance Manager</span>
 
                 <div class="oe_structure"/>
             </div>
