@@ -14,7 +14,7 @@
                 <xpath expr="//field[@name='payment_term_id']" position="after">
                     <field name="quotation_validity" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
                     <field name="project_manager_id" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}" required="1"/>
-
+                    <field name="res_partner_signed_by"/>
                     <field name="project_ref_id" invisible="1"/>
                     <!-- <field name="is_vat_need" invisible="0"/> -->
                 </xpath>
@@ -42,16 +42,16 @@
                     <attribute name="context">{'default_project_id': project_ref_id}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree/field[@name='display_type']" position="after">
-                     <field name="product_types"/>
+                    <field name="product_types"/>
                 </xpath>
                 <xpath expr="//field[@name='order_line']" position="attributes">
-					<attribute name="attrs">{'readonly':[('state', 'not in', ['draft','sent'])]}</attribute>
-				</xpath>
+                    <attribute name="attrs">{'readonly':[('state', 'not in', ['draft','sent'])]}</attribute>
+                </xpath>
                 <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="attributes">
                     <attribute name="groups">aks_group_access.group_show_vat</attribute>
                     <attribute name="string">VAT</attribute>
                     <!-- <attribute name="attrs">{'invisible': [('company_id', '!=', 2)],'readonly': [('qty_invoiced', '&gt;', 0)]}</attribute> -->
-                    
+
                 </xpath>
             </field>
         </record>

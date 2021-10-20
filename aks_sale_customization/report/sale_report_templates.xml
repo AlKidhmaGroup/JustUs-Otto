@@ -7,13 +7,17 @@
                 <table width="100%">
                     <tr>
                         <td>
-                            <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo"
-                                 height='108'
-                                 width='320'/>
+                            <t t-if="doc.company_id.is_a_and_a == True">
+                                <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" height='120' width='120'/>
+                            </t>
+                            <t t-else="">
+                                <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" height='108' width='320'/>
+                            </t>
                         </td>
                         <td class="text-right" style="padding-right:40px;">
-                            <strong><span t-if="doc.state not in ['draft','sent']">Order - </span>
-                            <span t-if="doc.state in ['draft','sent']">Quotation - </span>
+                            <strong>
+                                <span t-if="doc.state not in ['draft','sent']">Order - </span>
+                                <span t-if="doc.state in ['draft','sent']">Quotation - </span>
                                 <span t-field="doc.name"/>
                             </strong>
                         </td>
@@ -31,19 +35,22 @@
                             <span>
                                 <strong>Date:</strong>
                             </span>
-                            <span class="m-0" t-field="doc.date_order"
-                                  t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
+                            <span class="m-0" t-field="doc.date_order" t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <p t-if="doc.partner_id" class="m-0" t-field="doc.partner_id.name"/>
+                            <b>
+                                <span t-if="doc.partner_id" class="m-0" t-field="doc.partner_id.name"/>
+                            </b>
+                            <br/>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <div t-field="doc.partner_id"
-                                 t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}'/>
+                            <b>
+                                <div t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}'/>
+                            </b>
                         </td>
                     </tr>
                 </table>
@@ -83,8 +90,7 @@
                 </table>
 
                 <div class="container">
-                    <div class="row"
-                         style="border-top-right-radius: 5px;border-top-left-radius: 5px;background : #bfbfbf;color:#000;vertical-align: middle;height:30px;">
+                    <div class="row" style="border-top-right-radius: 5px;border-top-left-radius: 5px;background : #bfbfbf;color:#000;vertical-align: middle;height:30px;">
                         <!--<div style="padding-left:20px;">
                             <b>Sl</b>
                         </div>-->
@@ -95,24 +101,21 @@
                             <b>Qty</b>
                         </div>
                         <div class="text-right col-auto col-2">
-                            <b>UOM</b>
+                            <b>Unit</b>
                         </div>
                         <div class="text-right col-auto col-2">
-                            <b>Price</b>
+                            <b>Price/1</b>
                         </div>
-                        <div class="text-right col-auto col-3">
+                        <div class="text-right col-auto col-3" style="padding-right:0px;">
                             <b>Total</b>
                         </div>
                     </div>
                     <t t-set="current_subtotal" t-value="0"/>
                     <!--                    <t t-set="sl_no" t.-value="1"/>-->
                     <t t-foreach="doc.order_line" t-as="line">
-                        <div class="row"
-                             style="font-size:13.5px;">
-                            <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal"
-                               groups="account.group_show_line_subtotals_tax_excluded"/>
-                            <t t-set="current_subtotal" t-value="current_subtotal + line.price_total"
-                               groups="account.group_show_line_subtotals_tax_included"/>
+                        <div class="row" style="font-size:13.5px;">
+                            <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                            <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
                             <t t-if="not line.display_type">
                                 <!--<div>
                                     <span style="padding-left:20px;" t-esc="sl_no"/>
@@ -125,7 +128,7 @@
                                     </p>
                                 </div>
                                 <div class="text-right col-auto col-2">
-                                    <span t-esc="line.product_uom_qty"/>
+                                    <span t-esc="'%.0f'% line.product_uom_qty"/>
                                 </div>
                                 <div class="text-right col-auto col-2">
                                     <span t-field="line.product_uom" groups="uom.group_uom"/>
@@ -133,11 +136,9 @@
                                 <div class="text-right col-auto col-2">
                                     <span t-field="line.price_unit"/>
                                 </div>
-                                <div class="text-right col-auto col-3">
-                                    <span t-field="line.price_subtotal"
-                                          groups="account.group_show_line_subtotals_tax_excluded"/>
-                                    <span t-field="line.price_total"
-                                          groups="account.group_show_line_subtotals_tax_included"/>
+                                <div class="text-right col-auto col-3" style="padding-right:0px;">
+                                    <span t-esc="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                    <span t-esc="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
 
                                 </div>
                             </t>
@@ -166,8 +167,7 @@
                                     <t style="font-weight:bold;text-align:right;" t-esc="current_section.name"/>
                                 </div>
                                 <div class="text-right" style="width:50%;font-weight:bold;">
-                                    <t style="text-align:right;" t-esc="current_subtotal" digits="[42, 2]"
-                                  t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    <t style="text-align:right;" t-esc="current_subtotal" digits="[42, 2]" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                                 </div>
 
                             </div>
@@ -175,184 +175,182 @@
                     </t>
                 </div>
                 <t t-set="total_values" t-value="doc.get_total_values()"/>
-                 <div style="padding-left:15px;padding-right:15px;" width="100%" class="row">
+                <div style="padding-left:15px;padding-right:15px;" width="100%" class="row">
                     <!-- <t t-foreach="total_values" t-as="record"> -->
-                        <div style="width:50%;font-weight:bold;">Common
-                        </div>
-                        <div class="text-right" style="width:50%;font-weight:bold;">
-                            <t style="text-align:right;" t-esc="total_values['cmn']" digits="[42, 2]"
-                                  t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
+                    <div style="width:50%;font-weight:bold;">Common
+                    </div>
+                    <div class="text-right" style="width:50%;font-weight:bold;">
+                        <t style="text-align:right;" t-esc="total_values['cmn']" digits="[42, 2]" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
                             />
-                        </div>
-                        <br/>
-                    <!-- </t> -->
-                
-                </div> 
-                <t t-foreach="total_values" t-as="record">
-                    <t t-if="record != 'cmn'">
-                        <div style="padding-left:15px;padding-right:15px;" width="100%" class="row">
-                                <div style="width:50%;font-weight:bold;">Common + <t t-esc="record"/>
-                                </div>
-                                <div class="text-right" style="width:50%;font-weight:bold;">
-                                    <t style="text-align:right;" t-esc="total_values[record]['total']" digits="[42, 2]"
-                                  t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
+</div>
+<br/>
+<!-- </t> -->
+
+</div>
+<t t-foreach="total_values" t-as="record">
+                            <t t-if="record != 'cmn'">
+                                <div style="padding-left:15px;padding-right:15px;" width="100%" class="row">
+                                    <div style="width:50%;font-weight:bold;">Common + <t t-esc="record"/>
+                                    </div>
+                                    <div class="text-right" style="width:50%;font-weight:bold;">
+                                        <t style="text-align:right;" t-esc="total_values[record]['total']" digits="[42, 2]" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
                                     />
-                                </div>
-                                <!-- <br/> -->
-                        </div> 
-                    </t>
-                </t>
-                <br></br>
-                <table style="border-top:2px solid #0086b3; border-bottom:2px solid #0086b3;" width="100%">
-                    <tr>
-                        <td>
+</div>
+<!-- <br/> -->
+</div>
+</t>
+</t>
+<br></br>
+<table style="border-top:2px solid #0086b3; border-bottom:2px solid #0086b3;" width="100%">
+                                            <tr>
+                                                <td>
                             Obligatory quotation
-                        </td>
-                        <td t-if="doc.date_order" class="text-right">
-                            <span>
-                                <strong>Quotation Validity:</strong>
-                            </span>
-                            <span class="m-0" t-field="doc.quotation_validity"/>
-                        </td>
-                    </tr>
-                </table>
-                <br></br>
-                <div>
-                    <strong>General</strong>
-                    <br/>
-                    <t t-raw="doc.general"/>
-                </div>
-                <br></br>
-                <div>
-                    <strong>Termination Policy</strong>
-                    <br/>
-                    <t t-raw="doc.termination_policy"/>
-                </div>
-                <br></br>
-                <div>
-                    <strong>Rights and Duties</strong>
-                    <br/>
-                    <t style="text-align:justify" t-raw="doc.rights_and_duties"/>
-                </div>
-                <br></br>
-                <div>
-                    <strong>Travel Expenses</strong>
-                    <br/>
-                    <t t-raw="doc.travel_expenses"/>
-                </div>
-                <br></br>
-                <div>
-                    <strong>Subcontractors</strong>
-                    <br/>
-                    <t t-raw="doc.subcontracts"/>
-                </div>
-                <br></br>
-                <div>
-                    <strong>Conditions of Payment</strong>
-                    <br/>
-                    <t t-raw="doc.condition_of_payments"/>
-                </div>
-                <br></br>
-                <div>
-                    <strong>Applicable Law, Jurisdictions</strong>
-                    <br/>
-                    <t t-raw="doc.applicable_law_and_jurisdiction"/>
-                </div>
-                <br></br>
-                <div>
-                    <strong>Severability Clause</strong>
-                    <br/>
-                    <t t-raw="doc.serverability_clause"/>
-                </div>
-                <br></br>
-                <div>
-                    <strong>
+                                                </td>
+                                                <td t-if="doc.date_order" class="text-right">
+                                                    <span>
+                                                        <strong>Quotation Validity:</strong>
+                                                    </span>
+                                                    <span class="m-0" t-field="doc.quotation_validity"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <br></br>
+                                        <div>
+                                            <strong>General</strong>
+                                            <br/>
+                                            <t t-raw="doc.general"/>
+                                        </div>
+                                        <br></br>
+                                        <div>
+                                            <strong>Termination Policy</strong>
+                                            <br/>
+                                            <t t-raw="doc.termination_policy"/>
+                                        </div>
+                                        <br></br>
+                                        <div>
+                                            <strong>Rights and Duties</strong>
+                                            <br/>
+                                            <t style="text-align:justify" t-raw="doc.rights_and_duties"/>
+                                        </div>
+                                        <br></br>
+                                        <div>
+                                            <strong>Travel Expenses</strong>
+                                            <br/>
+                                            <t t-raw="doc.travel_expenses"/>
+                                        </div>
+                                        <br></br>
+                                        <div>
+                                            <strong>Subcontractors</strong>
+                                            <br/>
+                                            <t t-raw="doc.subcontracts"/>
+                                        </div>
+                                        <br></br>
+                                        <div>
+                                            <strong>Conditions of Payment</strong>
+                                            <br/>
+                                            <t t-raw="doc.condition_of_payments"/>
+                                        </div>
+                                        <br></br>
+                                        <div>
+                                            <strong>Applicable Law, Jurisdictions</strong>
+                                            <br/>
+                                            <t t-raw="doc.applicable_law_and_jurisdiction"/>
+                                        </div>
+                                        <br></br>
+                                        <div>
+                                            <strong>Severability Clause</strong>
+                                            <br/>
+                                            <t t-raw="doc.serverability_clause"/>
+                                        </div>
+                                        <br></br>
+                                        <div>
+                                            <strong>
                         Integration
-                    </strong>
-                    <br/>
-                    <t t-raw="doc.integration"/>
-                </div>
+                                            </strong>
+                                            <br/>
+                                            <t t-raw="doc.integration"/>
+                                        </div>
 
-                <br></br>
-                <div>We look forward to receiving your order.</div>
-                <br></br>
-                <div style="page-break-inside: avoid;">Best regards,
-                    <br/>
-                    <t class="m-0" t-esc="doc.project_manager_id.name"></t>
-                    <br/>Project Manager
-                </div>
+                                        <br></br>
+                                        <div>We look forward to receiving your order.</div>
+                                        <br></br>
+                                        <div style="page-break-inside: avoid;">Best regards,
+                                            <br/>
+                                            <t class="m-0" t-esc="doc.project_manager_id.name"></t>
+                                            <br/>
+Project Manager
+                                        </div>
 
-                <br></br>
-                <br></br>
-                <table width="100%">
-                    <tr>
-                        <td style="border-top:2px solid black; width: 33%" class="text-center">
-                            <strong class="m-0" t-field="doc.project_manager_id.name"/>
-                        </td>
-                        <td style="width: 34%"></td>
-                        <td style="border-top:2px solid black; width: 33%" class="text-center">
-                            <strong class="m-0" t-field="doc.partner_id.name"/>
-                        </td>
-                    </tr>
-                </table>
+                                        <br></br>
+                                        <br></br>
+                                        <table width="100%">
+                                            <tr>
+                                                <td style="border-top:2px solid black; width: 33%" class="text-center">
+                                                    <strong class="m-0" t-field="doc.res_partner_signed_by.name"/>
+                                                </td>
+                                                <td style="width: 34%"></td>
+                                                <td style="border-top:2px solid black; width: 33%" class="text-center">
+                                                    <strong class="m-0" t-field="doc.partner_id.name"/>
+                                                </td>
+                                            </tr>
+                                        </table>
 
 
-                <div class="row mt32 mb32" id="informations" style="display:none;">
-                    <div t-if="doc.client_order_ref" class="col-auto mw-100 mb-2">
-                        <strong>Your Reference:</strong>
-                        <p class="m-0" t-field="doc.client_order_ref"/>
-                    </div>
-                    <div t-if="doc.date_order and doc.state not in ['draft','sent']" class="col-auto mw-100 mb-2">
-                        <strong>Order Date:</strong>
-                        <p class="m-0" t-field="doc.date_order"/>
-                    </div>
-                    <div t-if="doc.date_order and doc.state in ['draft','sent']" class="col-auto mw-100 mb-2">
-                        <strong>Quotation Date:</strong>
-                        <p class="m-0" t-field="doc.date_order" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
-                    </div>
-                    <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-auto mw-100 mb-2"
-                         name="expiration_date">
-                        <strong>Expiration:</strong>
-                        <p class="m-0" t-field="doc.validity_date"/>
-                    </div>
-                    <div t-if="doc.user_id.name" class="col-auto mw-100 mb-2">
-                        <strong>Salesperson:</strong>
-                        <p class="m-0" t-field="doc.user_id"/>
-                    </div>
-                </div>
+                                        <div class="row mt32 mb32" id="informations" style="display:none;">
+                                            <div t-if="doc.client_order_ref" class="col-auto mw-100 mb-2">
+                                                <strong>Your Reference:</strong>
+                                                <p class="m-0" t-field="doc.client_order_ref"/>
+                                            </div>
+                                            <div t-if="doc.date_order and doc.state not in ['draft','sent']" class="col-auto mw-100 mb-2">
+                                                <strong>Order Date:</strong>
+                                                <p class="m-0" t-field="doc.date_order"/>
+                                            </div>
+                                            <div t-if="doc.date_order and doc.state in ['draft','sent']" class="col-auto mw-100 mb-2">
+                                                <strong>Quotation Date:</strong>
+                                                <p class="m-0" t-field="doc.date_order" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
+                                            </div>
+                                            <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-auto mw-100 mb-2" name="expiration_date">
+                                                <strong>Expiration:</strong>
+                                                <p class="m-0" t-field="doc.validity_date"/>
+                                            </div>
+                                            <div t-if="doc.user_id.name" class="col-auto mw-100 mb-2">
+                                                <strong>Salesperson:</strong>
+                                                <p class="m-0" t-field="doc.user_id"/>
+                                            </div>
+                                        </div>
 
-                <div t-if="doc.signature" class="mt32 ml64 mr4" name="signature" style="display:none;">
-                    <div class="offset-8">
-                        <strong>Signature</strong>
-                    </div>
-                    <div class="offset-8">
-                        <img t-att-src="image_data_uri(doc.signature)" style="max-height: 4cm; max-width: 8cm;"/>
-                    </div>
-                    <div class="offset-8 text-center">
-                        <p t-field="doc.signed_by"/>
-                    </div>
-                </div>
-            </div>
-            <div class="footer">
-                <div class="text-center">
+                                        <div t-if="doc.signature" class="mt32 ml64 mr4" name="signature" style="display:none;">
+                                            <div class="offset-8">
+                                                <strong>Signature</strong>
+                                            </div>
+                                            <div class="offset-8">
+                                                <img t-att-src="image_data_uri(doc.signature)" style="max-height: 4cm; max-width: 8cm;"/>
+                                            </div>
+                                            <div class="offset-8 text-center">
+                                                <p t-field="doc.signed_by"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="footer">
+                                        <div class="text-center">
 
-                    <ul class="list-inline">
+                                            <ul class="list-inline">
                             Page &#160;&#160;
-                        <li class="list-inline-item">
-                            <span class="page"/>
-                        </li>
-                        <li class="list-inline-item">/</li>
-                        <li class="list-inline-item">
-                            <span class="topage"/>
-                        </li>
-                    </ul>
-                </div>
-                <img style="width:100%" t-if="doc.company_id.quotation_footer" t-att-src="image_data_uri(doc.company_id.quotation_footer)" alt="Logo"/>
+                                                <li class="list-inline-item">
+                                                    <span class="page"/>
+                                                </li>
+                                                <li class="list-inline-item">/</li>
+                                                <li class="list-inline-item">
+                                                    <span class="topage"/>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <img style="width:100%" t-if="doc.company_id.quotation_footer" t-att-src="image_data_uri(doc.company_id.quotation_footer)" alt="Logo"/>
 
 
-            </div>
+                                    </div>
 
 
-        </t>
-    </template>
-</odoo>
+                                </t>
+                            </template>
+                        </odoo>
