@@ -59,3 +59,15 @@ class PurchaseOrder(models.Model):
             result['dynamic_content'] = dynamic_test
         return result
 
+class PurchaseOrderLine(models.Model):
+    _inherit = 'purchase.order.line'
+    
+    
+    
+    def get_taxes(self):
+        for rec in self:
+            taxes = self.taxes_id and ', '.join(self.taxes_id.mapped('name'))
+            # if rec.taxes_id:
+            #     for tax in rec.taxes_id:
+            print("tax"*88,taxes)
+        return taxes

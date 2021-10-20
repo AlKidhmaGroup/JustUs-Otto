@@ -7,9 +7,16 @@
                 <div class="header">
                     <table width="100%">
                         <tr>
+                            <t t-if="doc.company_id.is_a_and_a == True">
                             <td>
-                                <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" height='108' width='320'/>
+                                <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" height='110' width='110'/>
                             </td>
+                            </t>
+                            <t t-else="">
+                                <td>
+                                    <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" height='108' width='320'/>
+                                </td>
+                            </t>
                             <td class="text-right">
                                 <strong>
                                     <span t-if="doc.move_type == 'out_invoice' and doc.state == 'posted'">INVOICE NO:</span>

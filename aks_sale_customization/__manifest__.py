@@ -41,7 +41,7 @@
         'report/sale_report_templates.xml',
         # 'views/product_views.xml',
         'views/sales_order.xml',
-        'views/res_company.xml',
+        # 'views/res_company.xml',
         
     ],
     'demo': [],

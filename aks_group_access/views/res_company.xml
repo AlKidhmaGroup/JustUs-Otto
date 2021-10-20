@@ -9,6 +9,7 @@
                     <page name="report_images" string="Report">
                         <group>
                             <field name="quotation_footer" widget="image" />
+                            <field name="is_a_and_a" invisible="1"/>
                         </group>
                     </page>
                 </xpath>

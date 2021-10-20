@@ -27,4 +27,5 @@ class ResCompany(models.Model):
     _inherit = 'res.company'
 
     quotation_footer = fields.Binary(string=" Quotation Footer")
+    is_a_and_a = fields.Boolean(string='A & A')
     # show_vat = fields.Boolean(string="Show VAT")
