@@ -12,6 +12,11 @@
                     <field name="subject"/>
                 </group>
             </xpath>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <group>
+                    <field name="sale_order_ref_id" invisible="1"/>
+                </group>
+            </xpath>
         </field>
     </record>
 </odoo>
