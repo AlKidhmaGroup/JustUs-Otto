@@ -181,10 +181,15 @@ class SaleOrder(models.Model):
             total_amount = 0
             section = ''
             for line in rec.order_line:
-                
+                total_tax = 0
                 if line.product_types == 'common':
-                    # if tax_id:
-                    #     for tax in tax_ids:
+                    if line.tax_id:
+                        amount = 0
+                        total_tax = 0
+                        for tax in line.tax_id:
+                            amount += int(tax.amount)
+                        total_tax = (line.price_subtotal * amount)/100
+                        total_amount += total_tax
                     total_amount += line.price_subtotal
             for line in rec.order_line:
                 if line.display_type == 'line_section':
@@ -213,6 +218,11 @@ class SaleOrderLine(models.Model):
 
     product_types = fields.Selection([('common', 'Common'), ('optional', 'Optional')],
                                     required=True, default='common',string="Type") 
+    
+    def get_taxes(self):
+        for rec in self:
+            taxes = self.tax_id and ', '.join(self.tax_id.mapped('name'))
+        return taxes
 
 class SaleAdvancePaymentInv(models.TransientModel):
     _inherit = "sale.advance.payment.inv"
