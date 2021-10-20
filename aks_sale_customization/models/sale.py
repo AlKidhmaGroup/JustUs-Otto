@@ -193,16 +193,27 @@ class SaleOrder(models.Model):
                         total_tax = (line.price_subtotal * amount)/100
                         total_amount += total_tax
                     total_amount += line.price_subtotal
+            
             for line in rec.order_line:
                 if line.display_type == 'line_section':
                     section = line.name
                 if line.product_types == 'optional':
+                    total_amt = 0
+                    amount = 0
+                    total_tax = 0
+                    total_tax_amount = 0
+                    for tax in line.tax_id:
+                        amount += int(tax.amount)
+                    total_tax = (line.price_subtotal * amount)/100
+                    total_tax_amount += total_tax
+                    print("a"*88,order_line_dict,line.price_subtotal,total_amount,total_tax_amount,section)
                     if section not in order_line_dict:
-                        total_amt = 0
-                        total_amt = line.price_subtotal + total_amount
+                        total_amt = line.price_subtotal + total_tax_amount + total_amount
                         order_line_dict.update({section:{'total':total_amt}})
                     else: 
                         order_line_dict[section]['total'] += line.price_subtotal
+                        order_line_dict[section]['total'] += total_amount
+                    
             order_line_dict.update({'cmn':total_amount})
             return order_line_dict
 

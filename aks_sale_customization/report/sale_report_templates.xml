@@ -100,15 +100,18 @@
                         <div class="text-right col-auto col-2">
                             <b>Qty</b>
                         </div>
-                        <div class="text-right col-auto col-2">
+                        <div class=" col-auto col-2">
                             <b>Unit</b>
                         </div>
-                        <div class="text-right col-auto col-2">
+                        <div class="text-right col-auto col-3">
                             <b>Price/1</b>
                         </div>
-                        <div class="col-auto col-3">
-                            <b>VAT</b>
-                        </div>
+                        <t t-if="doc.amount_tax>0">
+                        
+                            <div class="col-auto col-3">
+                                <b>VAT</b>
+                            </div>
+                        </t>
                         <div class="text-right col-auto col-3" style="padding-right:0px;">
                             <b>Total</b>
                         </div>
@@ -136,7 +139,7 @@
                                 <div class="col-auto col-2">
                                     <span t-field="line.product_uom"/>
                                 </div>
-                                <div class="text-right col-auto col-2">
+                                <div class="text-right col-auto col-3">
                                     <span t-field="line.price_unit"/>
                                 </div>
                                 <t t-if="doc.amount_tax > 0">
