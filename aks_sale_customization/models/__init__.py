@@ -22,4 +22,4 @@
 
 # from . import product
 # from . import res_company
-from . import sale
+from . import sale,res_company

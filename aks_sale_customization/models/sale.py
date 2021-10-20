@@ -109,6 +109,8 @@ class SaleOrder(models.Model):
     termination_policy = fields.Text(string="Termination Policy")
     project_ref_id = fields.Many2one('project.project', string='Projects',copy=False)
     # is_vat_need = fields.Boolean("Is Vat Need",compute='_compute_vat_need',store=True)
+    digital_signature = fields.Binary(string="Digital Signature",copy=False)
+    res_partner_signed_by = fields.Many2one('res.partner', string='Signed By')
 
     @api.model
     def create(self, vals):
