@@ -26,48 +26,89 @@
                 </div>
                 <div class="page" style="margin-top:20px;margin-right:10px;margin-left:10px !important;">
                     <div class="oe_structure"/>
-                    <div class='container'>
-                        <div class='row' style='border-bottom:2px solid black;'>
-                            <div class='col-12 text-left'>
+                    <!-- <div class="col-6" style='border-bottom:1px solid black;'>
                                 <b>
                                     Client:
                                 </b>
+                        </div> -->
+                    <div class='container'>
+                        <div class='row'>
+                            <div class='col-5' style='border-bottom:1px solid black;'>
+                                    <b>
+                                        Client:
+                                    </b>
+                            </div>
+                            <div class='col-1'></div>
+                            <div class='col-6' style='border-bottom:1px solid black;'>
+                                    <b>
+                                        Supplier:
+                                    </b>
                             </div>
                         </div>
-
-                        <div class='row' style='border-bottom:2px solid black;'>
+                        <div class='row' style='border-bottom:1px solid black;'>
+                            <div class='col-5 text-left'>
+                                <strong>
+                                    <t t-if="doc.partner_id.name">
+                                        <span t-esc="doc.partner_id.name"></span>
+                                        <br/>
+                                    </t>
+                                    <t t-if="doc.partner_id.street">
+                                        <span t-esc="doc.partner_id.street"></span>
+                                        <br/>
+                                    </t>
+                                    <t t-if="doc.partner_id.street2">
+                                        <span t-esc="doc.partner_id.street2"></span>
+                                        <br/>
+                                    </t>
+                                    <t t-if="doc.partner_id.city">
+                                        <span t-esc="doc.partner_id.city"></span>
+                                        <br/>
+                                    </t>
+                                    <t t-if="doc.partner_id.state_id">
+                                        <span t-esc="doc.partner_id.state_id.name"></span>
+                                        <br/>
+                                    </t>
+                                    <t t-if="doc.partner_id.country_id">
+                                        <span t-esc="doc.partner_id.country_id.name"></span>
+                                        <br/>
+                                    </t>
+                                </strong>
+                            </div>
+                            <div class='col-1'></div>
                             <div class='col-6 text-left'>
-                                <t t-if="doc.partner_id.name">
-                                    <span t-esc="doc.partner_id.name"></span>
-                                    <br/>
-                                </t>
-                                <t t-if="doc.partner_id.street">
-                                    <span t-esc="doc.partner_id.street"></span>
-                                    <br/>
-                                </t>
-                                <t t-if="doc.partner_id.street2">
-                                    <span t-esc="doc.partner_id.street2"></span>
-                                    <br/>
-                                </t>
-                                <t t-if="doc.partner_id.city">
-                                    <span t-esc="doc.partner_id.city"></span>
-                                    <br/>
-                                </t>
-                                <t t-if="doc.partner_id.state_id">
-                                    <span t-esc="doc.partner_id.state_id.name"></span>
-                                    <br/>
-                                </t>
-                                <t t-if="doc.partner_id.country_id">
-                                    <span t-esc="doc.partner_id.country_id.name"></span>
-                                    <br/>
-                                </t>
+                                <strong>
+                                    <t t-if="doc.company_id.name">
+                                        <span t-esc="doc.company_id.name"></span>
+                                        <br/>
+                                    </t>
+                                    <t t-if="doc.company_id.street">
+                                        <span t-esc="doc.company_id.street"></span>
+                                        <br/>
+                                    </t>
+                                    <t t-if="doc.company_id.street2">
+                                        <span t-esc="doc.company_id.street2"></span>
+                                        <br/>
+                                    </t>
+                                    <t t-if="doc.company_id.city">
+                                        <span t-esc="doc.company_id.city"></span>
+                                        <br/>
+                                    </t>
+                                    <t t-if="doc.company_id.state_id">
+                                        <span t-esc="doc.company_id.state_id.name"></span>
+                                        <br/>
+                                    </t>
+                                    <t t-if="doc.company_id.country_id">
+                                        <span t-esc="doc.company_id.country_id.name"></span>
+                                        <br/>
+                                    </t>
+                                </strong>
                             </div>
                         </div>
                     </div>
                     <table width="100%">
                         <tr>
-                            <td width='22%' style="padding-top:15px;">
-                            Purchase Reference No.
+                            <td width='22%' style="padding-top:10px;">
+                            Ref No.
                             </td>
                             <td style="padding-top:15px;" width='28%'>
                                 :                                <t t-esc="doc.payment_reference"/>
@@ -89,16 +130,16 @@
                             <td width='28%'>
                                 :                                <t t-esc="doc.job_num.name"/>
                             </td>
-                            <td width='25%' style='border-bottom:2px solid black;'>
+                            <td width='25%' style='border-bottom:1px solid black;'>
                                 Due Date
                             </td>
-                            <td width='25%' style='border-bottom:2px solid black;'>
+                            <td width='25%' style='border-bottom:1px solid black;'>
                                 :      <t t-if="doc.invoice_date_due">   
                                                           <t t-esc="doc.invoice_date_due.strftime('%d/%m/%Y')"/>
                                         </t>
                             </td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td width='22%'>
                                 Client
                             </td>
@@ -111,38 +152,35 @@
                             <td width='25%'>
                                 :                                <t t-esc="doc.payment_term_id.name"/>
                             </td>
-                        </tr>
-                        <tr>
+                        </tr> -->
+                        <!-- <tr>
                             <td width='22%'>
                                 Brand
                             </td>
                             <td width='28%'>
                                 :                                <t t-esc="doc.brand"/>
                             </td>
-                        </tr>
-                        <tr style='border-bottom:2px solid black;'>
-                            <td width='22%' style="padding-bottom:15px;">
+                        </tr> -->
+                        <tr style='border-bottom:1px solid black;'>
+                            <td width='22%' style="padding-bottom:10px;">
                                 Assembled By
                             </td>
                             <td width='28%' style="padding-bottom:15px;">
                                 :                                <t t-esc="doc.assembled_by.name"/>
                             </td>
-                            <td width='25%' style="padding-bottom:15px;"/>
-                            <td width='25%' style="padding-bottom:15px;"/>
-                        </tr>
-                        <tr style='border-bottom:2px solid black;'>
-                            <td width='22%'>
-                               <span style="padding-top:0px;">Comments</span> 
+                            <td width='25%'>
+                                Payment Conditions
                             </td>
-                            <td width='78%' colspan="3">
-                                <span t-field="doc.narration"/>
+                            <td width='25%'>
+                                :                                <t t-esc="doc.payment_term_id.name"/>
                             </td>
                         </tr>
+                        
                     </table>
                     <br></br>
                     <div>
                         <b>
-                            <u>We invoice you for:</u>
+                            <u>We Invoice You For</u> :
                         </b>
                         <t t-esc="doc.invoice_you_for"/>
                     </div>
@@ -151,16 +189,16 @@
                         <thead style="border-top-right-radius: 5px;border-top-left-radius: 5px;">
                             <tr style='background-color:#bdb7b6;'>
                                 <th>Items</th>
-                                <th>Qty</th>
+                                <th class="text-right">Qty</th>
                                 <th>Unit</th>
-                                <th>Price</th>
+                                <th class="text-right">Price/1</th>
                                 <t t-if="int(doc.amount_tax) > 0">
-                                    <th>Total excl. VAT</th>
-                                    <th>VAT</th>
-                                    <th>Total incl. VAT</th>
+                                    <th class="text-right">Total excl. VAT</th>
+                                    <th class="text-right">VAT</th>
+                                    <th class="text-right">Total incl. VAT</th>
                                 </t>
                                 <t t-else="">
-                                    <th>Total</th>
+                                    <th class="text-right">Total</th>
                                 </t>
                             </tr>
                         </thead>
@@ -170,13 +208,13 @@
                                     <td>
                                         <span t-field="line.product_id.name"/>
                                     </td>
-                                    <td>
-                                    <span t-field="line.quantity"/>
+                                    <td class="text-right">
+                                    <span t-esc="int(line.quantity)"/>
                                     </td>
                                     <td>
                                         <span t-field="line.product_uom_id.name"/>
                                     </td>
-                                    <td>
+                                    <td class="text-right">
                                         <span t-field="line.price_unit"/>
                                     </td>
                                     <t t-if="line.tax_ids">
@@ -247,7 +285,7 @@
                                 </div>
                             </t> -->
                         </t>
-                        <t t-if="int(doc.amount_tax) > 0">
+                        <t t-if="doc.amount_tax > 0">
                             <tr style='background-color:#bdb7b6;'>
 
                                 <td colspan='5'>
@@ -287,7 +325,7 @@
                             </tr>
                             <tr class="bg 200">
                                 <td colspan='4'>
-                                    <b>To be paid</b>
+                                    <b>To Be Paid</b>
                                 </td>
                                 <td class="text-right" colspan='1'>
                                     <b>
@@ -299,12 +337,23 @@
                         </t>
                     </table>
                     <br></br>
+                    
+                    <div style='border-top:1px solid black;border-bottom:1px solid black;page-break-inside: avoid'>
+                        <!-- <div width='15%'>
+                            <span>Comments</span> 
+                        </div>-->
+                        <div class="row"> 
+                           <strong> <span width="20%" style="width:50%;padding-left:30px;">Comments : </span> </strong>
+                            <div style="width:83%;padding-left:5px;" t-raw="doc.narration"/>
+                            
+                        </div>
+                    </div>
+                    <br/>
                     <t t-if="doc.company_id">
-                        
                         <div class='container' style="page-break-inside: avoid">
                             <div>
                                 <strong>
-                                    <u>Bank Details:</u>
+                                    <u>Bank Details</u> 
                                 </strong>
                             </div>
                             <div class='row'>

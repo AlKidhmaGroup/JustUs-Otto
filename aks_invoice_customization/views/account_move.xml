@@ -8,14 +8,15 @@
       <field name="inherit_id" ref="account.view_move_form"/>
       <field name="arch" type="xml">
         <xpath expr="//field[@name='invoice_vendor_bill_id']" position="after">
-          <field name="lpo_num"/>
-          <field name="job_num"/>
-          <field name="brand"/>
-          <field name="assembled_by"/>
-          <field name="invoice_you_for"/>
+          <field name="lpo_num" attrs="{'readonly': [('state', 'not in', ['draft','cancel'])]}"/>
+          <field name="job_num" attrs="{'readonly': [('state', 'not in', ['draft','cancel'])]}"/>
+          <field name="brand" attrs="{'readonly': [('state', 'not in', ['draft','cancel'])]}" invisible="1"/>
+          <field name="assembled_by" attrs="{'readonly': [('state', 'not in', ['draft','cancel'])]}"/>
+          <field name="invoice_you_for" attrs="{'readonly': [('state', 'not in', ['draft','cancel'])]}"/>
         </xpath>
-        <!-- <xpath expr="//field[@name='invoice_payment_term_id']" position="replace">          
-        </xpath> -->
+        <xpath expr="//div[@class='o_td_label']/label[@for='invoice_date']" position="attributes">          
+          <attribute name="string">Issue Date</attribute>
+        </xpath>
         <xpath expr="//div[@name='journal_div']" position="after">
           <field name="payment_term_id"/>
         </xpath>
