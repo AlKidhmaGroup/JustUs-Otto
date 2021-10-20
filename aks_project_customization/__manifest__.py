@@ -22,7 +22,7 @@
 
 {
     'name': "Project Customization",
-    'version': '15.0.0.2',
+    'version': '15.0.0.1',
     'category': 'Project',
     'summary': 'Project Customization',
     'live_test_url': 'Add youtube video Link',
@@ -33,10 +33,9 @@
     'maintainer': 'Al Khidma Systems',
     'support': 'tech@alkhidmasystems.com',
     'website': "http://alkhidmasystems.com",
-    'depends': ['project','sale'],
+    'depends': ['project'],
     'data': [
         'views/project_inherited_view.xml',
-        'views/project_stage_view.xml',
     ],
     'demo': [],
     'installable': True,
