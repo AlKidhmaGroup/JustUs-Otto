@@ -151,7 +151,7 @@
                                 </t>
                                 <div class="text-right col-auto col-3" style="padding-right:0px;">
                                     <span t-esc="'%.2f'% line.price_subtotal"  groups="account.group_show_line_subtotals_tax_excluded"/>
-                                    <span t-esc="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                                    <span t-esc="'%.2f'% line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
 
                                 </div>
                             </t>
