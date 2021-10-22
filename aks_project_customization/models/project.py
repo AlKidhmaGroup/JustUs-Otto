@@ -28,5 +28,5 @@ class ProjectProject(models.Model):
 
     subject = fields.Char(string="Subject", copy=False)
     sale_order_ref_id = fields.Many2one('sale.order', string='Sale Order Ref')
-
+    project_manager_id = fields.Many2one('res.partner', string='Project Manager',track_visibility='always')
 

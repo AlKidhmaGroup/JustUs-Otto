@@ -9,15 +9,15 @@
                         <tr>
                             <t t-if="doc.company_id.is_a_and_a == True">
                             <td>
-                                <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" height='110' width='110'/>
+                                <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" height='120' width='120'/>
                             </td>
                             </t>
                             <t t-else="">
                                 <td>
-                                    <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" height='108' width='320'/>
+                                    <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" height='108' width='220'/>
                                 </td>
                             </t>
-                            <td class="text-right">
+                            <td class="text-right" style="font-family:Arial;font-size:19px;">
                                 <strong>
                                     <span t-if="doc.move_type == 'out_invoice' and doc.state == 'posted'">INVOICE NO:</span>
                                     <span t-if="doc.move_type == 'out_invoice' and doc.state == 'draft'">DRAFT INVOICE</span>
@@ -31,7 +31,7 @@
                         </tr>
                     </table>
                 </div>
-                <div class="page" style="margin-top:20px;margin-right:10px;margin-left:10px !important;">
+                <div class="page" style="font-family:Arial;margin-top:20px;margin-right:10px;margin-left:10px !important;">
                     <div class="oe_structure"/>
                     <!-- <div class="col-6" style='border-bottom:1px solid black;'>
                                 <b>
@@ -224,7 +224,7 @@
                                     <td class="text-right">
                                         <span t-field="line.price_unit"/>
                                     </td>
-                                    <t t-if="line.tax_ids">
+                                    <t t-if="int(doc.amount_tax) > 0">
                                         <td class="text-right">
                                             <span t-field="line.price_subtotal"/>
                                         </td>
@@ -344,15 +344,16 @@
                         </t>
                     </table>
                     <br></br>
-                    
-                    <div style='border-top:1px solid black;border-bottom:1px solid black;page-break-inside: avoid'>
-                        <!-- <div width='15%'>
-                            <span>Comments</span> 
-                        </div>-->
-                        <div class="row"> 
-                           <strong> <span width="20%" style="width:50%;padding-left:30px;">Comments : </span> </strong>
-                            <div style="width:83%;padding-left:5px;" t-raw="doc.narration"/>
-                            
+                    <div class="container">
+                        <div style='border-top:1px solid black;border-bottom:1px solid black;page-break-inside: avoid' class="row">
+                            <!-- <div width='15%'>
+                                <span>Comments</span> 
+                            </div>-->
+                            <!-- <div style="border:1px solid black;" class="row">  -->
+                            <strong> <div width="25%">Comments  :</div> </strong>
+                                <div style="line-height:8pt;width:75%;padding:6px;" t-raw="doc.narration"/>
+                                
+                            <!-- </div> -->
                         </div>
                     </div>
                     <br/>

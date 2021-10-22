@@ -13,11 +13,10 @@
                             </t>
                             <t t-else="">
                             <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" alt="Logo"
-                                 height='108'
-                                 width='320'/>
+                                 height='108' width='220'/>
                             </t>
                         </td>
-                        <td class="text-right">
+                        <td class="text-right" style="font-family:Arial;font-size:19px;">
                             <t t-if="o.state == 'draft'">
                                 <strong>Purchase Quotation -</strong>
                             </t>
@@ -40,7 +39,7 @@
                 </t>
             </t>
 
-            <div class="page" style="margin-top:20px;margin-right:40px;margin-left:40px !important;">
+            <div class="page" style="font-family:Arial;margin-right:40px;margin-left:40px !important;">
                 <div class="oe_structure"/>
                 <strong>
                     <table width="100%">
@@ -70,7 +69,7 @@
                 </strong>
 
                 <br></br>
-                <table>
+                <table width="100%">
                     <tr>
                         <td>
                             <span>
@@ -92,8 +91,8 @@
                 <br></br>
                 <table width="100%">
                     <tr>
-                        <td>
-                            <span><strong>Subject:</strong></span>
+                        <td style="font-weight:bold;font-size:19px">
+                            <span>Subject:</span>
                             <span t-field="o.subject"/>
                         </td>
                     </tr>
@@ -206,29 +205,29 @@
                         </table>
                     </div>
                 </div> -->
-
+                <div class="container">
                 <t t-if="o.amount_tax > 0">
-                    <div id="total" class="row justify-content-end">
+                    <div id="total" class="row justify-content-end bg-200">
                         <div class="col-6">
                             <span style="font-weight:bold;" class="mr16">Total excl. VAT </span>
                         </div>
-                        <div class="col-6 text-right">
+                        <div style="padding-right:0px;" class="col-6 text-right">
                         <strong><span t-field="o.amount_untaxed" digits="[42, 2]"
                                         t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong> 
                         </div>
                     </div>
-                    <div id="total_vat" class="row justify-content-end">
+                    <div id="total_vat" class="row justify-content-end bg-200">
                         <div class="col-6">
                             <span style="font-weight:bold;" class="mr16">VAT </span>
                         </div>
-                        <div class="col-6 text-right">
+                        <div style="padding-right:0px;" class="col-6 text-right">
                         <strong><span t-field="o.amount_tax" digits="[42, 2]"
                                         t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong> 
                         </div>
                     </div>
                 </t>
                 
-                <div id="total_including_vat" class="row justify-content-end">
+                <div id="total_including_vat" class="row justify-content-end bg-200">
                     <t t-if="o.amount_tax > 0">
                         <div class="col-6">
                             <span style="font-weight:bold;" class="mr16">Total incl. VAT </span>
@@ -239,13 +238,13 @@
                             <span style="font-weight:bold;" class="mr16">Total </span>
                         </div>
                     </t>
-                    <div class="col-6 text-right">
+                    <div style="padding-right:0px;" class="col-6 text-right">
                     <strong><span t-field="o.amount_total" digits="[42, 2]"
                                     t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong> 
                     </div>
                 </div>
                 <br/>
-
+                </div>
                 <div class="col-8 text-left" style="margin-top:20px;margin-right:0px;margin-left:0px !important;">
                     <table width="100%">
                         <colgroup>
@@ -284,9 +283,9 @@
                         </tr>
                     </table>
                 </div>
-                <br/>
+                <!-- <br/> -->
 
-                <div class="row text-left justify-content-end" style="margin-top:20px;margin-right:5px;margin-left:5px !important;">
+                <div class="row text-left justify-content-end" style="font-size:13px;margin-top:20px;margin-right:5px;margin-left:5px !important;">
                     <p t-field="o.dynamic_content"/>
                 </div>
                 <br/>
