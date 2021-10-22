@@ -38,6 +38,7 @@
     ],
     'data': [
         'data/sequence_data.xml',
+        'security/ir.model.access.csv',
         'report/sale_report_templates.xml',
         # 'views/product_views.xml',
         'views/sales_order.xml',

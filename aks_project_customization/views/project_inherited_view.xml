@@ -17,6 +17,12 @@
                     <field name="sale_order_ref_id" invisible="1"/>
                 </group>
             </xpath>
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="project_manager_id"/>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
         </field>
     </record>
 </odoo>

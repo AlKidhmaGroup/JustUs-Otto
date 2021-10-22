@@ -11,10 +11,10 @@
                                 <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" height='120' width='120'/>
                             </t>
                             <t t-else="">
-                                <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" height='108' width='320'/>
+                                <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" height='108' width='220'/>
                             </t>
                         </td>
-                        <td class="text-right" style="padding-right:40px;">
+                        <td class="text-right" style="font-family:Arial;padding-right:40px;font-weight:bold;font-size:19px">
                             <strong>
                                 <span t-if="doc.state not in ['draft','sent']">Order - </span>
                                 <span t-if="doc.state in ['draft','sent']">Quotation - </span>
@@ -24,7 +24,7 @@
                     </tr>
                 </table>
             </div>
-            <div class="page" style="margin-top:20px;margin-right:40px;margin-left:40px !important;">
+            <div class="page" style="font-family:Arial;margin-top:20px;margin-right:40px;margin-left:40px !important;">
                 <div class="oe_structure"/>
                 <table width="100%">
                     <tr>
@@ -40,22 +40,22 @@
                     </tr>
                     <tr>
                         <td>
-                            <b>
+                            <strong>
                                 <span t-if="doc.partner_id" class="m-0" t-field="doc.partner_id.name"/>
-                            </b>
+                            </strong>
                             <br/>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <b>
+                            <strong>
                                 <div t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}'/>
-                            </b>
+                            </strong>
                         </td>
                     </tr>
                 </table>
                 <br></br>
-                <table>
+                <table width="100%">
                     <tr>
                         <td>
                             <span>
@@ -70,15 +70,15 @@
                             <span>
                                 <strong>Project Manager:</strong>
                             </span>
-                            <span class="m-0" t-field="doc.project_manager_id.name"/>
+                            <span class="m-0" t-field="doc.project_managers_id.name"/>
                         </td>
 
                     </tr>
                 </table>
                 <br></br>
-                <table>
+                <table width="100%">
                     <tr>
-                        <td>
+                        <td style="font-weight:bold;font-size:19px">
                             <span>
                                 <strong>Subject:</strong>
                             </span>
@@ -92,28 +92,28 @@
                 <div class="container">
                     <div class="row" style="border-top-right-radius: 5px;border-top-left-radius: 5px;background : #bfbfbf;color:#000;vertical-align: middle;height:30px;">
                         <!--<div style="padding-left:20px;">
-                            <b>Sl</b>
+                            <strong>Sl</strong>
                         </div>-->
                         <div class="col-auto col-5">
-                            <b>Item</b>
+                            <strong>Item</strong>
                         </div>
                         <div class="text-right col-auto col-2">
-                            <b>Qty</b>
+                            <strong>Qty</strong>
                         </div>
                         <div class=" col-auto col-2">
-                            <b>Unit</b>
+                            <strong>Unit</strong>
                         </div>
                         <div class="text-right col-auto col-3">
-                            <b>Price/1</b>
+                            <strong>Price/1</strong>
                         </div>
                         <t t-if="doc.amount_tax>0">
                         
                             <div class="col-auto col-3">
-                                <b>VAT</b>
+                                <strong>VAT</strong>
                             </div>
                         </t>
-                        <div class="text-right col-auto col-3" style="padding-right:0px;">
-                            <b>Total</b>
+                        <div class="text-right col-auto col-3" style="padding-right:15px;">
+                            <strong>Total</strong>
                         </div>
                     </div>
                     <t t-set="current_subtotal" t-value="0"/>
@@ -150,7 +150,7 @@
                                     </div>
                                 </t>
                                 <div class="text-right col-auto col-3" style="padding-right:0px;">
-                                    <span t-esc="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                    <span t-esc="'%.2f'% line.price_subtotal"  groups="account.group_show_line_subtotals_tax_excluded"/>
                                     <span t-esc="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
 
                                 </div>
@@ -196,29 +196,29 @@
                                   t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
 
                             />
-</div>
-<br/>
-<!-- </t> -->
+                </div>
+                <br/>
+                <!-- </t> -->
 
-</div>
-<t t-foreach="total_values" t-as="record">
-                            <t t-if="record != 'cmn'">
-                                <div style="padding-left:15px;padding-right:15px;" width="100%" class="row">
-                                    <div style="width:50%;font-weight:bold;">Common + <t t-esc="record"/>
-                                    </div>
-                                    <div class="text-right" style="width:50%;font-weight:bold;">
-                                        <t style="text-align:right;" t-esc="total_values[record]['total']" digits="[42, 2]" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
-                                    />
-</div>
-<!-- <br/> -->
-</div>
-</t>
-</t>
-<br></br>
-<table style="border-top:2px solid #0086b3; border-bottom:2px solid #0086b3;" width="100%">
-                                            <tr>
-                                                <td>
-                            Obligatory quotation
+                </div>
+                <t t-foreach="total_values" t-as="record">
+                                            <t t-if="record != 'cmn'">
+                                                <div style="padding-left:15px;padding-right:15px;" width="100%" class="row">
+                                                    <div style="width:50%;font-weight:bold;">Common + <t t-esc="record"/>
+                                                    </div>
+                                                    <div class="text-right" style="width:50%;font-weight:bold;">
+                                                        <t style="text-align:right;" t-esc="total_values[record]['total']" digits="[42, 2]" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
+                                                    />
+                </div>
+                <!-- <br/> -->
+                </div>
+                </t>
+                </t>
+                <br></br>
+                <table style="border-top:2px solid #0086b3; border-bottom:2px solid #0086b3;" width="100%">
+                    <tr>
+                        <td>
+                            Obligatory Quotation
                         </td>
                         <td t-if="doc.date_order" class="text-right">
                             <span>
@@ -229,94 +229,31 @@
                     </tr>
                 </table>
                 <br></br>
-                <t t-if="doc.general">
-                <div>
-                    <strong>General</strong>
-                    <br/>
-                    <t t-raw="doc.general"/>
-                </div>
-                <br></br>
+                <t t-foreach="doc.dynamic_content_ids" t-as="content">
+                    <div t-if="content.content != '&lt;br&gt;'">
+                        <div style="font-size:13px;">
+                            <strong><span t-field="content.name"/></strong>
+                            <br/>
+                            <t t-raw="content.content"/>
+                        </div>
+                        <br></br>
+                    </div>
                 </t>
                 
-                <t t-if="doc.termination_policy">
-                <div>
-                    <strong>Termination Policy</strong>
-                    <br/>
-                    <t t-raw="doc.termination_policy"/>
-                </div>
-                <br></br>
-                </t>
-                <t t-if="doc.rights_and_duties">
-                <div>
-                    <strong>Rights and Duties</strong>
-                    <br/>
-                    <t style="text-align:justify" t-raw="doc.rights_and_duties"/>
-                </div>
-                <br></br>
-                </t>
-                <t t-if="doc.travel_expenses != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
-                    <div>
-                        <strong>Travel Expenses</strong>
-                        <br/>
-                        <t t-raw="doc.travel_expenses"/>
-                    </div>
-                    <br></br>
-                </t>
-                <!-- <t t-if="doc.subcontracts"> -->
-                <span t-if="doc.subcontracts">
-                    <strong>Subcontractors</strong>
-                    <br/>
-                    <t t-raw="doc.subcontracts"/>
-                </span>
-                <br></br>
-                <!-- </t> -->
-                <t t-if="doc.condition_of_payments">
-                <div>
-                    <strong>Conditions of Payment</strong>
-                    <br/>
-                    <t t-raw="doc.condition_of_payments"/>
-                </div>
-                <br></br>
-                </t>
-                <t t-if="doc.applicable_law_and_jurisdiction">
-                <div>
-                    <strong>Applicable Law, Jurisdictions</strong>
-                    <br/>
-                    <t t-raw="doc.applicable_law_and_jurisdiction"/>
-                </div>
-                <br></br>
-                </t>
-                <t t-if="doc.serverability_clause">
-                <div>
-                    <strong>Severability Clause</strong>
-                    <br/>
-                    <t t-raw="doc.serverability_clause"/>
-                </div>
-                <br></br>
-                </t>
-                <t t-if="doc.integration">
-                <div>
-                    <strong>
-                        Integration
-                                            </strong>
-                                            <br/>
-                                            <t t-raw="doc.integration"/>
-                                        </div>
-
-                <br></br>
-                </t>
                 
                 <div>We look forward to receiving your order.</div>
                 <br></br>
                 <div style="page-break-inside: avoid;">Best regards,
                     <br/>
-                    <t class="m-0" t-esc="doc.project_manager_id.name"></t>
+                    <t class="m-0" t-esc="doc.project_managers_id.name"></t>
                     <br/>Project Manager
                 </div>
 
                 <br></br>
                 <br></br>
-                <table width="100%">
+                <br></br>
+                <table width="100%" style="page-break-inside: avoid;">
+
                     <tr>
                         <td style="border-top:2px solid black; width: 33%" class="text-center">
                             <strong class="m-0" t-field="doc.res_partner_signed_by.name"/>

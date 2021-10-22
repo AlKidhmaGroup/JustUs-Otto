@@ -13,8 +13,8 @@
                 </xpath>
                 <xpath expr="//field[@name='payment_term_id']" position="after">
                     <field name="quotation_validity" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
-                    <field name="project_manager_id" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}" required="1"/>
-                    <field name="res_partner_signed_by"/>
+                    <field name="project_managers_id" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}" required="1"/>
+                    <field name="res_partner_signed_by" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
                     <field name="project_ref_id" invisible="1"/>
                     <!-- <field name="is_vat_need" invisible="0"/> -->
                 </xpath>
@@ -26,7 +26,17 @@
                 <xpath expr="//notebook" position="inside">
                     <page string="Dynamic Content">
                         <group>
-                            <field name="general" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                            <field name="dynamic_content_ids" nolabel="1" style="width:1020px;" attrs="{'readonly':[('state','in',('sale','done','cancel'))]}">
+                                <tree string="Dynamic Content" editable="bottom">  
+                                    <field name="name" required="1" />
+                                    <field name="content" widget="html"/>
+                                </tree>
+                                <form>
+                                    <field name="name" required="1"/>
+                                    <field name="content" widget="html"/>
+                                </form>
+                            </field>
+                            <!-- <field name="general" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
                             <field name="termination_policy" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
                             <field name="rights_and_duties" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
                             <field name="travel_expenses" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
@@ -34,7 +44,7 @@
                             <field name="condition_of_payments" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
                             <field name="applicable_law_and_jurisdiction" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
                             <field name="serverability_clause" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
-                            <field name="integration" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
+                            <field name="integration" widget="html" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/> -->
                         </group>
                     </page>
                 </xpath>
@@ -46,6 +56,9 @@
                 </xpath>
                 <xpath expr="//field[@name='order_line']" position="attributes">
                     <attribute name="attrs">{'readonly':[('state', 'not in', ['draft','sent'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+                    <field name="product_cost" force_save="1" readonly="1"/>
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="attributes">
                     <attribute name="groups">aks_group_access.group_show_vat</attribute>
