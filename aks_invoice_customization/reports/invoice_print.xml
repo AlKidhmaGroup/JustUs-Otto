@@ -226,10 +226,10 @@
                                     </td>
                                     <t t-if="int(doc.amount_tax) > 0">
                                         <td class="text-right">
-                                            <span t-field="line.price_subtotal"/>
+                                            <span t-esc="'%.2f'% line.price_subtotal"/>
                                         </td>
                                         <td class="text-right">
-                                            <span t-esc="doc.tax_percent(line.tax_ids)"/> %
+                                            <span t-esc="'%.2f'% doc.tax_percent(line.tax_ids)"/> %
                                         </td>
                                         <td class="text-right">
                                             <span t-esc="doc.incl_vat_amount(line.price_subtotal,line.tax_ids)" digits="[42, 2]"
@@ -300,7 +300,7 @@
                                 </td>
                                 <td class="text-right" colspan='2'>
                                     <b>
-                                        <t t-esc="doc.amount_total"/>
+                                        <t t-esc="'%.2f'% doc.amount_total"/>
                                     </b>
                                     <t t-esc="doc.currency_id.symbol"/>
                                 </td>
@@ -311,7 +311,7 @@
                                 </td>
                                 <td class="text-right" colspan='2'>
                                     <b>
-                                        <t t-esc="doc.amount_residual"/>
+                                        <t t-esc="'%.2f'% doc.amount_residual"/>
                                     </b>
                                     <t t-esc="doc.currency_id.symbol"/>
                                 </td>
