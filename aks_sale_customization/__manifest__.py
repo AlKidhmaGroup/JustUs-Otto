@@ -22,7 +22,7 @@
 
 {
     'name': "Sale Customization",
-    'version': '15.0.0.1',
+    'version': '15.0.0.2',
     'category': 'Sale',
     'summary': 'Sale Customization',
     'live_test_url': 'Add youtube video Link',
