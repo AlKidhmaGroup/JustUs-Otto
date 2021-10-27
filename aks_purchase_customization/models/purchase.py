@@ -26,7 +26,7 @@ from odoo import models, fields, api
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    job_number = fields.Many2one('project.project', string="Job Number", copy=False)
+    job_number = fields.Many2one('project.project', string="Job Number", copy=False,track_visibility="always")
     date = fields.Datetime(string="Date", copy=False)
     subject = fields.Char(string="Subject", copy=False)
     dynamic_content = fields.Html(string="Dynamic Content", copy=False)
