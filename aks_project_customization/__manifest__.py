@@ -36,6 +36,7 @@
     'depends': ['project'],
     'data': [
         'views/project_inherited_view.xml',
+        'views/project_stage_view.xml',
     ],
     'demo': [],
     'installable': True,
