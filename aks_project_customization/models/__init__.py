@@ -19,6 +19,6 @@
 #    If not, see <https://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
+from . import project_stage
 from . import project
 
