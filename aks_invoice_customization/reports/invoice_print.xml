@@ -358,37 +358,39 @@
                     </div>
                     <br/>
                     <t t-if="doc.company_id">
-                        <div class='container' style="page-break-inside: avoid">
-                            <div>
-                                <strong>
-                                    <u>Bank Details</u> 
-                                </strong>
-                            </div>
-                            <div class='row'>
-                                <div class='col-2'>Bank Account</div>
-                                <div class='col-10'>
-                                    :  <span t-esc="doc.company_id.bankaccount_id.acc_number"></span>
+                        <t t-if="doc.move_type != 'in_refund'">
+                            <div class='container' style="page-break-inside: avoid">
+                                <div>
+                                    <strong>
+                                        <u>Bank Details</u>
+                                    </strong>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-2'>Bank Account</div>
+                                    <div class='col-10'>
+                                        :  <span t-esc="doc.company_id.bankaccount_id.acc_number"></span>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-2'>Bank</div>
+                                    <div class='col-10'>
+                                       :  <span t-esc="doc.company_id.bank_id.name"></span>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-2'>IBAN</div>
+                                    <div class='col-10'>
+                                        :  <span t-esc="doc.company_id.iban"></span>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-2'>SWIFT</div>
+                                    <div class='col-10'>
+                                       :  <span t-esc="doc.company_id.swift"></span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class='row'>
-                                <div class='col-2'>Bank</div>
-                                <div class='col-10'>
-                                   :  <span t-esc="doc.company_id.bank_id.name"></span>
-                                </div>
-                            </div>
-                            <div class='row'>
-                                <div class='col-2'>IBAN</div>
-                                <div class='col-10'>
-                                    :  <span t-esc="doc.company_id.iban"></span>
-                                </div>
-                            </div>
-                            <div class='row'>
-                                <div class='col-2'>SWIFT</div>
-                                <div class='col-10'>
-                                   :  <span t-esc="doc.company_id.swift"></span>
-                                </div>
-                            </div>
-                        </div>
+                        </t>
                     </t>
                     <br></br>
                     <div>Thank you for payment in due date.</div>
