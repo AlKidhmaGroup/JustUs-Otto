@@ -2,23 +2,6 @@
 <odoo>
     <data>
 
-        <!-- Paper format of Purchase Order -->
-        <record id="purchase_order_custom_paper_format" model="report.paperformat">
-            <field name="name">A4 Purchase Order</field>
-            <field name="default" eval="True"/>
-            <field name="format">A4</field>
-            <field name="page_height">0</field>
-            <field name="page_width">0</field>
-            <field name="orientation">Portrait</field>
-            <field name="margin_top">32</field>
-            <field name="margin_bottom">26</field>
-            <field name="margin_left">7</field>
-            <field name="margin_right">7</field>
-            <field name="header_line" eval="False"/>
-            <field name="header_spacing">28</field>
-            <field name="dpi">90</field>
-        </record>
-
         <!-- To apply paper format for Purchase order -->
         <record id="purchase.action_report_purchase_order" model="ir.actions.report">
             <field name="name">Purchase Order</field>
@@ -31,7 +14,7 @@
                 'Purchase Order - %s' % (object.name))</field>
             <field name="binding_model_id" ref="model_purchase_order"/>
             <field name="binding_type">report</field>
-            <field name="paperformat_id" ref="aks_purchase_customization.purchase_order_custom_paper_format"/>
+            <field name="paperformat_id" ref="aks_group_access.custom_paper_format"/>
         </record>
 
         <!-- To avoid the Print RFQ Report -->
