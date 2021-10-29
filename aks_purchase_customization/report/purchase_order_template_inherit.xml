@@ -9,7 +9,7 @@
                     <tr>
                         <td>
                             <t t-if="o.company_id.is_a_and_a == True">
-                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" alt="Logo" height='120' width='120'/>
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" alt="Logo" height='108' width='120'/>
                             </t>
                             <t t-else="">
                             <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" alt="Logo"
@@ -34,14 +34,13 @@
                 </t>
             </t>
 
-            <div class="page" style="font-family:Arial;padding-top:0px;margin-left:0px !important;">
+            <div class="page" style="font-family:Arial;padding-top:16px;margin-left:0px !important;">
                 <div class="oe_structure"/>
                     <table width="100%" style="margin-top:-20px;margin-left:0px !important;">
                         <t t-if="o.partner_id.parent_id">
                             <t t-if="o.partner_id.parent_id.company_type == 'company'">
                                 <tr>
                                     <td>
-                                        <span>c</span>
                                         <strong><p class="m-0" t-field="o.partner_id.parent_id.name"/></strong>
                                     </td>
                                 </tr>
