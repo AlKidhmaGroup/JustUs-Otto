@@ -107,9 +107,16 @@
                 <div class="container">
                     <div class="row"
                          style="border-top-right-radius: 5px;border-top-left-radius: 5px;background : #bfbfbf;color:#000;vertical-align: middle;height:30px;">
-                        <div class="text-left" style="padding-left:5px;width:50%;">
-                            <b>Item</b>
-                        </div>
+                        <t t-if="o.amount_tax > 0">
+                            <div class="text-left" style="padding-left:5px;width:40%;">
+                                <b>Item</b>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="text-left" style="padding-left:5px;width:50%;">
+                                <b>Item</b>
+                            </div>
+                        </t>
                         <div class="text-right" style="padding-right:7px;width:15%;">
                             <b>Qty</b>
                         </div>
@@ -120,7 +127,7 @@
                             <b>Price/1</b>
                         </div>
                         <t t-if="o.amount_tax > 0">
-                            <div class="col-auto col-3">
+                            <div class="text-center" style="padding-left:5px;width:10%;">
                                 <b>VAT</b>
                             </div>
                         </t>
@@ -136,11 +143,20 @@
                             <t t-set="current_subtotal" t-value="current_subtotal + line.price_total"
                                groups="account.group_show_line_subtotals_tax_included"/>
                             <t t-if="not line.display_type">
-                                <div style="width:50%;">
-                                    <p style="padding-left:5px;">
-                                        <span style="display: block;" t-field="line.name"/>
-                                    </p>
-                                </div>
+                                <t t-if="o.amount_tax > 0">
+                                    <div style="width:40%;">
+                                        <p style="padding-left:5px;">
+                                            <span style="display: block;" t-field="line.name"/>
+                                        </p>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div style="width:50%;">
+                                        <p style="padding-left:5px;">
+                                            <span style="display: block;" t-field="line.name"/>
+                                        </p>
+                                    </div>
+                                </t>
                                 <div class="text-right" style="padding-right:7px;width:15%;">
                                     <span t-esc="'%.0f'% line.product_qty"/>
                                 </div>
@@ -151,7 +167,7 @@
                                     <span t-field="line.price_unit"/>
                                 </div>
                                 <t t-if="o.amount_tax > 0">
-                                    <div class="col-auto col-3">
+                                    <div class="text-center" style="width:10%;">
                                         <t t-if="line.get_taxes()">
                                             <span t-esc="line.get_taxes()"/>
                                         </t>

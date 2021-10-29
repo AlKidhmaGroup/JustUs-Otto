@@ -38,6 +38,7 @@
                                     Client:
                                 </b>
                         </div> -->
+
                     <div class='container'>
                         <div class='row'>
                             <div style='width:45%;border-bottom:1px solid black;'>
@@ -87,7 +88,7 @@
                                 </t>
                             </div>
 
-                            <div style="width:40%;"/>
+                            <div style="width:34%;height:auto;"/>
                             <div class='text-left' style="width:45%;">
                                 <strong>
                                     <t t-if="doc.company_id.name">
@@ -118,6 +119,7 @@
                             </div>
                         </div>
                     </div>
+
                     <table width="100%">
                         <tr>
                             <td width='22%' style="padding-top:10px;">
