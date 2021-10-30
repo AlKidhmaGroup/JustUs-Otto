@@ -21,7 +21,7 @@
                                 <strong>
                                     <span t-if="doc.move_type == 'out_invoice' and doc.state == 'posted'">INVOICE NO:</span>
                                     <span t-if="doc.move_type == 'out_invoice' and doc.state == 'draft'">DRAFT INVOICE:</span>
-                                    <span t-if="doc.move_type == 'out_invoice' and doc.state == 'cancel'">Cancelled Invoice:</span>
+                                    <span t-if="doc.move_type == 'out_invoice' and doc.state == 'cancel'">CANCELLED Invoice:</span>
                                     <span t-if="doc.move_type == 'out_refund'">CREDIT NOTE:</span>
                                     <span t-if="doc.move_type == 'in_refund'">VENDOR CREDIT NOTE:</span>
                                     <span t-if="doc.move_type == 'in_invoice'">VENDOR BILL:</span>
@@ -46,15 +46,15 @@
                                         Client:
                                     </b>
                             </div>
-                            <div style="width:10%;"/>
-                            <div style='width:45%;border-bottom:1px solid black;'>
+                            <div style="width:5%;"/>
+                            <div style='width:50%;border-bottom:1px solid black;'>
                                     <b>
                                         Supplier:
                                     </b>
                             </div>
                         </div>
                         <div class='row' style='border-bottom:1px solid black;'>
-                            <div class='text-left' style="width45%;">
+                            <div class='text-left' style="width:45%;">
                                 <strong>
                                     <t t-if="doc.partner_id.parent_id">
                                         <t t-if="doc.partner_id.parent_id.company_type == 'company'">
@@ -88,8 +88,8 @@
                                 </t>
                             </div>
 
-                            <div style="width:34%;height:auto;"/>
-                            <div class='text-left' style="width:45%;">
+                            <div style="width:5%;height:auto;"/>
+                            <div class='text-left' style="width:50%;">
                                 <strong>
                                     <t t-if="doc.company_id.name">
                                         <span t-esc="doc.company_id.name"></span>
@@ -122,33 +122,33 @@
 
                     <table width="100%">
                         <tr>
-                            <td width='22%' style="padding-top:10px;">
+                            <td width='18%' style="padding-top:10px;">
                             Ref No.
                             </td>
-                            <td style="padding-top:15px;" width='28%'>
+                            <td style="padding-top:15px;" width='32%'>
                                 :                                <t t-esc="doc.payment_reference"/>
                             </td>
-                            <td style="padding-top:15px;" width='25%'>
+                            <td style="padding-top:15px;" width='21%'>
                                 Issue Date
                             </td>
-                            <td style="padding-top:15px;" width='25%'>
+                            <td style="padding-top:15px;" width='29%'>
                                 :   <t t-if="doc.invoice_date">
                                         <span t-esc="str(doc.invoice_date.strftime('%b %d,%Y')).upper()"/>
                                     </t>
                             </td>
                         </tr>
                         <tr>
-                            <td width='22%'>
+                            <td width='18%'>
                                 Job No.
 
                             </td>
-                            <td width='28%'>
+                            <td width='32%'>
                                 :                                <t t-esc="doc.job_num.name"/>
                             </td>
-                            <td width='25%' style='border-bottom:1px solid black;'>
+                            <td width='21%' style='border-bottom:1px solid black;'>
                                 Due Date
                             </td>
-                            <td width='25%' style='border-bottom:1px solid black;'>
+                            <td width='29%' style='border-bottom:1px solid black;'>
                                 :   <t t-if="doc.invoice_date_due">
                                         <span t-esc="str(doc.invoice_date_due.strftime('%b %d,%Y')).upper()"/>
                                     </t>
@@ -156,16 +156,16 @@
                         </tr>
 
                         <tr style='border-bottom:1px solid black;'>
-                            <td width='22%' style="padding-bottom:10px;">
+                            <td width='18%' style="padding-bottom:10px;">
                                 Assembled By
                             </td>
-                            <td width='28%' style="padding-bottom:15px;">
+                            <td width='32%' style="padding-bottom:15px;">
                                 :                                <t t-esc="doc.assembled_by.name"/>
                             </td>
-                            <td width='25%'>
+                            <td width='21%'>
                                 Payment Conditions
                             </td>
-                            <td width='25%'>
+                            <td width='29%'>
                                 :                                <t t-esc="doc.payment_term_id.name"/>
                             </td>
                         </tr>
@@ -183,71 +183,71 @@
                         <thead style="border-top-right-radius: 5px;border-top-left-radius: 5px;">
                             <tr style='background-color:#bdb7b6;'>
                                 <t t-if="int(doc.amount_tax) > 0">
-                                    <th style="width:30%;">Items</th>
+                                    <th style="width:41%;">Items</th>
                                 </t>
                                 <t t-else="">
-                                    <th style="width:52%;">Items</th>
+                                    <th style="width:57%;">Items</th>
                                 </t>
 
-                                <th class="text-right" style="width:8%;">Qty</th>
+                                <th class="text-right" style="width:5%;">Qty</th>
 
-                                <th style="width:8%;">Unit</th>
+                                <th style="width:11%;">Unit</th>
 
                                 <t t-if="int(doc.amount_tax) > 0">
                                     <th class="text-right" style="width:8%;">Price/1</th>
                                 </t>
                                 <t t-else="">
-                                    <th class="text-right" style="width:15%;">Price/1</th>
+                                    <th class="text-right" style="width:12%;">Price/1</th>
                                 </t>
 
                                 <t t-if="int(doc.amount_tax) > 0">
-                                    <th class="text-right" style="width:18%;">Total excl. VAT</th>
-                                    <th class="text-right" style="width:11%;">VAT</th>
+                                    <th class="text-right" style="width:13%;">Total excl. VAT</th>
+                                    <th class="text-right" style="width:10%;">VAT</th>
                                     <th class="text-right" style="width:17%;">Total incl. VAT</th>
                                 </t>
                                 <t t-else="">
-                                    <th class="text-right" style="width:15%;">Total</th>
+                                    <th class="text-right" style="width:12%;">Total</th>
                                 </t>
                             </tr>
                         </thead>
                         <t t-foreach="doc.invoice_line_ids" t-as="line">
                             <t t-if="not line.display_type">
-                                <tr>
+                                <tr style="font-size:13.5px;">
                                     <t t-if="int(doc.amount_tax) > 0">
-                                        <td style="width:30%;">
+                                        <td style="width:41%;">
                                             <span t-field="line.product_id.name"/>
                                         </td>
                                     </t>
                                     <t t-else="">
-                                        <td style="width:52%;">
+                                        <td style="width:57%;">
                                             <span t-field="line.product_id.name"/>
                                         </td>
                                     </t>
 
-                                    <td class="text-right" style="width:8%;">
+                                    <td class="text-right" style="width:5%;">
                                         <span t-esc="int(line.quantity)"/>
                                     </td>
 
-                                    <td style="width:8%;">
+                                    <td style="width:11%;">
                                         <span t-field="line.product_uom_id.name"/>
                                     </td>
 
                                     <t t-if="int(doc.amount_tax) > 0">
-                                        <td class="text-right" style="width:8%;">
+                                        <td class="text-right" style="width:10%;">
                                             <span t-field="line.price_unit"/>
                                         </td>
                                     </t>
                                     <t t-else="">
-                                        <td class="text-right" style="width:15%;">
+                                        <td class="text-right" style="width:12%;">
                                             <span t-field="line.price_unit"/>
                                         </td>
                                     </t>
 
                                     <t t-if="int(doc.amount_tax) > 0">
-                                        <td class="text-right" style="width:18%;">
+                                        <td class="text-right" style="width:13%;">
                                             <span t-esc="'{0:,.2f}'.format(line.price_subtotal)"/>
                                         </td>
-                                        <td class="text-right" style="width:11%;">
+                                        <td class="text-right" style="width:10%;">
                                             <span t-esc="'%.2f'% doc.tax_percent(line.tax_ids)"/> %
                                         </td>
                                         <td class="text-right" style="width:17%;">
@@ -255,7 +255,7 @@
                                         </td>
                                     </t>
                                     <t t-else="">
-                                        <td class="text-right" style="width:15%;">
+                                        <td class="text-right" style="width:12%;">
                                             <span t-esc="'{0:,.2f}'.format(line.price_subtotal)" digits="[42, 2]"/>
                                         </td>
                                     </t>
@@ -318,8 +318,8 @@
                                 <td class="text-right" colspan='2' style="width:15%;">
                                     <b>
                                         <span t-esc="'{0:,.2f}'.format(doc.amount_total)" digits="[42, 2]"/>
+                                        <t t-esc="doc.currency_id.symbol"/>
                                     </b>
-                                    <t t-esc="doc.currency_id.symbol"/>
                                 </td>
                             </tr>
                             <tr style='background-color:#bdb7b6;width:100%;'>
@@ -329,32 +329,32 @@
                                 <td class="text-right" colspan='2' style="width:15%;">
                                     <b>
                                         <span t-esc="'{0:,.2f}'.format(doc.amount_residual)" digits="[42, 2]"/>
+                                        <t t-esc="doc.currency_id.symbol"/>
                                     </b>
-                                    <t t-esc="doc.currency_id.symbol"/>
                                 </td>
                             </tr>
                         </t>
                         <t t-else="">
-                            <tr class="bg 200" style="width:100%;">
+                            <tr class="bg 200" style="background-color:#bdb7b6;width:100%;">
                                 <td colspan='4' style="width:80%;">
                                     <b>Total</b>
                                 </td>
                                 <td class="text-right" colspan='2' style="width:20%;">
                                     <b>
                                         <t t-esc="doc.amount_total"/>
+                                        <t t-esc="doc.currency_id.symbol"/>
                                     </b>
-                                    <t t-esc="doc.currency_id.symbol"/>
                                 </td>
                             </tr>
-                            <tr class="bg 200" style="width:100%;">
+                            <tr class="bg 200" style="background-color:#bdb7b6;width:100%;">
                                 <td colspan='4' style="width:80%;">
                                     <b>To Be Paid</b>
                                 </td>
                                 <td class="text-right" colspan='1' style="width:20%;">
                                     <b>
                                         <t t-esc="doc.amount_residual"/>
+                                        <t t-esc="doc.currency_id.symbol"/>
                                     </b>
-                                    <t t-esc="doc.currency_id.symbol"/>
                                 </td>
                             </tr>
                         </t>

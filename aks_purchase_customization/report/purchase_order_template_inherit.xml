@@ -127,7 +127,7 @@
                             <b>Price/1</b>
                         </div>
                         <t t-if="o.amount_tax > 0">
-                            <div class="text-center" style="padding-left:5px;width:10%;">
+                            <div class="text-right" style="padding-left:5px;width:10%;">
                                 <b>VAT</b>
                             </div>
                         </t>
@@ -146,14 +146,14 @@
                                 <t t-if="o.amount_tax > 0">
                                     <div style="width:40%;">
                                         <p style="padding-left:5px;">
-                                            <span style="display: block;" t-field="line.name"/>
+                                            <span style="display: block;" t-field="line.product_id.name"/>
                                         </p>
                                     </div>
                                 </t>
                                 <t t-else="">
                                     <div style="width:50%;">
                                         <p style="padding-left:5px;">
-                                            <span style="display: block;" t-field="line.name"/>
+                                            <span style="display: block;" t-field="line.product_id.name"/>
                                         </p>
                                     </div>
                                 </t>
@@ -167,7 +167,7 @@
                                     <span t-field="line.price_unit"/>
                                 </div>
                                 <t t-if="o.amount_tax > 0">
-                                    <div class="text-center" style="width:10%;">
+                                    <div class="text-right" style="width:10%;">
                                         <t t-if="line.get_taxes()">
                                             <span t-esc="line.get_taxes()"/>
                                         </t>
@@ -217,19 +217,19 @@
                 <div class="container">
                 <t t-if="o.amount_tax > 0">
                     <div id="total" class="row justify-content-end bg-200">
-                        <div class="col-6">
-                            <span style="font-weight:bold;" class="mr16">Total excl. VAT </span>
+                        <div class="text-left" style="width:50%;">
+                            <span style="font-weight:bold;padding-left:0px;" class="mr16">Total excl. VAT </span>
                         </div>
-                        <div style="padding-right:0px;" class="col-6 text-right">
+                        <div style="width:50%;padding-right:10px;" class="text-right">
                         <strong><span t-field="o.amount_untaxed" digits="[42, 2]"
                                         t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong>
                         </div>
                     </div>
                     <div id="total_vat" class="row justify-content-end bg-200">
-                        <div class="col-6">
-                            <span style="font-weight:bold;" class="mr16">VAT </span>
+                        <div class="text-left" style="width:50%;">
+                            <span style="font-weight:bold;margin-left:0px;" class="mr16">VAT </span>
                         </div>
-                        <div style="padding-right:0px;" class="col-6 text-right">
+                        <div style="width:50%;padding-right:10px;" class="text-right">
                         <strong><span t-field="o.amount_tax" digits="[42, 2]"
                                         t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong>
                         </div>
