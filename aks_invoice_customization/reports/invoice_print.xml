@@ -20,11 +20,11 @@
                             <td class="text-right" style="font-family:Arial;font-size:19px;">
                                 <strong>
                                     <span t-if="doc.move_type == 'out_invoice' and doc.state == 'posted'">INVOICE NO:</span>
-                                    <span t-if="doc.move_type == 'out_invoice' and doc.state == 'draft'">DRAFT INVOICE</span>
-                                    <span t-if="doc.move_type == 'out_invoice' and doc.state == 'cancel'">Cancelled Invoice</span>
-                                    <span t-if="doc.move_type == 'out_refund'">CREDIT NOTE</span>
-                                    <span t-if="doc.move_type == 'in_refund'">VENDOR CREDIT NOTE</span>
-                                    <span t-if="doc.move_type == 'in_invoice'">VENDOR BILL</span>
+                                    <span t-if="doc.move_type == 'out_invoice' and doc.state == 'draft'">DRAFT INVOICE:</span>
+                                    <span t-if="doc.move_type == 'out_invoice' and doc.state == 'cancel'">Cancelled Invoice:</span>
+                                    <span t-if="doc.move_type == 'out_refund'">CREDIT NOTE:</span>
+                                    <span t-if="doc.move_type == 'in_refund'">VENDOR CREDIT NOTE:</span>
+                                    <span t-if="doc.move_type == 'in_invoice'">VENDOR BILL:</span>
                                     <span t-if="doc.name != '/'" t-field="doc.name"/>
                                 </strong>
                             </td>
@@ -38,80 +38,88 @@
                                     Client:
                                 </b>
                         </div> -->
+
                     <div class='container'>
                         <div class='row'>
-                            <div class='col-5' style='border-bottom:1px solid black;'>
+                            <div style='width:45%;border-bottom:1px solid black;'>
                                     <b>
                                         Client:
                                     </b>
                             </div>
-                            <div class='col-1'></div>
-                            <div class='col-6' style='border-bottom:1px solid black;'>
+                            <div style="width:10%;"/>
+                            <div style='width:45%;border-bottom:1px solid black;'>
                                     <b>
                                         Supplier:
                                     </b>
                             </div>
                         </div>
                         <div class='row' style='border-bottom:1px solid black;'>
-                            <div class='col-5 text-left'>
+                            <div class='text-left' style="width45%;">
                                 <strong>
+                                    <t t-if="doc.partner_id.parent_id">
+                                        <t t-if="doc.partner_id.parent_id.company_type == 'company'">
+                                            <span t-esc="doc.partner_id.parent_id.name"></span><br/>
+                                        </t>
+                                    </t>
                                     <t t-if="doc.partner_id.name">
                                         <span t-esc="doc.partner_id.name"></span>
                                         <br/>
                                     </t>
-                                    <t t-if="doc.partner_id.street">
-                                        <span t-esc="doc.partner_id.street"></span>
-                                        <br/>
-                                    </t>
-                                    <t t-if="doc.partner_id.street2">
-                                        <span t-esc="doc.partner_id.street2"></span>
-                                        <br/>
-                                    </t>
-                                    <t t-if="doc.partner_id.city">
-                                        <span t-esc="doc.partner_id.city"></span>
-                                        <br/>
-                                    </t>
-                                    <t t-if="doc.partner_id.state_id">
-                                        <span t-esc="doc.partner_id.state_id.name"></span>
-                                        <br/>
-                                    </t>
-                                    <t t-if="doc.partner_id.country_id">
-                                        <span t-esc="doc.partner_id.country_id.name"></span>
-                                        <br/>
-                                    </t>
                                 </strong>
+                                <t t-if="doc.partner_id.street">
+                                    <span t-esc="doc.partner_id.street"></span>
+                                    <br/>
+                                </t>
+                                <t t-if="doc.partner_id.street2">
+                                    <span t-esc="doc.partner_id.street2"></span>
+                                    <br/>
+                                </t>
+                                <t t-if="doc.partner_id.city">
+                                    <span t-esc="doc.partner_id.city"></span>
+                                    <br/>
+                                </t>
+                                <t t-if="doc.partner_id.state_id">
+                                    <span t-esc="doc.partner_id.state_id.name"></span>
+                                    <br/>
+                                </t>
+                                <t t-if="doc.partner_id.country_id">
+                                    <span t-esc="doc.partner_id.country_id.name"></span>
+                                    <br/>
+                                </t>
                             </div>
-                            <div class='col-1'></div>
-                            <div class='col-6 text-left'>
+
+                            <div style="width:34%;height:auto;"/>
+                            <div class='text-left' style="width:45%;">
                                 <strong>
                                     <t t-if="doc.company_id.name">
                                         <span t-esc="doc.company_id.name"></span>
                                         <br/>
                                     </t>
-                                    <t t-if="doc.company_id.street">
-                                        <span t-esc="doc.company_id.street"></span>
-                                        <br/>
-                                    </t>
-                                    <t t-if="doc.company_id.street2">
-                                        <span t-esc="doc.company_id.street2"></span>
-                                        <br/>
-                                    </t>
-                                    <t t-if="doc.company_id.city">
-                                        <span t-esc="doc.company_id.city"></span>
-                                        <br/>
-                                    </t>
-                                    <t t-if="doc.company_id.state_id">
-                                        <span t-esc="doc.company_id.state_id.name"></span>
-                                        <br/>
-                                    </t>
-                                    <t t-if="doc.company_id.country_id">
-                                        <span t-esc="doc.company_id.country_id.name"></span>
-                                        <br/>
-                                    </t>
                                 </strong>
+                                <t t-if="doc.company_id.street">
+                                    <span t-esc="doc.company_id.street"></span>
+                                    <br/>
+                                </t>
+                                <t t-if="doc.company_id.street2">
+                                    <span t-esc="doc.company_id.street2"></span>
+                                    <br/>
+                                </t>
+                                <t t-if="doc.company_id.city">
+                                    <span t-esc="doc.company_id.city"></span>
+                                    <br/>
+                                </t>
+                                <t t-if="doc.company_id.state_id">
+                                    <span t-esc="doc.company_id.state_id.name"></span>
+                                    <br/>
+                                </t>
+                                <t t-if="doc.company_id.country_id">
+                                    <span t-esc="doc.company_id.country_id.name"></span>
+                                    <br/>
+                                </t>
                             </div>
                         </div>
                     </div>
+
                     <table width="100%">
                         <tr>
                             <td width='22%' style="padding-top:10px;">
@@ -124,9 +132,9 @@
                                 Issue Date
                             </td>
                             <td style="padding-top:15px;" width='25%'>
-                                : <t t-if="doc.invoice_date">                       
-                                    <t t-esc="doc.invoice_date.strftime('%d/%m/%Y')"/>
-                                </t>
+                                :   <t t-if="doc.invoice_date">
+                                        <span t-esc="str(doc.invoice_date.strftime('%b %d,%Y')).upper()"/>
+                                    </t>
                             </td>
                         </tr>
                         <tr>
@@ -141,33 +149,12 @@
                                 Due Date
                             </td>
                             <td width='25%' style='border-bottom:1px solid black;'>
-                                :      <t t-if="doc.invoice_date_due">   
-                                                          <t t-esc="doc.invoice_date_due.strftime('%d/%m/%Y')"/>
-                                        </t>
+                                :   <t t-if="doc.invoice_date_due">
+                                        <span t-esc="str(doc.invoice_date_due.strftime('%b %d,%Y')).upper()"/>
+                                    </t>
                             </td>
                         </tr>
-                        <!-- <tr>
-                            <td width='22%'>
-                                Client
-                            </td>
-                            <td width='28%'>
-                                :                                <t t-esc="doc.partner_id.name"/>
-                            </td>
-                            <td width='25%'>
-                                Payment Conditions
-                            </td>
-                            <td width='25%'>
-                                :                                <t t-esc="doc.payment_term_id.name"/>
-                            </td>
-                        </tr> -->
-                        <!-- <tr>
-                            <td width='22%'>
-                                Brand
-                            </td>
-                            <td width='28%'>
-                                :                                <t t-esc="doc.brand"/>
-                            </td>
-                        </tr> -->
+
                         <tr style='border-bottom:1px solid black;'>
                             <td width='22%' style="padding-bottom:10px;">
                                 Assembled By
@@ -195,57 +182,87 @@
                     <table class='table table-bordered'>
                         <thead style="border-top-right-radius: 5px;border-top-left-radius: 5px;">
                             <tr style='background-color:#bdb7b6;'>
-                                <th>Items</th>
-                                <th class="text-right">Qty</th>
-                                <th>Unit</th>
-                                <th class="text-right">Price/1</th>
                                 <t t-if="int(doc.amount_tax) > 0">
-                                    <th class="text-right">Total excl. VAT</th>
-                                    <th class="text-right">VAT</th>
-                                    <th class="text-right">Total incl. VAT</th>
+                                    <th style="width:30%;">Items</th>
                                 </t>
                                 <t t-else="">
-                                    <th class="text-right">Total</th>
+                                    <th style="width:52%;">Items</th>
+                                </t>
+
+                                <th class="text-right" style="width:8%;">Qty</th>
+
+                                <th style="width:8%;">Unit</th>
+
+                                <t t-if="int(doc.amount_tax) > 0">
+                                    <th class="text-right" style="width:8%;">Price/1</th>
+                                </t>
+                                <t t-else="">
+                                    <th class="text-right" style="width:15%;">Price/1</th>
+                                </t>
+
+                                <t t-if="int(doc.amount_tax) > 0">
+                                    <th class="text-right" style="width:18%;">Total excl. VAT</th>
+                                    <th class="text-right" style="width:11%;">VAT</th>
+                                    <th class="text-right" style="width:17%;">Total incl. VAT</th>
+                                </t>
+                                <t t-else="">
+                                    <th class="text-right" style="width:15%;">Total</th>
                                 </t>
                             </tr>
                         </thead>
                         <t t-foreach="doc.invoice_line_ids" t-as="line">
                             <t t-if="not line.display_type">
                                 <tr>
-                                    <td>
-                                        <span t-field="line.product_id.name"/>
-                                    </td>
-                                    <td class="text-right">
-                                    <span t-esc="int(line.quantity)"/>
-                                    </td>
-                                    <td>
-                                        <span t-field="line.product_uom_id.name"/>
-                                    </td>
-                                    <td class="text-right">
-                                        <span t-field="line.price_unit"/>
-                                    </td>
                                     <t t-if="int(doc.amount_tax) > 0">
-                                        <td class="text-right">
-                                            <span t-esc="'%.2f'% line.price_subtotal"/>
-                                        </td>
-                                        <td class="text-right">
-                                            <span t-esc="'%.2f'% doc.tax_percent(line.tax_ids)"/> %
-                                        </td>
-                                        <td class="text-right">
-                                            <span t-esc="doc.incl_vat_amount(line.price_subtotal,line.tax_ids)" digits="[42, 2]"
-                                        t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                        <td style="width:30%;">
+                                            <span t-field="line.product_id.name"/>
                                         </td>
                                     </t>
                                     <t t-else="">
-                                        <td class="text-right">
-                                            <span t-esc="line.price_subtotal" digits="[42, 2]"
-                                        t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                        <td style="width:52%;">
+                                            <span t-field="line.product_id.name"/>
+                                        </td>
+                                    </t>
+
+                                    <td class="text-right" style="width:8%;">
+                                        <span t-esc="int(line.quantity)"/>
+                                    </td>
+
+                                    <td style="width:8%;">
+                                        <span t-field="line.product_uom_id.name"/>
+                                    </td>
+
+                                    <t t-if="int(doc.amount_tax) > 0">
+                                        <td class="text-right" style="width:8%;">
+                                            <span t-field="line.price_unit"/>
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td class="text-right" style="width:15%;">
+                                            <span t-field="line.price_unit"/>
+                                        </td>
+                                    </t>
+
+                                    <t t-if="int(doc.amount_tax) > 0">
+                                        <td class="text-right" style="width:18%;">
+                                            <span t-esc="'{0:,.2f}'.format(line.price_subtotal)"/>
+                                        </td>
+                                        <td class="text-right" style="width:11%;">
+                                            <span t-esc="'%.2f'% doc.tax_percent(line.tax_ids)"/> %
+                                        </td>
+                                        <td class="text-right" style="width:17%;">
+                                            <span t-esc="'{0:,.2f}'.format(doc.incl_vat_amount(line.price_subtotal,line.tax_ids))" digits="[42, 2]"/>
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td class="text-right" style="width:15%;">
+                                            <span t-esc="'{0:,.2f}'.format(line.price_subtotal)" digits="[42, 2]"/>
                                         </td>
                                     </t>
                                 </tr>
                             </t>
                             <t t-if="line.display_type == 'line_section'">
-                                <tr class="bg-200">
+                                <tr class="bg-200" style="width:100%;">
                                     <t t-if="doc.amount_tax > 0">
                                         <td colspan="7">
                                             <span style="font-weight:bold;" t-field="line.name"/>
@@ -263,7 +280,7 @@
                             </t>
                             <t t-if="line.display_type == 'line_note'">
 
-                                <tr class="bg-200">
+                                <tr class="bg-200" style="width:100%;">
                                     <t t-if="doc.amount_tax > 0">
                                         <td colspan="7">
                                             <span style="font-weight:bold;" t-field="line.name"/>
@@ -293,48 +310,47 @@
                             </t> -->
                         </t>
                         <t t-if="doc.amount_tax > 0">
-                            <tr style='background-color:#bdb7b6;'>
+                            <tr style='background-color:#bdb7b6;width:100%;'>
 
-                                <td colspan='5'>
+                                <td colspan='5' style="width:85%;">
                                     <b>Total Inc. VAT</b>
                                 </td>
-                                <td class="text-right" colspan='2'>
+                                <td class="text-right" colspan='2' style="width:15%;">
                                     <b>
-                                        <t t-esc="'%.2f'% doc.amount_total"/>
+                                        <span t-esc="'{0:,.2f}'.format(doc.amount_total)" digits="[42, 2]"/>
                                     </b>
                                     <t t-esc="doc.currency_id.symbol"/>
                                 </td>
                             </tr>
-                            <tr style='background-color:#bdb7b6;'>
-                                <td colspan='5'>
+                            <tr style='background-color:#bdb7b6;width:100%;'>
+                                <td colspan='5' style="width:85%;">
                                     <b>To Be Paid</b>
                                 </td>
-                                <td class="text-right" colspan='2'>
+                                <td class="text-right" colspan='2' style="width:15%;">
                                     <b>
-                                        <t t-esc="'%.2f'% doc.amount_residual"/>
+                                        <span t-esc="'{0:,.2f}'.format(doc.amount_residual)" digits="[42, 2]"/>
                                     </b>
                                     <t t-esc="doc.currency_id.symbol"/>
                                 </td>
                             </tr>
-
                         </t>
                         <t t-else="">
-                            <tr class="bg 200">
-                                <td colspan='4'>
+                            <tr class="bg 200" style="width:100%;">
+                                <td colspan='4' style="width:80%;">
                                     <b>Total</b>
                                 </td>
-                                <td class="text-right" colspan='2'>
+                                <td class="text-right" colspan='2' style="width:20%;">
                                     <b>
                                         <t t-esc="doc.amount_total"/>
                                     </b>
                                     <t t-esc="doc.currency_id.symbol"/>
                                 </td>
                             </tr>
-                            <tr class="bg 200">
-                                <td colspan='4'>
+                            <tr class="bg 200" style="width:100%;">
+                                <td colspan='4' style="width:80%;">
                                     <b>To Be Paid</b>
                                 </td>
-                                <td class="text-right" colspan='1'>
+                                <td class="text-right" colspan='1' style="width:20%;">
                                     <b>
                                         <t t-esc="doc.amount_residual"/>
                                     </b>
@@ -343,6 +359,7 @@
                             </tr>
                         </t>
                     </table>
+
                     <br></br>
                     <div class="container">
                         <div style='border-top:1px solid black;border-bottom:1px solid black;page-break-inside: avoid' class="row">
@@ -358,40 +375,44 @@
                     </div>
                     <br/>
                     <t t-if="doc.company_id">
-                        <div class='container' style="page-break-inside: avoid">
-                            <div>
-                                <strong>
-                                    <u>Bank Details</u> 
-                                </strong>
-                            </div>
-                            <div class='row'>
-                                <div class='col-2'>Bank Account</div>
-                                <div class='col-10'>
-                                    :  <span t-esc="doc.company_id.bankaccount_id.acc_number"></span>
+                        <t t-if="doc.move_type != 'in_refund'">
+                            <div class='container' style="margin-left:-15px;page-break-inside: avoid">
+                                <div>
+                                    <strong>
+                                        <u>Bank Details</u>
+                                    </strong>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-2'>Bank Account</div>
+                                    <div class='col-10'>
+                                        :  <span t-esc="doc.company_id.bankaccount_id.acc_number"></span>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-2'>Bank</div>
+                                    <div class='col-10'>
+                                       :  <span t-esc="doc.company_id.bank_id.name"></span>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-2'>IBAN</div>
+                                    <div class='col-10'>
+                                        :  <span t-esc="doc.company_id.iban"></span>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-2'>SWIFT</div>
+                                    <div class='col-10'>
+                                       :  <span t-esc="doc.company_id.swift"></span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class='row'>
-                                <div class='col-2'>Bank</div>
-                                <div class='col-10'>
-                                   :  <span t-esc="doc.company_id.bank_id.name"></span>
-                                </div>
-                            </div>
-                            <div class='row'>
-                                <div class='col-2'>IBAN</div>
-                                <div class='col-10'>
-                                    :  <span t-esc="doc.company_id.iban"></span>
-                                </div>
-                            </div>
-                            <div class='row'>
-                                <div class='col-2'>SWIFT</div>
-                                <div class='col-10'>
-                                   :  <span t-esc="doc.company_id.swift"></span>
-                                </div>
-                            </div>
-                        </div>
+                        </t>
                     </t>
                     <br></br>
-                    <div>Thank you for payment in due date.</div>
+                    <t t-if="doc.move_type != 'in_refund'">
+                        <div>Thank you for payment in due date.</div>
+                    </t>
                     <br></br>
 
                 </div>
@@ -419,3 +440,4 @@
         </t>
     </template>
 </odoo>
+
