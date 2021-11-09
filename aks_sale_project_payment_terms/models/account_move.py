@@ -41,7 +41,8 @@ class AccountMove(models.Model):
 
     def write(self, vals):
         if vals.get('state') and vals.get('state') == 'cancel':
-            self.sale_payment_term_id.pay_term_inv_status = 'cancel'
+            for rec in self:
+                rec.sale_payment_term_id.pay_term_inv_status = 'cancel'
         return super(AccountMove, self).write(vals)
 
 

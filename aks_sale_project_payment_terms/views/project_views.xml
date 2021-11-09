@@ -11,12 +11,13 @@
                         <field name="sale_payment_term_ids" groups="base.group_user">
                             <tree editable="bottom">
                                 <field name="name" required="1" string="Name"/>
-                                <field name="payment_term_percentage" string="Percentage" required="1"
+                                <field name="payment_term_percentage" string="Percentage" force_save="1" required="1" attrs="{'readonly':[('pay_term_inv_status','!=', 'not_invoiced')]}"
                                        sum="payment_term_percentage"/>
-                                <field name="payment_term_date" string="Date" required="0"/>
+                                <field name="payment_term_date" string="Date"  force_save="1" required="0"  attrs="{'readonly':[('pay_term_inv_status','!=', 'not_invoiced')]}" />
                                 <field name="pay_term_inv_status" readonly="1"/>
                                 <field name="invoice_id" invisible="1"/>
                                 <field name="is_invoiced" invisible="1"/>
+                                <field name="is_final_invoice" invisible="0" attrs="{'readonly':[('pay_term_inv_status','!=', 'not_invoiced')]}" />
                                 <button name="create_payment_term_invoice" type="object"
                                         string="Create Invoice"
                                         icon="fa-hand-o-right"
