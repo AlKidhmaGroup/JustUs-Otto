@@ -30,9 +30,7 @@ class SaleOrder(models.Model):
     @api.model
     def default_get(self, fields):
         res = super(SaleOrder, self).default_get(fields)
-        
 
-        print("res", res)
         res.update({'dynamic_content_ids': [
                 (0,0, {
                     'name': 'Rights And Duties',
