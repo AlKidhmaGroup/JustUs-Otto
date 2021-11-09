@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="edit_project_form_inherit_aks_sale_project_payment_terms" model="ir.ui.view">
+            <field name="name">edit.project.form.inherit.aks.sale.project.payment.terms</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='settings']" position="after">
+                    <page string="Sale Payment Terms" name="sale_payment_term">
+                        <field name="sale_payment_term_ids" groups="base.group_user">
+                            <tree editable="bottom">
+                                <field name="name" required="1" string="Name"/>
+                                <field name="payment_term_percentage" string="Percentage" force_save="1" required="1" attrs="{'readonly':[('pay_term_inv_status','!=', 'not_invoiced')]}"
+                                       sum="payment_term_percentage"/>
+                                <field name="payment_term_date" string="Date"  force_save="1" required="0"  attrs="{'readonly':[('pay_term_inv_status','!=', 'not_invoiced')]}" />
+                                <field name="pay_term_inv_status" readonly="1"/>
+                                <field name="invoice_id" invisible="1"/>
+                                <field name="is_invoiced" invisible="1"/>
+                                <field name="is_final_invoice" invisible="0" attrs="{'readonly':[('pay_term_inv_status','!=', 'not_invoiced')]}" />
+                                <button name="create_payment_term_invoice" type="object"
+                                        string="Create Invoice"
+                                        icon="fa-hand-o-right"
+                                        attrs="{'invisible':[('pay_term_inv_status','!=', 'not_invoiced')]}"
+                                />
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_order_form_inherit_aks_sale_project_payment_terms" model="ir.ui.view">
+            <field name="name">view.order.form.inherit.aks.sale.project.payment.terms</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                
+
+                <xpath expr="//page[@name='customer_signature']" position="before">
+                    <page string="Sale Payment Terms" name="sale_payment_term">
+                        <field name="sale_payment_term_ids" groups="base.group_user"
+                               attrs="{'readonly':[('state', 'in', ('sale','done','cancel'))]}">
+                            <tree editable="bottom">
+                                <field name="name" required="1" string="Name"/>
+                                <field name="payment_term_percentage" string="Percentage" required="1"/>
+                               
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+             
+            </field>
+        </record>
+    </data>
+</odoo>

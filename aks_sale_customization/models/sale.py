@@ -30,9 +30,7 @@ class SaleOrder(models.Model):
     @api.model
     def default_get(self, fields):
         res = super(SaleOrder, self).default_get(fields)
-        
 
-        print("res", res)
         res.update({'dynamic_content_ids': [
                 (0,0, {
                     'name': 'Rights And Duties',
@@ -153,15 +151,9 @@ class SaleOrder(models.Model):
     digital_signature = fields.Binary(string="Digital Signature",copy=False)
     res_partner_signed_by = fields.Many2one('res.partner', string='Signed By')
     dynamic_content_ids = fields.One2many(comodel_name='dynamic.contents',inverse_name='sale_id',string='Dynamic Content')
-
-    @api.model
-    def create(self, vals):
-        if not vals.get('order_line'):
-            raise ValidationError(_("You can't create sales order without orderlines"))
-        job_num = self._prepare_job_number(vals)
-        vals["job_number"] = job_num
-        vals["subject"] = job_num + " -"
-        res = super(SaleOrder, self).create(vals)
+    
+    
+    def create_project_on_qt_creation(self,res):
         project_values = {
             'name': res.job_number,
             'partner_id': res.partner_id.id,
@@ -170,13 +162,38 @@ class SaleOrder(models.Model):
             'subject': res.subject,
             'company_id': res.company_id.id,
             'project_manager_id': res.project_managers_id and res.project_managers_id.id or False,
+            'sale_order_id':res.id,
         }
-
+  
         project = self.env['project.project'].create(project_values)
         res.project_ids = [(4, project.id)]
         for line in res.order_line:
             line.project_id = project.id
         res.project_ref_id = project.id
+        res.project_id = project.id
+        res.create_analytic_acc_on_qt_creation(res)
+        
+        
+    def create_analytic_acc_on_qt_creation(self,res):
+        res._create_analytic_account(None)
+        res.project_id.analytic_account_id = res.analytic_account_id and res.analytic_account_id.id or False
+        
+        
+    
+    @api.model
+    def create(self, vals):
+        if not vals.get('order_line'):
+            raise ValidationError(_("You can't create sales order without orderlines"))
+        job_num = self._prepare_job_number(vals)
+        vals["job_number"] = job_num
+        vals["subject"] = job_num + " -"
+        res = super(SaleOrder, self).create(vals)
+        
+        res.create_project_on_qt_creation(res)
+#         for line in res.order_line:
+#             line._timesheet_service_generation()
+        
+        
         return res
 
     def _prepare_job_number(self, values):

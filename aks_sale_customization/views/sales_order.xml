@@ -57,8 +57,8 @@
                 <xpath expr="//field[@name='order_line']" position="attributes">
                     <attribute name="attrs">{'readonly':[('state', 'not in', ['draft','sent'])]}</attribute>
                 </xpath>
-                <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
-                    <field name="product_cost" force_save="1" readonly="1"/>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="before">
+                    <field name="product_cost" />
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="attributes">
                     <attribute name="groups">aks_group_access.group_show_vat</attribute>

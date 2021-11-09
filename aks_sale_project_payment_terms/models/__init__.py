@@ -20,33 +20,6 @@
 #
 ##############################################################################
 
-{
-    'name': "Sale Customization",
-    'version': '15.0.0.3',
-    'category': 'Sale',
-    'summary': 'Sale Customization',
-    'live_test_url': 'Add youtube video Link',
-    'author': 'Al Khidma Systems',
-    'license': 'OPL-1',
-    'price': '',
-    'currency': 'USD',
-    'maintainer': 'Al Khidma Systems',
-    'support': 'tech@alkhidmasystems.com',
-    'website': "http://alkhidmasystems.com",
-    'depends': [
-        'sale_project', 'aks_project_customization','aks_group_access'
-    ],
-    'data': [
-        'data/sequence_data.xml',
-        'security/ir.model.access.csv',
-        'report/sale_report_templates.xml',
-        # 'views/product_views.xml',
-        'views/sales_order.xml',
-        # 'views/res_company.xml',
-        
-    ],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
-    'application': False,
-}
+from . import account_move
+from . import project
+from . import sale

@@ -9,7 +9,7 @@
                     <tr>
                         <td>
                             <t t-if="o.company_id.is_a_and_a == True">
-                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" alt="Logo" height='120' width='120'/>
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" alt="Logo" height='108' width='120'/>
                             </t>
                             <t t-else="">
                             <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" alt="Logo"
@@ -17,12 +17,7 @@
                             </t>
                         </td>
                         <td class="text-right" style="font-family:Arial;font-size:19px;">
-                            <t t-if="o.state == 'draft'">
-                                <strong>Purchase Quotation -</strong>
-                            </t>
-                            <t t-else="">
-                                <strong>Purchase Order -</strong>
-                            </t>
+                            <strong>Purchase Order - </strong>
                             <strong><span t-field="o.name"/></strong>
                         </td>
                     </tr>
@@ -39,24 +34,21 @@
                 </t>
             </t>
 
-            <div class="page" style="font-family:Arial;margin-right:40px;margin-left:40px !important;">
+            <div class="page" style="font-family:Arial;padding-top:16px;margin-left:0px !important;">
                 <div class="oe_structure"/>
-                <strong>
-                    <table width="100%">
+                    <table width="100%" style="margin-top:-20px;margin-left:0px !important;">
+                        <t t-if="o.partner_id.parent_id">
+                            <t t-if="o.partner_id.parent_id.company_type == 'company'">
+                                <tr>
+                                    <td>
+                                        <strong><p class="m-0" t-field="o.partner_id.parent_id.name"/></strong>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
                         <tr>
                             <td>
-                                <p t-if="o.partner_id.parent_id" class="m-0" t-field="o.partner_id.parent_id.name"/>
-                            </td>
-                            <td t-if="o.date" class="text-right">
-                                <span>
-                                    <strong>Date:</strong>
-                                </span>
-                                <span class="m-0" t-field="o.date" t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p t-if="o.partner_id" class="m-0" t-field="o.partner_id.name"/>
+                                <strong><p t-if="o.partner_id" class="m-0" t-field="o.partner_id.name"/></strong>
                             </td>
                         </tr>
                         <tr>
@@ -66,24 +58,25 @@
                             </td>
                         </tr>
                     </table>
-                </strong>
 
                 <br></br>
                 <table width="100%">
                     <tr>
                         <td>
-                            <span>
-                                <strong>Job:</strong>
-                            </span>
+                            <span>Job:</span>
                             <span class="m-0" t-field="o.job_number"/>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <span>
-                                <strong>Account Manager:</strong>
-                            </span>
+                            <span>Account Manager:</span>
                             <span class="m-0" t-field="o.office_finance_manager.name"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td t-if="o.date">
+                            <span>Date:</span>
+                            <span t-esc="str(o.date.strftime('%b %d,%Y')).upper()"/>
                         </td>
                     </tr>
                 </table>
@@ -91,7 +84,7 @@
                 <br></br>
                 <table width="100%">
                     <tr>
-                        <td style="font-weight:bold;font-size:19px">
+                        <td style="font-weight:bold;font-size:17px">
                             <span>Subject:</span>
                             <span t-field="o.subject"/>
                         </td>
@@ -114,62 +107,76 @@
                 <div class="container">
                     <div class="row"
                          style="border-top-right-radius: 5px;border-top-left-radius: 5px;background : #bfbfbf;color:#000;vertical-align: middle;height:30px;">
-                        <div class="text-left col-auto col-5">
-                            <b>Item</b>
-                        </div>
-                        <div class="text-right col-auto col-3">
+                        <t t-if="o.amount_tax > 0">
+                            <div class="text-left" style="padding-left:5px;width:40%;">
+                                <b>Item</b>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="text-left" style="padding-left:5px;width:50%;">
+                                <b>Item</b>
+                            </div>
+                        </t>
+                        <div class="text-right" style="padding-right:7px;width:15%;">
                             <b>Qty</b>
                         </div>
-                        <div class="text-right col-auto col-3">
+                        <div class="text-left" style="padding-left:7px;width:10%;">
                             <b>Unit</b>
                         </div>
-                        <div class="text-right col-auto col-3">
+                        <div class="text-right" style="width:10%;">
                             <b>Price/1</b>
                         </div>
                         <t t-if="o.amount_tax > 0">
-                            <div class="col-auto col-3">
+                            <div class="text-right" style="padding-left:5px;width:10%;">
                                 <b>VAT</b>
                             </div>
                         </t>
-                        <div class="text-right col-auto col-3">
+                        <div class="text-right" style="padding-right:5px;width:15%;">
                             <b>Total</b>
                         </div>
                     </div>
                     <t t-set="current_subtotal" t-value="0"/>
                     <t t-foreach="o.order_line" t-as="line">
-                        <div class="row"
-                             style="font-size:13.5px;">
+                        <div class="row" style="font-size:13.5px;">
                             <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal"
                                groups="account.group_show_line_subtotals_tax_excluded"/>
                             <t t-set="current_subtotal" t-value="current_subtotal + line.price_total"
                                groups="account.group_show_line_subtotals_tax_included"/>
                             <t t-if="not line.display_type">
-                                <div class="col-auto col-5 text-justify">
-                                    <p>
-                                        <span style="display: block;" t-field="line.name"/>
-                                    </p>
+                                <t t-if="o.amount_tax > 0">
+                                    <div style="width:40%;">
+                                        <p style="padding-left:5px;">
+                                            <span style="display: block;" t-field="line.product_id.name"/>
+                                        </p>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div style="width:50%;">
+                                        <p style="padding-left:5px;">
+                                            <span style="display: block;" t-field="line.product_id.name"/>
+                                        </p>
+                                    </div>
+                                </t>
+                                <div class="text-right" style="padding-right:7px;width:15%;">
+                                    <span t-esc="'%.0f'% line.product_qty"/>
                                 </div>
-                                <div class="text-right col-auto col-3">
-                                    <!--<span t-esc="line.product_uom_qty"/>-->
-                                    <span t-esc="'%.0f'% line.product_uom_qty"/>
-                                </div>
-                                <div class="text-right col-auto col-3">
+                                <div class="text-left" style="padding-left:7px;width:10%;">
                                     <span t-field="line.product_uom" groups="uom.group_uom"/>
                                 </div>
-                                <div class="text-right col-auto col-3">
+                                <div class="text-right" style="width:10%;">
                                     <span t-field="line.price_unit"/>
                                 </div>
                                 <t t-if="o.amount_tax > 0">
-                                    <div class="col-auto col-3">
+                                    <div class="text-right" style="width:10%;">
                                         <t t-if="line.get_taxes()">
                                             <span t-esc="line.get_taxes()"/>
                                         </t>
                                     </div>
                                 </t>
-                                <div class="text-right col-auto col-3" style="padding-right:0px;">
-                                    <span t-esc="'%.2f'% line.price_subtotal"
+                                <div class="text-right" style="padding-right:5px;width:15%;">
+                                    <span t-esc="'{0:,.2f}'.format(line.price_subtotal)"
                                           groups="account.group_show_line_subtotals_tax_excluded"/>
-                                    <span t-esc="'%.2f'% line.price_total"
+                                    <span t-esc="'{0:,.2f}'.format(line.price_total)"
                                           groups="account.group_show_line_subtotals_tax_included"/>
                                 </div>
                             </t>
@@ -177,12 +184,12 @@
 
                         <t t-if="line.display_type == 'line_note'">
                             <div class="row text-left">
-                                <p style="width: 100%;font-weight:bold;" t-field="line.name"/>
+                                <p style="width: 100%;font-size:15px;font-weight:bold;" t-field="line.name"/>
                             </div>
                         </t>
                         <t t-if="line.display_type == 'line_section'">
                             <strong class="row">
-                                <p style="width: 100%;font-weight:bold;" t-field="line.name"/>
+                                <p style="width: 100%;font-size:15px;font-weight:bold;" t-field="line.name"/>
                             </strong>
                             <t t-set="current_section" t-value="line"/>
                             <t t-set="current_subtotal" t-value="0"/>
@@ -210,49 +217,50 @@
                 <div class="container">
                 <t t-if="o.amount_tax > 0">
                     <div id="total" class="row justify-content-end bg-200">
-                        <div class="col-6">
-                            <span style="font-weight:bold;" class="mr16">Total excl. VAT </span>
+                        <div class="text-left" style="width:50%;">
+                            <span style="font-weight:bold;padding-left:0px;" class="mr16">Total excl. VAT </span>
                         </div>
-                        <div style="padding-right:0px;" class="col-6 text-right">
+                        <div style="width:50%;padding-right:10px;" class="text-right">
                         <strong><span t-field="o.amount_untaxed" digits="[42, 2]"
-                                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong> 
+                                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong>
                         </div>
                     </div>
                     <div id="total_vat" class="row justify-content-end bg-200">
-                        <div class="col-6">
-                            <span style="font-weight:bold;" class="mr16">VAT </span>
+                        <div class="text-left" style="width:50%;">
+                            <span style="font-weight:bold;margin-left:0px;" class="mr16">VAT </span>
                         </div>
-                        <div style="padding-right:0px;" class="col-6 text-right">
+                        <div style="width:50%;padding-right:10px;" class="text-right">
                         <strong><span t-field="o.amount_tax" digits="[42, 2]"
-                                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong> 
+                                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong>
                         </div>
                     </div>
                 </t>
-                
+
                 <div id="total_including_vat" class="row justify-content-end bg-200">
                     <t t-if="o.amount_tax > 0">
-                        <div class="col-6">
-                            <span style="font-weight:bold;" class="mr16">Total incl. VAT </span>
+                        <div class="text-left" style="width:50%;">
+                            <span style="font-weight:bold;padding-left:0px;" class="mr16">Total incl. VAT </span>
                         </div>
                     </t>
                     <t t-else="">
-                        <div class="col-6">
-                            <span style="font-weight:bold;" class="mr16">Total </span>
+                        <div class="text-left" style="width:50%;">
+                            <span style="font-weight:bold;margin-left:0px;">Total </span>
                         </div>
                     </t>
-                    <div style="padding-right:0px;" class="col-6 text-right">
-                    <strong><span t-field="o.amount_total" digits="[42, 2]"
-                                    t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong> 
+                    <div style="width:50%;padding-right:10px;" class="text-right">
+                        <strong>
+                            <span t-field="o.amount_total" digits="[42, 2]" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                        </strong>
                     </div>
                 </div>
                 <br/>
                 </div>
-                <div class="col-8 text-left" style="margin-top:20px;margin-right:0px;margin-left:0px !important;">
+                <div class="text-left" style="margin-top:20px;margin-right:0px;margin-left:0px !important;">
                     <table width="100%">
                         <colgroup>
-                        <col width='34%'/>
-                        <col width='2%'/>
-                        <col width='64%'/>
+                        <col width='20%'/>
+                        <col width='1%'/>
+                        <col width='79%'/>
                     </colgroup>
                         <tr>
                             <td>
@@ -261,7 +269,7 @@
                             <td/>
                             <td>:
                                 <t t-if="o.delivery_date">
-                                 <span t-esc="o.delivery_date.strftime('%d/%m/%Y')"/>
+                                    <span t-esc="str(o.delivery_date.strftime('%b %d,%Y')).upper()"/>
                                 </t>
                             </td>
                         </tr>
@@ -285,17 +293,19 @@
                         </tr>
                     </table>
                 </div>
-                <!-- <br/> -->
 
-                <div class="row text-left justify-content-end" style="font-size:13px;margin-top:20px;margin-right:5px;margin-left:5px !important;">
+                <div class="row text-left justify-content-end" style="font-size:13px;margin-top:20px;margin-right:0px;margin-left:0px !important;">
                     <p t-field="o.dynamic_content"/>
                 </div>
                 <br/>
-                <span class="m-0" t-field="o.office_finance_manager.name"/><br/>
-                <span>Office &amp; Finance Manager</span>
+                <div class="text-left">
+                    <span class="m-0" t-field="o.office_finance_manager.name"/><br/>
+                    <span>Office &amp; Finance Manager</span>
+                </div>
 
                 <div class="oe_structure"/>
             </div>
         </t>
     </template>
 </odoo>
+

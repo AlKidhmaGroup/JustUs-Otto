@@ -38,6 +38,7 @@
     ],
     'data': [
         'security/security.xml',
+        'report/custom_paper_format.xml',
         'views/res_company.xml',
     ],
     'demo': [],

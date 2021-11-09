@@ -20,33 +20,27 @@
 #
 ##############################################################################
 
-{
-    'name': "Sale Customization",
-    'version': '15.0.0.3',
-    'category': 'Sale',
-    'summary': 'Sale Customization',
-    'live_test_url': 'Add youtube video Link',
-    'author': 'Al Khidma Systems',
-    'license': 'OPL-1',
-    'price': '',
-    'currency': 'USD',
-    'maintainer': 'Al Khidma Systems',
-    'support': 'tech@alkhidmasystems.com',
-    'website': "http://alkhidmasystems.com",
-    'depends': [
-        'sale_project', 'aks_project_customization','aks_group_access'
-    ],
-    'data': [
-        'data/sequence_data.xml',
-        'security/ir.model.access.csv',
-        'report/sale_report_templates.xml',
-        # 'views/product_views.xml',
-        'views/sales_order.xml',
-        # 'views/res_company.xml',
-        
-    ],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
-    'application': False,
-}
+
+from odoo import models, fields, api,_
+from odoo.exceptions import ValidationError,Warning
+
+class ProjectProject(models.Model):
+    _inherit = 'project.project'
+
+    sale_payment_term_ids = fields.One2many('sale.payment.term','project_id', string="Sale Payment Term")
+
+
+    @api.onchange('sale_payment_term_ids')
+    def _onchange_sale_payment_term_ids(self):
+        for rec in self:
+            pay_term_perc = 0.0
+            for pt in rec.sale_payment_term_ids:
+                if pt.pay_term_inv_status != 'cancel':
+                    pay_term_perc += pt.payment_term_percentage
+            if not 0.0 <= pay_term_perc <= 100:
+                raise ValidationError(_("Enter total payment term percentage b/w 0 and 100"))
+
+
+
+
+   

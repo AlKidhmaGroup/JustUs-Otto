@@ -41,7 +41,6 @@ class PurchaseOrder(models.Model):
 
     @api.model
     def default_get(self, fields):
-        print("fields = ", fields)
         result = super(PurchaseOrder, self).default_get(fields)
         if 'dynamic_content' in fields:
             dynamic_test = """
@@ -69,5 +68,4 @@ class PurchaseOrderLine(models.Model):
             taxes = self.taxes_id and ', '.join(self.taxes_id.mapped('name'))
             # if rec.taxes_id:
             #     for tax in rec.taxes_id:
-            print("tax"*88,taxes)
         return taxes

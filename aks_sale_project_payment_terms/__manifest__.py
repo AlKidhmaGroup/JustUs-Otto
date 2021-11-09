@@ -21,10 +21,10 @@
 ##############################################################################
 
 {
-    'name': "Sale Customization",
-    'version': '15.0.0.3',
+    'name': "Sale Project Payment Terms",
+    'version': '15.0.0.2',
     'category': 'Sale',
-    'summary': 'Sale Customization',
+    'summary': 'Sale Project Customization',
     'live_test_url': 'Add youtube video Link',
     'author': 'Al Khidma Systems',
     'license': 'OPL-1',
@@ -34,15 +34,12 @@
     'support': 'tech@alkhidmasystems.com',
     'website': "http://alkhidmasystems.com",
     'depends': [
-        'sale_project', 'aks_project_customization','aks_group_access'
+        'sale_management','aks_project_customization'
     ],
     'data': [
-        'data/sequence_data.xml',
         'security/ir.model.access.csv',
-        'report/sale_report_templates.xml',
-        # 'views/product_views.xml',
-        'views/sales_order.xml',
-        # 'views/res_company.xml',
+        'views/sale_views.xml',
+        'views/project_views.xml',
         
     ],
     'demo': [],
