@@ -24,6 +24,26 @@
           <attribute name="groups">aks_group_access.group_show_vat</attribute>
           <attribute name="string">VAT</attribute>
         </xpath>
+        
+        
+    
+        <xpath expr="//form/sheet/notebook/page/field[@name='invoice_line_ids']/form/sheet/group[1]/field[@name='product_id']" position="before">
+          <field name="product_types"/>
+        </xpath>
+        
+        <xpath expr="//form/sheet/notebook/page/field[@name='invoice_line_ids']/tree/field[@name='product_id']" position="before">
+          <field name="product_types"/>
+        </xpath>
+        
+        
+        <xpath expr="//form/sheet/notebook/page/field[@name='invoice_line_ids']/form/sheet/group[1]/field[@name='price_unit']" position="before">
+          <field name="product_cost" optional="hide"/>
+        </xpath>
+        
+        <xpath expr="//form/sheet/notebook/page/field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="before">
+          <field name="product_cost" optional="hide" />
+        </xpath>
+        
       </field>
     </record>
   </data>

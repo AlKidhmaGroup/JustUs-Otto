@@ -34,6 +34,28 @@
                     </group>
                 </page>
             </xpath>
+            
+            <!-- <xpath expr="//field[@name='order_line']/tree/field[@name='account_analytic_id']" position="after">
+                 <field name="job_number" />
+            </xpath>
+             <xpath expr="//field[@name='order_line']/form/group[1]/group[2]/field[@name='account_analytic_id']" position="after">
+                 <field name="job_number"/>
+            </xpath>
+            
+             <xpath expr="//field[@name='order_line']/tree" position="attributes">
+                <attribute name="context">{'default_state': 'draft','default_job_number':}</attribute>
+            </xpath> -->
+            
+            <xpath expr="//field[@name='order_line']/tree/field[@name='account_analytic_id']" position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+            
+           <xpath expr="//field[@name='order_line']/tree/field[@name='account_analytic_id']" position="attributes">
+                <attribute name="domain">['|',('project_ids', '=',parent.job_number),('company_id', '=', parent.company_id)]</attribute>
+            </xpath> 
+            
+            
+            
 
         </field>
     </record>

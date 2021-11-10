@@ -34,7 +34,7 @@
     'support': 'tech@alkhidmasystems.com',
     'website': "http://alkhidmasystems.com",
     'depends': [
-        'sale_management','aks_project_customization'
+        'sale_management','aks_project_customization','sale_project','aks_invoice_customization'
     ],
     'data': [
         'security/ir.model.access.csv',

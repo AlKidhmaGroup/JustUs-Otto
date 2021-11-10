@@ -62,6 +62,31 @@ class SalePaymentTerm(models.Model):
     pay_term_inv_status = fields.Selection([('invoiced', 'Invoiced'), ('not_invoiced', 'Not Invoiced'), ('cancel', 'Cancelled')], string="Status", default='not_invoiced')
     is_final_invoice = fields.Boolean(string="Final Invoice")
     
+    
+    def get_invoiceable_lines(self,order_line):
+        res = {}
+        res = {
+            'display_type': order_line.display_type,
+            'sequence': order_line.sequence,
+            'name': order_line.name,
+            'product_id': order_line.product_id.id,
+            'product_uom_id': order_line.product_uom.id,
+            'discount': order_line.discount,
+            'price_unit': order_line.price_unit,
+            'tax_ids': [(6, 0,order_line.tax_id.ids)],
+            'analytic_account_id': order_line.order_id.analytic_account_id.id,
+            'analytic_tag_ids': [(6, 0, order_line.analytic_tag_ids.ids)],
+            'product_types':order_line.product_types,
+            'product_cost':order_line.product_cost,
+            
+        }
+#         if optional_values:
+#             res.update(optional_values)
+        if order_line.display_type:
+            res['account_id'] = False
+        return res
+    
+    
     def create_payment_term_invoice(self):
 
         for pay in self:
@@ -73,26 +98,37 @@ class SalePaymentTerm(models.Model):
                 
                 acc_mov_lines = []
                 total_amt_val = {}
-                total_amt_val = {
-                                    'name': pay.name,
-                                    'analytic_account_id':pay.project_id.sale_order_ref_id and pay.project_id.sale_order_ref_id.analytic_account_id  and \
-                                                          pay.project_id.sale_order_ref_id.analytic_account_id.id or False,
-                                    'quantity': 1,
-                                    'price_unit': pay.project_id.sale_order_ref_id.amount_total,
-                                
-                                }
-                acc_mov_lines.append((0,0,total_amt_val))
+#                 total_amt_val = {
+#                                     'name': pay.name,
+#                                     'analytic_account_id':pay.project_id.sale_order_ref_id and pay.project_id.sale_order_ref_id.analytic_account_id  and \
+#                                                           pay.project_id.sale_order_ref_id.analytic_account_id.id or False,
+#                                     'quantity': 1,
+#                                     'price_unit': pay.project_id.sale_order_ref_id.amount_total,
+#                                 
+#                                 }
+                sale_order_lines = self.env['sale.order.line']
+                sale_order_lines = pay.project_id.sale_order_ref_id.order_line
+                if pay.project_id.sale_order_ref_id and  sale_order_lines:
+                    for order_line in sale_order_lines:
+                        total_amt_val = {}
+                        total_amt_val = pay.get_invoiceable_lines(order_line)
+                        acc_mov_lines.append((0,0,total_amt_val))
+                sub_seq =  max(sale_order_lines.mapped('sequence')) if max(sale_order_lines.mapped('sequence')) > 0 else 10  
                 for paymen_term in pay.project_id.sale_payment_term_ids:
                     if  paymen_term.is_final_invoice != True:
                         if paymen_term.pay_term_inv_status not in ('cancel','not_invoiced'):
+                            sub_seq += 1
                             price_unit = (pay.project_id.sale_order_ref_id.amount_total * paymen_term.payment_term_percentage) / 100.0
                             move_line = {}
                             move_line = {
                                             'name': paymen_term.name,
+                                            'sequence': sub_seq,
+                                            
                                             'analytic_account_id':pay.project_id.sale_order_ref_id and pay.project_id.sale_order_ref_id.analytic_account_id  and \
                                                                   pay.project_id.sale_order_ref_id.analytic_account_id.id or False,
                                             'quantity': -1,
                                             'price_unit': price_unit,
+                                            
                                         
                                         }
                             acc_mov_lines.append((0,0,move_line))
