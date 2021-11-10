@@ -15,7 +15,7 @@
                                        sum="payment_term_percentage"/>
                                 <field name="payment_term_date" string="Date"  force_save="1" required="0"  attrs="{'readonly':[('pay_term_inv_status','!=', 'not_invoiced')]}" />
                                 <field name="pay_term_inv_status" readonly="1"/>
-                                <field name="invoice_id" invisible="1"/>
+                                <field name="invoice_id" invisible="0" readonly="1" force_save="1" />
                                 <field name="is_invoiced" invisible="1"/>
                                 <field name="is_final_invoice" invisible="0" attrs="{'readonly':[('pay_term_inv_status','!=', 'not_invoiced')]}" />
                                 <button name="create_payment_term_invoice" type="object"

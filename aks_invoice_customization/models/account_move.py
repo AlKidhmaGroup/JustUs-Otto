@@ -25,3 +25,13 @@ class Account_move(models.Model):
         for i in tax:
             amount += int(i.amount)
         return amount
+    
+    
+class AccountMoveLine(models.Model):
+    _inherit = 'account.move.line'
+    
+    product_types = fields.Selection([('common', 'Common'), ('optional', 'Optional')],default='common',string="Type") 
+    product_cost = fields.Float("Cost")
+    
+    
+    

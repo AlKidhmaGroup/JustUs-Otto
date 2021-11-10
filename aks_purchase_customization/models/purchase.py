@@ -57,6 +57,13 @@ class PurchaseOrder(models.Model):
             """
             result['dynamic_content'] = dynamic_test
         return result
+    
+    def _prepare_invoice(self):
+        
+        res  = super(PurchaseOrder, self)._prepare_invoice()
+        for rec in self:
+            res.update({'job_num':rec.job_number and rec.job_number.id or False})
+        return res
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
