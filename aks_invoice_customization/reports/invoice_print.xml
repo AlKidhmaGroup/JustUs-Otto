@@ -215,12 +215,12 @@
                                 <tr style="font-size:13.5px;">
                                     <t t-if="int(doc.amount_tax) > 0">
                                         <td style="width:41%;">
-                                            <span t-field="line.product_id.name"/>
+                                            <span t-field="line.name"/>
                                         </td>
                                     </t>
                                     <t t-else="">
                                         <td style="width:57%;">
-                                            <span t-field="line.product_id.name"/>
+                                            <span t-field="line.name"/>
                                         </td>
                                     </t>
 
