@@ -93,6 +93,7 @@ class SalePaymentTerm(models.Model):
             'analytic_tag_ids': [(6, 0, order_line.analytic_tag_ids.ids)],
             'product_types':order_line.product_types,
             'product_cost':order_line.product_cost,
+            'quantity':order_line.product_uom_qty,
             
         }
 #         if optional_values:
