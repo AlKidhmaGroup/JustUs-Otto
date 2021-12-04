@@ -34,7 +34,7 @@ class SaleOrder(models.Model):
         res.update({'dynamic_content_ids': [
                 (0,0, {
                     'name': 'Rights And Duties',
-                    'content': 'Upon the payment of remuneration for the above mentioned services under the terms of this quotation. For agency services in the amount of QAR 106,700.00 and the three fold implementation by Just us & Otto, all rights of utilization and exploitation are transferred to Provided that the contractor is mentioned by name, the client has the publication rights.',
+                    'content': 'Upon the payment of remuneration for the above mentioned services under the terms of this quotation. For agency services in the amount of QAR XXXXXX and the three fold implementation by Just us & Otto, all rights of utilization and exploitation are transferred to Provided that the contractor is mentioned by name, the client has the publication rights.',
                 }),
 
                 (0,0, {
