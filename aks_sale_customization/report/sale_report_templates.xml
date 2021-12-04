@@ -109,7 +109,7 @@
 
                                 <t t-if="doc.amount_tax>0">
                                     <td width='45%'>Item</td>
-                                    <td width='27%'>Description</td>
+<!--                                    <td width='27%'>Description</td>-->
 
                                     <td width='7%' class="text-right">Qty</td>
 
@@ -120,7 +120,7 @@
                                 </t>
                                 <t t-else="">
                                     <td width='40%'>Item</td>
-                                    <td width='27%'>Description</td>
+<!--                                    <td width='27%'>Description</td>-->
 
 
                                     <td width='7%' class="text-right">Qty</td>
@@ -145,9 +145,9 @@
 
                                     <tr >
                                         <t t-if="doc.amount_tax > 0">
-                                            <td>
-                                                <span style="display: block;" t-field="line.product_id.name"/>
-                                            </td>
+<!--                                            <td>-->
+<!--                                                <span style="display: block;" t-field="line.product_id.name"/>-->
+<!--                                            </td>-->
 
                                             <td>
                                                 <span t-field="line.name"/>
@@ -181,9 +181,9 @@
 
                                         </t>
                                         <t t-else="">
-                                            <td>
-                                                <span t-field="line.product_id.name"/>
-                                            </td>
+<!--                                            <td>-->
+<!--                                                <span t-field="line.product_id.name"/>-->
+<!--                                            </td>-->
 
                                             <td>
                                                 <span t-field="line.name"/>
@@ -344,7 +344,8 @@
                     <div style="font-size:13px;">We look forward to receiving your order.</div>
                     <div style="font-size:13px;page-break-inside: avoid;">Best regards,
                         <br/>
-                        <t class="m-0" t-esc="doc.res_partner_signed_by.name"></t>
+                            Markus Hofmeister,
+<!--                        <t class="m-0" t-esc="doc.res_partner_signed_by.name"></t>-->
                         <br/>
 General Manager
                     </div>
