@@ -55,7 +55,6 @@ class SaleOrder(models.Model):
             sale_payment_terms_ids = order.project_id.sale_payment_term_ids
             for payment_term in sale_payment_terms_ids:
                 if payment_term.invoice_id and payment_term.invoice_id.id not in order.invoice_ids.ids :
-                    print("A"*11,payment_term.invoice_id)
                     order.invoice_ids = [(4,payment_term.invoice_id.id)]
 
             order.invoice_count = len(order.invoice_ids)
@@ -68,6 +67,8 @@ class SalePaymentTerm(models.Model):
 
     name = fields.Char(string="Payment Term")
     payment_term_percentage = fields.Float(string="Percentage")
+    amount_to_invoice = fields.Float(string="Amount")
+
     payment_term_date = fields.Date(string="Date")
     sale_order_id = fields.Many2one('sale.order')
     project_id = fields.Many2one('project.project',"Project")
@@ -107,10 +108,39 @@ class SalePaymentTerm(models.Model):
 
         for pay in self:
             price_unit = 0.0
+            final_invoice_count = 0
+            for paymen_term in pay.project_id.sale_payment_term_ids:
+                if paymen_term.is_final_invoice == True and paymen_term.pay_term_inv_status not in ('cancel') :
+                    final_invoice_count += 1
+            if final_invoice_count >  1:
+                raise ValidationError(_("Multiple of Final Invoice Lines"))
+
+
+            
+            if pay.amount_to_invoice > 0.0  and pay.amount_to_invoice > pay.project_id.sale_order_ref_id.amount_total:
+                raise ValidationError(_("Entered Amount is Greater Than Sale Amount"))
+            if pay.payment_term_percentage != 0.00 and pay.amount_to_invoice !=0.00:
+                raise ValidationError(_(" System accept only one value (Percentage or Amount). So please clear the value from any one of this "))
+
+            if pay.payment_term_percentage < 0.00 and   pay.amount_to_invoice == 0.00:
+                raise ValidationError(_(" Negative Percentage "))
+
+            if pay.payment_term_percentage == 0.00 and   pay.amount_to_invoice < 0.00:
+                raise ValidationError(_(" Negative Amount "))
+
             
             if  pay.is_final_invoice == True:
-                if sum(pay.project_id.sale_payment_term_ids.filtered(lambda p: p.pay_term_inv_status != 'cancel').mapped('payment_term_percentage')) != 100.00:
-                    raise ValidationError(_(" Total percentage is not matching with 100% or This payment term could not be considered as last Payment Term "))
+                total_price_unit = 0.00
+                for line_pay in  pay.project_id.sale_payment_term_ids.filtered(lambda p: p.pay_term_inv_status != 'cancel'):
+                    
+                    if line_pay.payment_term_percentage > 0.00:
+                        total_price_unit += (line_pay.project_id.sale_order_ref_id.amount_total * paymen_term.payment_term_percentage) / 100.0
+                    
+                    if line_pay.amount_to_invoice > 0.00:
+                        total_price_unit += line_pay.amount_to_invoice
+                if total_price_unit != line_pay.project_id.sale_order_ref_id.amount_total:
+
+                    raise ValidationError(_(" Total Amount of Final is not matching with Sale Amount"))
                 
                 acc_mov_lines = []
                 total_amt_val = {}
@@ -134,7 +164,13 @@ class SalePaymentTerm(models.Model):
                     if  paymen_term.is_final_invoice != True:
                         if paymen_term.pay_term_inv_status not in ('cancel','not_invoiced'):
                             sub_seq += 1
-                            price_unit = (pay.project_id.sale_order_ref_id.amount_total * paymen_term.payment_term_percentage) / 100.0
+                            price_unit = 0.00
+                            if paymen_term.amount_to_invoice > 0.00:
+                                price_unit = paymen_term.amount_to_invoice
+
+                            elif  paymen_term.payment_term_percentage > 0.00:
+                                price_unit = (paymen_term.project_id.sale_order_ref_id.amount_total * paymen_term.payment_term_percentage) / 100.0
+                            
                             move_line = {}
                             move_line = {
                                             'name': paymen_term.name,
@@ -149,29 +185,35 @@ class SalePaymentTerm(models.Model):
                                         }
                             acc_mov_lines.append((0,0,move_line))
                             
-                                    
-                if pay.payment_term_percentage:
-                    if not pay.is_invoiced:
-                        invoice = self.env['account.move'].create({
-                            'partner_id': pay.project_id.partner_id and pay.project_id.partner_id.id or False,
-                            'currency_id': pay.project_id.currency_id and pay.project_id.currency_id.id or False,
-                            'move_type': 'out_invoice',
-                            'invoice_origin': pay.project_id.name,
-                            'invoice_date': pay.payment_term_date or fields.date.today(),
-                            'project_id':pay.project_id.id,
-    #                         'res_partner_user_id': pay.project_id.res_partner_user_id and pay.project_id.res_partner_user_id.id or False,
-                            'sale_payment_term_id':pay.id,
-                            'sale_payment_term_perc':pay.payment_term_percentage,
-                            'invoice_line_ids': acc_mov_lines,
-                        })
-                        pay.is_invoiced = True
-                        pay.pay_term_inv_status = 'invoiced'
-                        pay.invoice_id = invoice.id
+                               
+                
+                if not pay.is_invoiced:
+                    invoice = self.env['account.move'].create({
+                        'partner_id': pay.project_id.partner_id and pay.project_id.partner_id.id or False,
+                        'currency_id': pay.project_id.currency_id and pay.project_id.currency_id.id or False,
+                        'move_type': 'out_invoice',
+                        'invoice_origin': pay.project_id.name,
+                        'invoice_date': pay.payment_term_date or fields.date.today(),
+                        'project_id':pay.project_id.id,
+#                         'res_partner_user_id': pay.project_id.res_partner_user_id and pay.project_id.res_partner_user_id.id or False,
+                        'sale_payment_term_id':pay.id,
+                        'sale_payment_term_perc':pay.payment_term_percentage,
+                        'sale_payment_term_amt':pay.amount_to_invoice,
+                        'invoice_line_ids': acc_mov_lines,
+                    })
+                    pay.is_invoiced = True
+                    pay.pay_term_inv_status = 'invoiced'
+                    pay.invoice_id = invoice.id
                         
             elif pay.is_final_invoice == False:
                 if pay.project_id.sale_order_ref_id.amount_total !=0.0:
-                    price_unit = (pay.project_id.sale_order_ref_id.amount_total * pay.payment_term_percentage) / 100.0
-                if pay.payment_term_percentage:
+                    price_unit = 0.00
+                    if pay.amount_to_invoice > 0.00:
+                        price_unit = pay.amount_to_invoice
+
+                    elif  pay.payment_term_percentage > 0.00:
+                        price_unit = (pay.project_id.sale_order_ref_id.amount_total * pay.payment_term_percentage) / 100.0
+                
                     if not pay.is_invoiced:
                         invoice = self.env['account.move'].create({
                             'partner_id': pay.project_id.partner_id and pay.project_id.partner_id.id or False,
@@ -183,6 +225,7 @@ class SalePaymentTerm(models.Model):
     #                         'res_partner_user_id': pay.project_id.res_partner_user_id and pay.project_id.res_partner_user_id.id or False,
                             'sale_payment_term_id':pay.id,
                             'sale_payment_term_perc':pay.payment_term_percentage,
+                            'sale_payment_term_amt':pay.amount_to_invoice,
                             'invoice_line_ids': [(0, 0, {
                                 'name': pay.name,
                                 'analytic_account_id':pay.project_id.sale_order_ref_id and pay.project_id.sale_order_ref_id.analytic_account_id  and \
@@ -203,6 +246,12 @@ class SalePaymentTerm(models.Model):
     def _onchange_payment_term_percentage(self):
         for rec in self:
             if not 0.0 <= rec.payment_term_percentage <= 100.0:
+                raise ValidationError(_("Enter total payment term percentage b/w 0 and 100"))
+
+    @api.onchange('amount_to_invoice')
+    def _onchange_amount_to_invoice(self):
+        for rec in self:
+            if not 0.0 <= rec.amount_to_invoice <= rec.project_id.sale_order_ref_id.amount_total:
                 raise ValidationError(_("Enter total payment term percentage b/w 0 and 100"))
             
             
