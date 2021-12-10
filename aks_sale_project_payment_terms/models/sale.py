@@ -43,8 +43,23 @@ class SaleOrder(models.Model):
         for sale in self:
             sale.get_project_payment_terms()
         return res
-    
-    
+
+    @api.depends('sale_payment_term_ids', 'sale_payment_term_ids.invoice_id')
+    def _get_invoiced(self):
+        res = super(SaleOrder, self)._get_invoiced()
+        # The invoice_ids are obtained thanks to the invoice lines of the SO
+        # lines, and we also search for possible refunds created directly from
+        # existing invoices. This is necessary since such a refund is not
+        # directly linked to the SO.
+        for order in self:
+            sale_payment_terms_ids = order.project_id.sale_payment_term_ids
+            for payment_term in sale_payment_terms_ids:
+                if payment_term.invoice_id and payment_term.invoice_id.id not in order.invoice_ids.ids :
+                    print("A"*11,payment_term.invoice_id)
+                    order.invoice_ids = [(4,payment_term.invoice_id.id)]
+
+            order.invoice_count = len(order.invoice_ids)
+
 
 
 class SalePaymentTerm(models.Model):
@@ -78,6 +93,7 @@ class SalePaymentTerm(models.Model):
             'analytic_tag_ids': [(6, 0, order_line.analytic_tag_ids.ids)],
             'product_types':order_line.product_types,
             'product_cost':order_line.product_cost,
+            'quantity':order_line.product_uom_qty,
             
         }
 #         if optional_values:

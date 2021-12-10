@@ -34,12 +34,6 @@
                                     <p t-if="doc.partner_id.parent_id" class="m-0" t-field="doc.partner_id.parent_id.name"/>
                                 </strong>
                             </td>
-                            <td t-if="doc.date_order" class="text-right">
-                                <span>
-                                    Date:
-                                </span>
-                                <span class="m-0" t-esc="doc.date_order.strftime('%b %d,%Y')"/>
-                            </td>
                         </tr>
                         <tr>
                             <td>
@@ -56,15 +50,23 @@
                                 <!-- </strong> -->
                             </td>
                         </tr>
+
                     </table>
-                    <br></br>
                     <table width="100%">
+                        <tr>
+                            <td t-if="doc.date_order">
+                                <span>
+                                    Date:
+                                </span>
+                                <span class="m-0" t-esc="doc.date_order.strftime('%b %d,%Y')"/>
+                            </td>
+                        </tr>
                         <tr>
                             <td>
                                 <span>
                                     Job:
                                 </span>
-                                <span class="m-0" t-field="doc.job_number"/>
+                                <span t-field="doc.job_number"/>
                             </td>
 
                         </tr>
@@ -79,7 +81,7 @@
                         </tr>
                     </table>
                     <br></br>
-                    <div width="100%" style="margin-bottom:0px;font-size:17px;">
+                    <div width="100%" style="margin-bottom:0px;font-size:16px;">
                         <span>
                             <strong>Subject:</strong>
                         </span>
@@ -107,23 +109,24 @@
 
                                 <t t-if="doc.amount_tax>0">
                                     <td width='45%'>Item</td>
-
+<!--                                    <td width='27%'>Description</td>-->
 
                                     <td width='7%' class="text-right">Qty</td>
 
-                                    <td width='11%' class="text-left">Unit</td>
+<!--                                    <td width='11%' class="text-left">Unit</td>-->
                                     <td width='10%' >Price/1</td>
                                     <td width='13%'>VAT</td>
                                     <td width='15%' style="padding-right:5px;" class="text-right">Total</td>
                                 </t>
                                 <t t-else="">
-                                    <td width='56%'>Item</td>
+                                    <td width='40%'>Item</td>
+<!--                                    <td width='27%'>Description</td>-->
 
 
                                     <td width='7%' class="text-right">Qty</td>
 
 
-                                    <td width='11%' class="text-left">Unit</td>
+<!--                                    <td width='11%' class="text-left">Unit</td>-->
 
 
                                     <td width='11%' class="text-right">Price/1</td>
@@ -134,7 +137,7 @@
                         </thead>
                         <t t-set="current_subtotal" t-value="0"/>
                         <!--                    <t t-set="sl_no" t.-value="1"/>-->
-                        <tbody style="font-size:13.5px;">
+                        <tbody style="font-size:13px;">
                             <t t-foreach="doc.order_line" t-as="line">
                                 <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
                                 <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
@@ -142,24 +145,28 @@
 
                                     <tr >
                                         <t t-if="doc.amount_tax > 0">
+<!--                                            <td>-->
+<!--                                                <span style="display: block;" t-field="line.product_id.name"/>-->
+<!--                                            </td>-->
+
                                             <td>
-                                                <span style="display: block;" t-field="line.product_id.name"/>
+                                                <span t-field="line.name"/>
+                                            </td>
+
+                                             <td class="text-right">
+                                                <span t-esc="'%.0f'% line.product_uom_qty + ' ' + str(line.product_uom.name)"/>
                                             </td>
 
 
-                                            <td class="text-right">
-                                                <span t-esc="'%.0f'% line.product_uom_qty"/>
-                                            </td>
-
-
-                                            <td class="text-left">
-                                                <span t-field="line.product_uom"/>
-                                            </td>
+<!--                                            <td class="text-left">-->
+<!--                                                <span t-field="line.product_uom"/>-->
+<!--                                            </td>-->
 
 
                                             <td class="text-right" >
                                                 <span t-field="line.price_unit"/>
                                             </td>
+
                                             <td>
                                                 <t t-if="line.get_taxes()">
                                                 <!-- <td> -->
@@ -174,19 +181,22 @@
 
                                         </t>
                                         <t t-else="">
-                                            <td>
-                                                <span t-field="line.product_id.name"/>
-                                            </td>
+<!--                                            <td>-->
+<!--                                                <span t-field="line.product_id.name"/>-->
+<!--                                            </td>-->
 
+                                            <td>
+                                                <span t-field="line.name"/>
+                                            </td>
 
                                             <td class="text-right">
-                                                <span t-esc="'%.0f'% line.product_uom_qty"/>
+                                                <span t-esc="'%.0f'% line.product_uom_qty + ' ' + str(line.product_uom.name)"/>
                                             </td>
 
 
-                                            <td class="text-left">
-                                                <span t-field="line.product_uom"/>
-                                            </td>
+<!--                                            <td class="text-left">-->
+<!--                                                <span t-field="line.product_uom"/>-->
+<!--                                            </td>-->
 
 
                                             <td class="text-right">
@@ -334,9 +344,10 @@
                     <div style="font-size:13px;">We look forward to receiving your order.</div>
                     <div style="font-size:13px;page-break-inside: avoid;">Best regards,
                         <br/>
-                        <t class="m-0" t-esc="doc.project_managers_id.name"></t>
+                            Markus Hofmeister,
+<!--                        <t class="m-0" t-esc="doc.res_partner_signed_by.name"></t>-->
                         <br/>
-Project Manager
+General Manager
                     </div>
 
                     <br></br>
