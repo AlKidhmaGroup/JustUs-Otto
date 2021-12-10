@@ -38,6 +38,9 @@ class PurchaseOrder(models.Model):
     def _onchange_job_number(self):
         if self.job_number:
             self.subject = self.job_number.name + ' - '
+            for rec in self.order_line:
+                rec.account_analytic_id = self.job_number.analytic_account_id
+
 
     @api.model
     def default_get(self, fields):
@@ -53,7 +56,7 @@ class PurchaseOrder(models.Model):
                 Subject to our general terms and conditions.<br/><br/>
                 
                 All invoices against this PO need to be submitted with complete details via email to Joby Thomas,
-                <joby@justusandotto.com> Finance Manager. Any other submissions will be not accepted or processed.
+                < joby@justusandotto.com > Finance Manager. Any other submissions will be not accepted or processed.
             """
             result['dynamic_content'] = dynamic_test
         return result
@@ -67,8 +70,12 @@ class PurchaseOrder(models.Model):
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
-    
-    
+
+    @api.onchange('product_id')
+    def _onchange_analytic_lines(self):
+        if self.product_id and self.order_id.job_number:
+            for rec in self.order_id.order_line:
+                rec.account_analytic_id = self.order_id.job_number.analytic_account_id
     
     def get_taxes(self):
         for rec in self:

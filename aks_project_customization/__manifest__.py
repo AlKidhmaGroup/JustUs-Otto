@@ -33,7 +33,7 @@
     'maintainer': 'Al Khidma Systems',
     'support': 'tech@alkhidmasystems.com',
     'website': "http://alkhidmasystems.com",
-    'depends': ['project'],
+    'depends': ['project', 'sale_management', 'sale_project'],
     'data': [
         'views/project_inherited_view.xml',
         'views/project_stage_view.xml',

@@ -27,49 +27,25 @@ from odoo.exceptions import ValidationError
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    api.model
+
+    # def default_get(self, fields_list):
+    #     res = super(classname, self).default_get(fields_list)
+    #     vals = [(0, 0, {'field_1': value_1, 'field_2': value_2}),
+    #             (0, 0, {'field_1': value_1, 'field_2': value_2})]
+    #     res.update({'your_o2m_field': vals})
+    #     return res
+
     @api.model
-    def default_get(self, fields):
-        res = super(SaleOrder, self).default_get(fields)
+    def default_get(self, fields_list):
+        res = super(SaleOrder, self).default_get(fields_list)
+        contents = []
+        for cont in self.env.user.company_id.dynamic_content_ids:
+            contents.append((0, 0, {'name': cont.name,
+                                    'content': cont.content}))
+        res.update({'dynamic_content_ids': contents})
+        return res
 
-        res.update({'dynamic_content_ids': [
-                (0,0, {
-                    'name': 'Rights And Duties',
-                    'content': 'Upon the payment of remuneration for the above mentioned services under the terms of this quotation. For agency services in the amount of QAR XXXXXX and the three fold implementation by Just us & Otto, all rights of utilization and exploitation are transferred to Provided that the contractor is mentioned by name, the client has the publication rights.',
-                }),
-
-                (0,0, {
-                    'name': 'General',
-                    'content': 'In the event of changes as to the extent of the assignment, fundamental changes of the concept, briefing corrections or changes made after approval, changes of the location, changes of the project timing or event date. Just us & Otto reserves the right to re-compute, if applicable. Hereunto, Just us & Otto will immediately notify the client. In case of cancellation of the contract, Just us & Otto has the right to invoice all expenses and fees which are incurred on the list until date.',
-                }),
-                (0,0, {
-                    'name': 'Travel Expenses',
-                    'content': 'Necessary travel will be billed after prior consultation, according to receipts. For traveling outside the GCC Region will be billed business class tickets.',
-                }),
-                (0,0, {
-                    'name': 'Subcontractors',
-                    'content': 'In the case of commissioning of vendors for services in the name of and billed to Just us & Otto, a price premium of 15% of the corresponding quote net amount, the customary agency mark-up, will be charged for the associated risks and expenditures.',
-                }),
-                (0,0, {
-                    'name': 'Conditions Of Payment',
-                    'content': 'The parties to this agreement agree on paying 100% in advance.',
-                }),
-                (0,0, {
-                    'name': 'Applicable Law, Jurisdiction',
-                    'content': 'Any dispute arising out of or in connection with this contract / agreement, including any question regarding its existence, validity or termination, shall be referred to and finally resolved by arbitration administered by Qatar International Center for Conciliation and Arbitration (QICCA) in accordance with the rules of Qatar International Center for Conciliation and Arbitration (QICCA) in force at the time the request for arbitration is submitted, which rules are deemed to be incorporated by reference in this clause.<br/><br/> - The applicable law is the law of the State of Qatar.<br/> - The seat of the arbitration shall be Qatar.<br/> - The Arbitral Tribunal shall consist of a sole arbitrator.<br/> - The language of the arbitration shall be English.<br/><br/> Any award and/or final decision of the arbitrators shall include a decision on costs, including, without limitation, fees of counsel. <br/><br/> The Competent Court of the arbitration shall be the First Instance Circuit of the Civil and Commercial Court of the Qatar Financial Centre and, in the case of enforcement, the QICCA Competent Judge shall be the Enforcement Judge of the First Instance Circuit of the Civil and Commercial Court of the Qatar Financial Centre.',
-                }),
-                (0,0, {
-                    'name': 'Serverability Clause',
-                    'content': 'In the event any provision of this Agreement shall be determined to be invalid, the remainder of this Agreement shall continue in full force and effect.',
-                }),
-                (0,0, {
-                    'name': 'Integration',
-                    'content': 'This Agreement constitutes the entire understanding between the parties, and supersedes any prior agreements (whether oral or written) with respect thereto. This Agreement may not be amended except in writing, signed by a duly authorized representative of both parties to this Agreement, and failure to enforce any provision of this agreement by a party shall not constitute a waiver of rights under that provision',
-                }),
-                (0,0, {
-                    'name': 'Termination Policy',
-                    'content': 'In case of cancellation 5 days prior to the event, 50% of the charges will be invoiced.<br/>For any cancellation less than 5 days before the event, 100% of the charges will be invoiced.',
-                }),
-             ]})
         # if 'rights_and_duties' in fields:
         #     res['rights_and_duties'] = """Upon the payment of remuneration for the above mentioned services under the terms of this quotation. For agency services in the amount of QAR
         #     106,700.00 and the threefold implementation by Just us & Otto, all rights of utilization and exploitation are transferred to Provided that the
@@ -124,7 +100,6 @@ class SaleOrder(models.Model):
         #     In case of cancellation 5 days prior to the event, 50% of the charges will be invoiced.<br/>
         #     For any cancellation less than 5 days before the event, 100% of the charges will be invoiced.
         #     """
-        return res
 
     # @api.depends('company_id','company_id.show_vat')
     # def _compute_vat_need(self):
@@ -133,10 +108,11 @@ class SaleOrder(models.Model):
     #         if rec.company_id:
     #             rec.is_vat_need = rec.company_id.show_vat
 
-    job_number = fields.Char(string='Job Number',track_visibility='always')
-    subject = fields.Char(string='Subject',track_visibility='always')
-    quotation_validity = fields.Char(string='Quotation Validity',track_visibility='always')
-    project_managers_id = fields.Many2one('res.partner', string='Project Manager')
+    job_number = fields.Char(string='Job Number', track_visibility='always')
+    subject = fields.Char(string='Subject', track_visibility='always')
+    quotation_validity = fields.Char(string='Quotation Validity', track_visibility='always')
+    project_managers_id = fields.Many2one('res.partner', string='Project Manager to be hide')
+    project_manager_partner_id = fields.Many2one('res.partner', string='Project Manager')
     rights_and_duties = fields.Text(string="Rights and Duties")
     travel_expenses = fields.Text(string="Travel Expenses")
     subcontracts = fields.Text(string="Subcontractors ")
@@ -146,14 +122,15 @@ class SaleOrder(models.Model):
     integration = fields.Text(string="Integration")
     general = fields.Text(string="General")
     termination_policy = fields.Text(string="Termination Policy")
-    project_ref_id = fields.Many2one('project.project', string='Projects',copy=False)
+    project_ref_id = fields.Many2one('project.project', string='Projects', copy=False)
     # is_vat_need = fields.Boolean("Is Vat Need",compute='_compute_vat_need',store=True)
-    digital_signature = fields.Binary(string="Digital Signature",copy=False)
+    digital_signature = fields.Binary(string="Digital Signature", copy=False)
     res_partner_signed_by = fields.Many2one('res.partner', string='Signed By')
-    dynamic_content_ids = fields.One2many(comodel_name='dynamic.contents',inverse_name='sale_id',string='Dynamic Content')
-    
-    
-    def create_project_on_qt_creation(self,res):
+
+    dynamic_content_ids = fields.One2many(comodel_name='dynamic.contents', inverse_name='sale_id',
+                                          string='Dynamic Content')
+
+    def create_project_on_qt_creation(self, res):
         project_values = {
             'name': res.job_number,
             'partner_id': res.partner_id.id,
@@ -161,10 +138,10 @@ class SaleOrder(models.Model):
             'active': True,
             'subject': res.subject,
             'company_id': res.company_id.id,
-            'project_manager_id': res.project_managers_id and res.project_managers_id.id or False,
-            'sale_order_id':res.id,
+            'project_manager_partner_id': res.project_manager_partner_id and res.project_manager_partner_id.id or False,
+            'sale_order_id': res.id,
         }
-  
+
         project = self.env['project.project'].create(project_values)
         res.project_ids = [(4, project.id)]
         for line in res.order_line:
@@ -172,14 +149,11 @@ class SaleOrder(models.Model):
         res.project_ref_id = project.id
         res.project_id = project.id
         res.create_analytic_acc_on_qt_creation(res)
-        
-        
-    def create_analytic_acc_on_qt_creation(self,res):
+
+    def create_analytic_acc_on_qt_creation(self, res):
         res._create_analytic_account(None)
         res.project_id.analytic_account_id = res.analytic_account_id and res.analytic_account_id.id or False
-        
-        
-    
+
     @api.model
     def create(self, vals):
         if not vals.get('order_line'):
@@ -188,12 +162,11 @@ class SaleOrder(models.Model):
         vals["job_number"] = job_num
         vals["subject"] = job_num + " -"
         res = super(SaleOrder, self).create(vals)
-        
+
         res.create_project_on_qt_creation(res)
-#         for line in res.order_line:
-#             line._timesheet_service_generation()
-        
-        
+        #         for line in res.order_line:
+        #             line._timesheet_service_generation()
+
         return res
 
     def _prepare_job_number(self, values):
@@ -208,8 +181,8 @@ class SaleOrder(models.Model):
         for rec in self:
             if 'subject' in vals and rec.project_ref_id:
                 rec.project_ref_id.subject = vals.get('subject')
-            if 'project_managers_id' in vals and rec.project_ref_id:
-                rec.project_ref_id.project_manager_id = vals.get('project_managers_id')
+            if 'project_manager_partner_id' in vals and rec.project_ref_id:
+                rec.project_ref_id.project_manager_partner_id = vals.get('project_manager_partner_id')
         return res
 
     def action_cancel(self):
@@ -249,10 +222,10 @@ class SaleOrder(models.Model):
                         total_tax = 0
                         for tax in line.tax_id:
                             amount += int(tax.amount)
-                        total_tax = (line.price_subtotal * amount)/100
+                        total_tax = (line.price_subtotal * amount) / 100
                         total_amount += total_tax
                     total_amount += line.price_subtotal
-            
+
             for line in rec.order_line:
                 if line.display_type == 'line_section':
                     section = line.name
@@ -263,34 +236,32 @@ class SaleOrder(models.Model):
                     total_tax_amount = 0
                     for tax in line.tax_id:
                         amount += int(tax.amount)
-                    total_tax = (line.price_subtotal * amount)/100
+                    total_tax = (line.price_subtotal * amount) / 100
                     total_tax_amount += total_tax
                     if section not in order_line_dict:
                         total_amt = line.price_subtotal + total_tax_amount + total_amount
-                        order_line_dict.update({section:{'total':total_amt}})
-                    else: 
+                        order_line_dict.update({section: {'total': total_amt}})
+                    else:
                         order_line_dict[section]['total'] += line.price_subtotal
                         order_line_dict[section]['total'] += total_tax_amount
-                    
-            order_line_dict.update({'cmn':total_amount})
+
+            order_line_dict.update({'cmn': total_amount})
             return order_line_dict
 
     def _create_invoices(self, grouped=False, final=False, date=None):
         moves = super(SaleOrder, self)._create_invoices(grouped, final, date)
         for rec in self:
             if moves:
-                moves.job_num= rec.project_ref_id and rec.project_ref_id.id or False
+                moves.job_num = rec.project_ref_id and rec.project_ref_id.id or False
         return moves
 
-            
+
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-
     product_types = fields.Selection([('common', 'Common'), ('optional', 'Optional')],
-                                    required=True, default='common',string="Type") 
+                                     required=True, default='common', string="Type")
     product_cost = fields.Float("Cost")
-
 
     @api.onchange('product_id')
     def product_id_change(self):
@@ -298,6 +269,8 @@ class SaleOrderLine(models.Model):
         for rec in self:
             if rec.product_id:
                 rec.product_cost = rec.product_id and rec.product_id.standard_price or 0.0
+            if rec.product_id.detailed_type == 'service' or 'consumable':
+                rec.name = '-'
         return res
 
     def get_taxes(self):
@@ -305,9 +278,9 @@ class SaleOrderLine(models.Model):
             taxes = self.tax_id and ', '.join(self.tax_id.mapped('name'))
         return taxes
 
+
 class SaleAdvancePaymentInv(models.TransientModel):
     _inherit = "sale.advance.payment.inv"
-
 
     def _create_invoice(self, order, so_line, amount):
         invoice = super(SaleAdvancePaymentInv, self)._create_invoice(order, so_line, amount)
@@ -315,10 +288,11 @@ class SaleAdvancePaymentInv(models.TransientModel):
             invoice.job_num = order.project_ref_id and order.project_ref_id.id or False
         return invoice
 
+
 class DynamicContents(models.Model):
     _name = 'dynamic.contents'
-
 
     name = fields.Char("Name")
     content = fields.Text("Content")
     sale_id = fields.Many2one('sale.order', string='Sale Order Ref')
+    sale_id_company = fields.Many2one('res.company', string='Company Ref')
