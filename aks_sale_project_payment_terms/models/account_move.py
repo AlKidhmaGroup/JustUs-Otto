@@ -29,6 +29,7 @@ class AccountMove(models.Model):
     project_id = fields.Many2one(comodel_name="project.project", string="Project", ondelete="cascade", copy=False)
     sale_payment_term_id = fields.Many2one('sale.payment.term',string="Sale Payment Term")
     sale_payment_term_perc = fields.Float(string="Sale Payment Term Percentage")
+    sale_payment_term_amt = fields.Float(string="Sale Payment Term Amount")
 
     def _post(self, soft=True):
         res = super(AccountMove, self)._post()
