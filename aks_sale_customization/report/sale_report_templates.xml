@@ -75,7 +75,7 @@
                                 <span>
                                     Project Manager:
                                 </span>
-                                <span class="m-0" t-field="doc.project_managers_id.name"/>
+                                <span class="m-0" t-field="doc.project_manager_partner_id.name"/>
                             </td>
 
                         </tr>
@@ -137,7 +137,7 @@
                         </thead>
                         <t t-set="current_subtotal" t-value="0"/>
                         <!--                    <t t-set="sl_no" t.-value="1"/>-->
-                        <tbody style="font-size:13px;">
+                        <tbody style="font-size:12px;">
                             <t t-foreach="doc.order_line" t-as="line">
                                 <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
                                 <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
@@ -253,7 +253,7 @@
                                 </t>
                                 <!-- </t> -->
                                 <t t-if="current_section and (line_last or doc.order_line[line_index+1].display_type == 'line_section')">
-                                    <tr style="background-color:#bdb7b6;" width="100%">
+                                    <tr width="100%">
                                         <td style="width:50%;font-weight:bold;border-right:0px;" width='49%'>Total
                                             <span style="font-weight:bold;text-align:right;" t-esc="current_section.name"/>
                                         </td>
@@ -271,7 +271,7 @@
                                 </t>
                             </t>
                            <t t-set="total_values" t-value="doc.get_total_values()"/>
-                            <tr style="background-color:#bdb7b6;padding-left:15px;padding-right:15px;border:0px;" width="100%">
+                            <tr style="padding-left:15px;padding-right:15px;border:0px;" width="100%">
                                 <td style="font-weight:bold;border:0px;" width="30%">
                                     <t t-if="doc.amount_tax>0">Common Inc. VAT</t>
                                     <t t-else="">Common</t>
@@ -290,7 +290,7 @@
                             </tr>
                             <t t-foreach="total_values" t-as="record">
                                 <t t-if="record != 'cmn'">
-                                    <tr style="background-color:#bdb7b6;padding-left:15px;padding-right:15px;border:0px;" width="100%">
+                                    <tr style="padding-left:15px;padding-right:15px;border:0px;" width="100%">
                                         <td style="width:50%;font-weight:bold;border:0px;" width='48%'>Common + <t t-esc="record"/>
                                         </td>
                                         <t t-if="doc.amount_tax>0">
@@ -309,10 +309,9 @@
                             </t> 
                         </tbody> 
                     </table>
-                    <br/>
+
                     VAT is not included in prices.
-                    <br/>
-                    <br/>
+
                     <table style="border-top:2px solid #0086b3; border-bottom:2px solid #0086b3;" width="100%">
                         <tr>
                             <td>
@@ -329,7 +328,7 @@
                     <br></br>
                     <t t-foreach="doc.dynamic_content_ids" t-as="content">
                         <div t-if="content.content != '&lt;br&gt;'">
-                            <div style="font-size:13px;">
+                            <div style="font-size:12px;">
                                 <strong>
                                     <span t-field="content.name"/>
                                 </strong>
@@ -341,8 +340,8 @@
                     </t>
 
 
-                    <div style="font-size:13px;">We look forward to receiving your order.</div>
-                    <div style="font-size:13px;page-break-inside: avoid;">Best regards,
+                    <div style="font-size:12px;">We look forward to receiving your order.</div>
+                    <div style="font-size:12px;page-break-inside: avoid;">Best regards,
                         <br/>
                             Markus Hofmeister,
 <!--                        <t class="m-0" t-esc="doc.res_partner_signed_by.name"></t>-->

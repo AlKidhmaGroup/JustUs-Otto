@@ -13,7 +13,7 @@
                 </xpath>
                 <xpath expr="//field[@name='payment_term_id']" position="after">
                     <field name="quotation_validity" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
-                    <field name="project_managers_id" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}" required="1"/>
+                    <field name="project_manager_partner_id" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}" required="1"/>
                     <field name="res_partner_signed_by" attrs="{'readonly': [('state', 'not in', ['draft','sent'])]}"/>
                     <field name="project_ref_id" invisible="1"/>
                     <!-- <field name="is_vat_need" invisible="0"/> -->

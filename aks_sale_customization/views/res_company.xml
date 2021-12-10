@@ -1,16 +1,41 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
-    <data >
-        <!-- res.company inherit form view -->
-        <record id="aks_sale_customization_res_company_inherit_form_view" model="ir.ui.view">
-            <field name="name">res.company.inherit.view.form</field>
+    <data>
+<!--        &lt;!&ndash; res.company inherit form view &ndash;&gt;-->
+<!--        <record id="aks_sale_customization_res_company_inherit_form_view" model="ir.ui.view">-->
+<!--            <field name="name">res.company.inherit.view.form</field>-->
+<!--            <field name="model">res.company</field>-->
+<!--            <field name="inherit_id" ref="aks_group_access.res_company_form_inherit_quotation_footer"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='quotation_footer']" position="after">-->
+<!--                    <field name="is_a_and_a"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <record id="res_company_form_inherit_dynamic_content" model="ir.ui.view">
+            <field name="name">res.company.form.inherit.dynamic.content</field>
             <field name="model">res.company</field>
-            <field name="inherit_id" ref="aks_group_access.res_company_form_inherit_quotation_footer"/>
+            <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='quotation_footer']" position="after">
-                    <field name="is_a_and_a"/>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Dynamic Content">
+                        <group>
+                            <field name="dynamic_content_ids" nolabel="1" style="width:1020px;">
+                                <tree string="Dynamic Content" editable="bottom">
+                                    <field name="name" required="1" />
+                                    <field name="content" widget="html"/>
+                                </tree>
+                                <form>
+                                    <field name="name" required="1"/>
+                                    <field name="content" widget="html"/>
+                                </form>
+                            </field>
+                        </group>
+                    </page>
                 </xpath>
             </field>
         </record>
+
     </data>
 </odoo>

@@ -7,6 +7,21 @@
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.edit_project"/>
         <field name="arch" type="xml">
+
+            <xpath expr="//button[@name='action_view_so']" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </xpath>
+
+            <xpath expr="//div" position="inside">
+                    <button name="open_so_smart_button_project" type="object" string="Sales Order"
+                            class="oe_stat_button" icon="fa-dollar" attrs="{'invisible': [('sale_order_ref_id', '=', False)]}">
+
+                    </button>
+                </xpath>
+
+
+
+
             <xpath expr="//div[hasclass('oe_title')]" position="after">
                 <group>
                     <field name="subject"/>
@@ -23,7 +38,7 @@
             <xpath expr="//field[@name='user_id']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
-            
+
         </field>
     </record>
 </odoo>
