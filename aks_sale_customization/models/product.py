@@ -2,7 +2,7 @@
 
 ##############################################################################
 #
-#    Author: ALKIDHMA
+#    Author: Al Kidhma
 #    you can modify it under the terms of the GNU LESSER
 #    GENERAL PUBLIC LICENSE (LGPL v3), Version 3.
 #
@@ -19,8 +19,10 @@
 #    If not, see <https://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from odoo import api, fields, models, _
+from odoo.exceptions import AccessError, UserError
 
-# from . import product
-from . import res_company
-from . import sale
-from . import product
+
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+

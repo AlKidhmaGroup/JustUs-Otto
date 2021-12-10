@@ -108,6 +108,7 @@ class SalePaymentTerm(models.Model):
 
         for pay in self:
             price_unit = 0.0
+
             final_invoice_count = 0
             for paymen_term in pay.project_id.sale_payment_term_ids:
                 if paymen_term.is_final_invoice == True and paymen_term.pay_term_inv_status not in ('cancel') :
@@ -128,7 +129,7 @@ class SalePaymentTerm(models.Model):
             if pay.payment_term_percentage == 0.00 and   pay.amount_to_invoice < 0.00:
                 raise ValidationError(_(" Negative Amount "))
 
-            
+
             if  pay.is_final_invoice == True:
                 total_price_unit = 0.00
                 for line_pay in  pay.project_id.sale_payment_term_ids.filtered(lambda p: p.pay_term_inv_status != 'cancel'):
@@ -159,7 +160,7 @@ class SalePaymentTerm(models.Model):
                         total_amt_val = {}
                         total_amt_val = pay.get_invoiceable_lines(order_line)
                         acc_mov_lines.append((0,0,total_amt_val))
-                sub_seq =  max(sale_order_lines.mapped('sequence')) if max(sale_order_lines.mapped('sequence')) > 0 else 10  
+                sub_seq =  max(sale_order_lines.mapped('sequence')) if sale_order_lines.mapped('sequence') and max(sale_order_lines.mapped('sequence')) > 0 else 10
                 for paymen_term in pay.project_id.sale_payment_term_ids:
                     if  paymen_term.is_final_invoice != True:
                         if paymen_term.pay_term_inv_status not in ('cancel','not_invoiced'):
@@ -222,6 +223,7 @@ class SalePaymentTerm(models.Model):
                             'invoice_origin': pay.project_id.name,
                             'invoice_date': pay.payment_term_date or fields.date.today(),
                             'project_id':pay.project_id.id,
+                            'job_num': pay.project_id.id,
     #                         'res_partner_user_id': pay.project_id.res_partner_user_id and pay.project_id.res_partner_user_id.id or False,
                             'sale_payment_term_id':pay.id,
                             'sale_payment_term_perc':pay.payment_term_percentage,

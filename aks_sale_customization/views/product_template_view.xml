@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="product_template_form_view_aks_customize">
+            <field name="name">product.template.aks.customize</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+            <xpath expr="//field[@name='service_tracking']" position="attributes">
+                <attribute name="attrs">{'required': True}</attribute>
+            </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

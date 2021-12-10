@@ -23,7 +23,7 @@
                                 <button name="create_payment_term_invoice" type="object"
                                         string="Create Invoice"
                                         icon="fa-hand-o-right"
-                                        attrs="{'invisible':[('pay_term_inv_status','!=', 'not_invoiced')]}"
+                                        attrs="{'invisible':['|',('id','=', False),('pay_term_inv_status','!=', 'not_invoiced')]}"
                                 />
                             </tree>
                         </field>

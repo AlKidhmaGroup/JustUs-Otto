@@ -121,7 +121,7 @@
                     </div>
 
                     <table width="100%">
-                        <tr>
+                        <tr style="font-weight:bold;">
                             <td width='18%' style="padding-top:10px;">
                             Ref No.
                             </td>
@@ -137,7 +137,7 @@
                                     </t>
                             </td>
                         </tr>
-                        <tr>
+                        <tr style="font-weight:bold;">
                             <td width='18%'>
                                 Job No.
 
@@ -171,14 +171,14 @@
                         </tr>
                         
                     </table>
-                    <br></br>
+
                     <div>
                         <b>
                             <u>We Invoice You For</u> :
                         </b>
                         <t t-esc="doc.invoice_you_for"/>
                     </div>
-                    <br/>
+                     <br/>
                     <table class='table table-bordered'>
                         <thead style="border-top-right-radius: 5px;border-top-left-radius: 5px;">
                             <tr style='background-color:#bdb7b6;'>
@@ -212,15 +212,15 @@
                         </thead>
                         <t t-foreach="doc.invoice_line_ids" t-as="line">
                             <t t-if="not line.display_type">
-                                <tr style="font-size:13.5px;">
+                                <tr style="font-size:13px;">
                                     <t t-if="int(doc.amount_tax) > 0">
                                         <td style="width:41%;">
-                                            <span t-field="line.name"/>
+                                            <span style="font-weight:bold;" t-field="line.name"/>
                                         </td>
                                     </t>
                                     <t t-else="">
                                         <td style="width:57%;">
-                                            <span t-field="line.name"/>
+                                            <span style="font-weight:900;" t-field="line.name"/>
                                         </td>
                                     </t>
 
@@ -283,12 +283,12 @@
                                 <tr class="bg-200" style="width:100%;">
                                     <t t-if="doc.amount_tax > 0">
                                         <td colspan="7">
-                                            <span style="font-weight:bold;" t-field="line.name"/>
+                                            <span class="font-italic" style="font-weight:bold;" t-field="line.name"/>
                                         </td>
                                     </t>
                                     <t t-else="">
                                         <td colspan="5">
-                                            <span style="font-weight:bold;" t-field="line.name"/>
+                                            <span class="font-italic" style="font-weight:bold;" t-field="line.name"/>
                                         </td>
                                     </t>
                                 </tr>
@@ -322,7 +322,7 @@
                                     </b>
                                 </td>
                             </tr>
-                            <tr style='background-color:#bdb7b6;width:100%;'>
+                            <tr style='width:100%;'>
                                 <td colspan='5' style="width:85%;">
                                     <b>To Be Paid</b>
                                 </td>
@@ -335,7 +335,7 @@
                             </tr>
                         </t>
                         <t t-else="">
-                            <tr class="bg 200" style="background-color:#bdb7b6;width:100%;">
+                            <tr class="bg 200" style="width:100%;">
                                 <td colspan='4' style="width:80%;">
                                     <b>Total</b>
                                 </td>
@@ -346,7 +346,7 @@
                                     </b>
                                 </td>
                             </tr>
-                            <tr class="bg 200" style="background-color:#bdb7b6;width:100%;">
+                            <tr class="bg 200" style="width:100%;">
                                 <td colspan='4' style="width:80%;">
                                     <b>To Be Paid</b>
                                 </td>
@@ -360,7 +360,7 @@
                         </t>
                     </table>
 
-                    <br></br>
+
                     <div class="container">
                         <div style='border-top:1px solid black;border-bottom:1px solid black;page-break-inside: avoid' class="row">
                             <!-- <div width='15%'>
