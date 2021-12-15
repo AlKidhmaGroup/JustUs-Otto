@@ -253,8 +253,12 @@ class SalePaymentTerm(models.Model):
     @api.onchange('amount_to_invoice')
     def _onchange_amount_to_invoice(self):
         for rec in self:
-            if not 0.0 <= rec.amount_to_invoice <= rec.project_id.sale_order_ref_id.amount_total:
-                raise ValidationError(_("Enter total payment term percentage b/w 0 and 100"))
+            if self.env.context.get('sale_payment_term_amount'):
+                if not 0.0 <= rec.amount_to_invoice <= rec.sale_order_id.amount_total:
+                    raise ValidationError(_("Enter total payment term Amount b/w 0 and 100"))
+            else:
+                if not 0.0 <= rec.amount_to_invoice <= rec.project_id.sale_order_ref_id.amount_total:
+                    raise ValidationError(_("Enter total payment term Amount b/w 0 and 100"))
             
             
 

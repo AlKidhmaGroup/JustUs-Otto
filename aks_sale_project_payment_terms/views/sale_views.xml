@@ -15,7 +15,7 @@
                             <tree editable="bottom">
                                 <field name="name" required="1" string="Name"/>
                                 <field name="payment_term_percentage" string="Percentage" required="1"/>
-                                <field name="amount_to_invoice" string="Amount"  required="1"/>
+                                <field name="amount_to_invoice" string="Amount" context="{'sale_payment_term_amount': True}" required="1"/>
                                
                             </tree>
                         </field>
