@@ -139,9 +139,9 @@ class SalePaymentTerm(models.Model):
                     
                     if line_pay.amount_to_invoice > 0.00:
                         total_price_unit += line_pay.amount_to_invoice
-                if total_price_unit != line_pay.project_id.sale_order_ref_id.amount_total:
+#                 if total_price_unit != line_pay.project_id.sale_order_ref_id.amount_total:
 
-                    raise ValidationError(_(" Total Amount of Final is not matching with Sale Amount"))
+#                     raise ValidationError(_(" Total Amount of Final is not matching with Sale Amount"))
                 
                 acc_mov_lines = []
                 total_amt_val = {}
