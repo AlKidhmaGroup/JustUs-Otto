@@ -76,6 +76,14 @@ class PurchaseOrderLine(models.Model):
         if self.product_id and self.order_id.job_number:
             for rec in self.order_id.order_line:
                 rec.account_analytic_id = self.order_id.job_number.analytic_account_id
+
+    @api.onchange('product_id')
+    def _product_id_change(self):
+        res = super(PurchaseOrderLine, self)._product_id_change()
+        for rec in self:
+            if rec.product_id.detailed_type == 'service' or 'consumable':
+                rec.name = '-'
+        return res
     
     def get_taxes(self):
         for rec in self:
